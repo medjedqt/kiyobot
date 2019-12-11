@@ -11,7 +11,6 @@ from os import listdir
 from os.path import isfile, join
 import os
 from helpy import hell
-from secret import token
 import tension
 from validator_collection import checkers
 
@@ -258,4 +257,4 @@ async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
 
-bot.run(token)
+bot.run(process.env.BOT_TOKEN)
