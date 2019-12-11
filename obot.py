@@ -13,6 +13,7 @@ import os
 from helpy import hell
 import tension
 from validator_collection import checkers
+from secrets import token
 
 
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
@@ -257,4 +258,4 @@ async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
 
-bot.run(process.env.BOT_TOKEN)
+bot.run(token)
