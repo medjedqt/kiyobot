@@ -19,8 +19,8 @@ from validator_collection import checkers
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
 bot.remove_command('help')
 db = Danbooru('danbooru',username='hidevlad',api_key='VVPDr4B2k1m4CRDQHePcTYCF')
-cloudir = "kiyobot/cloud"
-cloudirs = "kiyobot/cloud/"
+cloudir = "/app/cloud"
+cloudirs = "/app/cloud/"
 
 @bot.event
 async def on_ready():
