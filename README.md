@@ -1,8 +1,9 @@
 # kiyobot
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/medjedqt/kiyobot/graphs/commit-activity)
-
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
 Tired of _sad, dumb bots?_ 
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
 
 ## Introducing kiyobot, the bot that will put your depression to shame!
 
