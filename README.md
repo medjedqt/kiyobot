@@ -1,8 +1,8 @@
 # kiyobot
 
-[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://www.python.org)
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://medjed.fun)
+[![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://discord.gg/KyZvFCS)
 
 Tired of _sad, dumb bots?_ 
 
