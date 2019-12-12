@@ -1,6 +1,6 @@
 # kiyobot
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/medjedqt/kiyobot/graphs/commit-activity)
 
 Tired of _sad, dumb bots?_ 
 
