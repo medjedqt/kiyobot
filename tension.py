@@ -7,7 +7,7 @@ def Ext(ension):
 		type = "Zip File"
 	elif ension in (".mp3", ".aif", ".cda", ".mid", ".midi", ".mpa", ".ogg", ".wav", ".wma", ".wpl"):
 		type = "Audio File"
-	elif ension in (".txt", ", ".pdf", ".tex", ".doc", ".docx"):
+	elif ension in (".txt", ".pdf", ".tex", ".doc", ".docx"):
 		type = "Text File"
 	elif ension in (".bin", ".dmg", ".iso", ".toast", ".vcd"):
 		type = "Disc File"
