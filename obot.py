@@ -91,6 +91,27 @@ async def dan(ctx, *tag):
 	except:
 		await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
 
+@bot.command()
+async def multi(ctx, *tag):
+	
+	x=[]
+	tag = ' '.join(tag)
+	page = randint(1,5)
+	try:
+		posts = db.post_list(tags=tag,page=page,limit=5)
+		for post in posts:
+			try:
+				fileurl = post['file_url']
+			except:
+				fileurl = 'https://danbooru.donmai.us' + post['source']
+			x.append(fileurl)
+		e = discord.Embed(color=0x00FFBE)
+		for poop in x:
+			e.set_image(url=poop)
+			await ctx.send(embed=e)
+	except:
+		await ctx.send(content="Some shit broke. Also firara is gay")
+
 @bot.command(aliases=['u','up'])
 async def upload(ctx,title=None):
 
