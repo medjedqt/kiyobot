@@ -44,7 +44,7 @@ async def on_command_error(ctx, error):
 
 	if isinstance(error, CommandNotFound):
 		return
-	elif isinstance(error, MissingRequiredArgument):
+	if isinstance(error, MissingRequiredArgument):
 		await ctx.send(content="Missing arguments!")
 		return
 	raise error
@@ -91,7 +91,7 @@ async def kiyo(ctx):
 @bot.command()
 async def latest(ctx, key=None, *tag):
 
-	if key == None:
+	if key is None:
 		tag="kiyohime_(fate/grand_order)"
 	else:
 		tag = '_'.join(tag)
@@ -157,7 +157,7 @@ async def upload(ctx,title=None):
 			name=fileurl.rsplit('/',1)[1]
 			exname, ext = os.path.splitext(name)
 		r=requests.get(fileurl,stream=True)
-		if title == None:
+		if title is None:
 			newname = exname+ext
 		else:
 			newname = title+ext
