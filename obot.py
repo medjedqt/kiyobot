@@ -206,24 +206,6 @@ async def rename(ctx, oldname, newname):
 	except:
 		await ctx.send(content="Invalid name")
 
-'''@bot.command(aliases=['del'])
-async def delete(ctx, file):
-
-	try:
-		await ctx.send(content="Are you sure? `y/n`")
-		def check(chk):
-			return chk.author == ctx.author and chk.channel == ctx.channel
-		msg = await bot.wait_for('message',check=check,timeout=15)
-		if msg.content in ("y", "Y"):
-			os.remove(cloudirs+file)
-			await ctx.send(content="Deleted {0}".format(file))
-		elif msg.content in ("n", "N"):
-			await ctx.send(content="Cancelled")
-		else:
-			await ctx.send(content="Unknown Input")
-	except asyncio.TimeoutError:
-		await ctx.send(content="Too slow!")'''
-
 @bot.command()
 async def connect(ctx):
 
@@ -236,24 +218,7 @@ async def disconnect(ctx):
 
 	await ctx.voice_client.disconnect()
 	await ctx.send("bye...")
-'''
-@bot.command()
-async def update(ctx, link):
 
-	if checkers.is_url(link) == True:
-		burnlist.append(link)
-		with open('burnt.txt', 'w') as f:
-			f.write(burnlist)
-	else:
-		print("unnice")
-
-@bot.command()
-async def reboot(ctx):
-
-	bot.clear()
-	channel = bot.get_channel(612588170676142081)
-	await bot.send(content="Rebooted!",channel=channel)
-'''
 @bot.command()
 async def ping(ctx):
 
