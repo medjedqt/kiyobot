@@ -15,12 +15,12 @@ import tension
 from validator_collection import checkers
 import process
 
-
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
 bot.remove_command('help')
 db = Danbooru('danbooru',username='hidevlad',api_key='VVPDr4B2k1m4CRDQHePcTYCF')
 cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
+token = os.environ['BOT_TOKEN']
 
 @bot.event
 async def on_ready():
@@ -258,4 +258,4 @@ async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
 
-bot.run(process.env.BOT_TOKEN)
+bot.run(token)
