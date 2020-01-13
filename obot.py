@@ -218,6 +218,19 @@ async def disconnect(ctx):
 	await ctx.voice_client.disconnect()
 	await ctx.send("bye...")
 
+@bot.command(alias=['loop'])
+async def loopsay(ctx, msg, time=5):
+	
+	loopcon = 1
+	while loopcon == 1:
+		await ctx.send(content=msg)
+		await asyncio.sleep(time)
+
+@bot.command()
+async def say(ctx, msg):
+	
+	await ctx.send(content=msg)
+
 @bot.command()
 async def ping(ctx):
 
