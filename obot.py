@@ -222,6 +222,7 @@ async def disconnect(ctx):
 @bot.command(alias=['loop'])
 async def loopsay(ctx, msg, time=5, count=1):
 
+	global loopcon
 	if loopcon == 1:
 		await ctx.send(content="Another loop is active!")
 	loopcon = 1
