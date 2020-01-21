@@ -21,7 +21,6 @@ db = Danbooru('danbooru',username='hidevlad',api_key=dbkey)
 cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
 token = os.environ['BOT_TOKEN']
-loopcon = 0
 
 @bot.event
 async def on_ready():
@@ -219,24 +218,15 @@ async def disconnect(ctx):
 	await ctx.voice_client.disconnect()
 	await ctx.send("bye...")
 
-@bot.command(alias=['loop'])
-async def loopsay(ctx, msg, time=5, count=1):
+@bot.command()
+async def say(ctx, msg, time=5, count=1):
 
-	global loopcon
-	if loopcon == 1:
-		await ctx.send(content="Another loop is active!")
-	loopcon = 1
-	while loopcon == 1:
+	while True:
 		await ctx.send(content=msg)
 		await asyncio.sleep(time)
 		count = count - 1
 		if count == 0:
-			loopcon = 0
-
-@bot.command()
-async def say(ctx, msg):
-	
-	await ctx.send(content=msg)
+			break
 
 @bot.command()
 async def ping(ctx):
