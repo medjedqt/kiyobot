@@ -225,7 +225,7 @@ async def say(ctx, msg, time=5, count=1):
 		await ctx.send(content="Too long, I might die by then")
 		return
 	if count > 100:
-		await ctx.send(content="tl;dr:" + msg)
+		await ctx.send(content="tl;dr: " + msg)
 		return
 	
 	while True:
