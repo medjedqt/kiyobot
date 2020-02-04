@@ -221,10 +221,8 @@ async def disconnect(ctx):
 @bot.command()
 async def say(ctx, msg, time=5, count=1):
 
-	if time > 86400:
+	if (time > 86400 or count > 100):
 		await ctx.send(content="Too long, I might die by then")
-		return
-	if count > 100:
 		await ctx.send(content="tl;dr: " + msg)
 		return
 	
