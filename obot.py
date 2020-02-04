@@ -234,6 +234,12 @@ async def say(ctx, msg, time=5, count=1):
 			break
 
 @bot.command()
+async def tts(ctx, *msg):
+	
+	await ctx.send(content=msg, tts=True)
+	await msg.delete()
+			
+@bot.command()
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
