@@ -236,8 +236,9 @@ async def say(ctx, msg, time=5, count=1):
 @bot.command()
 async def tts(ctx, *msg):
 	
+	msg = ' '.join(msg)
 	await ctx.send(content=msg, tts=True)
-	await msg.delete()
+	await bot.delete(ctx)
 			
 @bot.command()
 async def ping(ctx):
