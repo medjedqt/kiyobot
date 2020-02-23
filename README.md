@@ -10,21 +10,23 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 * [Python 3](python.org)
+* Discord bot token
+* Danbooru API key
 
 ### Installation
 
-1. Create a discord bot
-2. Clone the repo
+1. Clone the repo
 ```sh
 git clone https://github.com/medjedqt/kiyobot.git
 ```
-3. Install pip modules
+2. Install pip modules
 ```sh
 pip install -r requirements.txt
 ```
-4. Enter your bot token in `obot.py`
+3. Enter your bot token and danbooru key in `obot.py`
 ```PY
-token = 'ENTER YOUR TOKEN';
+token = 'ENTER YOUR TOKEN'
+dbkey = 'DANBOORU KEY'
 ```
 
 
