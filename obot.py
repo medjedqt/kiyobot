@@ -51,9 +51,9 @@ async def on_command_error(ctx, error):
 	raise error
 	
 @bot.event
-async def on_message(ctx):
+async def on_message(message):
 	if bot.user.mentioned_in(message):
-		await ctx.send(content=choice(lines))
+		await message.channel.send(choice(lines))
 
 @bot.command()
 async def help(ctx):
