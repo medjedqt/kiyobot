@@ -243,7 +243,11 @@ async def tts(ctx, *msg):
 @bot.command()
 async def door(ctx):
 	
-	await ctx.send(urllib.request.urlopen("http://www.stackoverflow.com").getcode())
+	doorcode = urllib.request.urlopen("https://medjed.fun").getcode()
+	if doorcode == 200:
+		await ctx.send(content="Door is open")
+	else:
+		await ctx.send(content="A problem has occured")
 
 @bot.command()
 async def ping(ctx):
