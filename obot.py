@@ -13,6 +13,7 @@ import os
 from helpy import hell
 import tension
 import urllib.request
+from dialogue import lines
 
 
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
@@ -48,6 +49,11 @@ async def on_command_error(ctx, error):
 		await ctx.send(content="Missing arguments!")
 		return
 	raise error
+	
+@bot.event
+async def on_message(message):
+	if bot.user.mentioned_in(message):
+		await bot.send_message(message.channel, choice(lines))
 
 @bot.command()
 async def help(ctx):
@@ -247,7 +253,7 @@ async def door(ctx):
 	if doorcode == 200:
 		await ctx.send(content="Door is open")
 	else:
-		await ctx.send(content="A problem has occured")
+		await ctx.send(content="A problem has occured")		
 
 @bot.command()
 async def ping(ctx):
