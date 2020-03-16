@@ -12,6 +12,7 @@ from os.path import isfile, join
 import os
 from helpy import hell
 import tension
+import urllib.request
 
 
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
@@ -238,7 +239,12 @@ async def tts(ctx, *msg):
 	
 	msg = ' '.join(msg)
 	await ctx.send(content=msg, tts=True)
-			
+
+@bot.command()
+async def door(ctx):
+	
+	await ctx.send(urllib.request.urlopen("http://www.stackoverflow.com").getcode())
+
 @bot.command()
 async def ping(ctx):
 
