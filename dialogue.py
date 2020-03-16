@@ -1,6 +1,5 @@
-lines = [
-"I am Servant Kiyohime. Do I not look like a Berserker to you?
-It is nice to meet you, my Master.",
+lines = ['''I am Servant Kiyohime. Do I not look like a Berserker to you?
+It is nice to meet you, my Master.''',
 "Phew, this is a relief.",
 "I don't like this... My stomach feels all hot again... I feel like I'm about to breathe fire.",
 "Looks like I'm one step closer to a dragon.",
@@ -12,9 +11,8 @@ It is nice to meet you, my Master.",
 "All right...",
 "Very well...",
 "I'm so happy...",
-"Behold.",
-"I will exterminate all of the liars who ran from me.
-Transforming, Flame-Emitting Meditation!",
+'''I will exterminate all of the liars who ran from me.
+Transforming, Flame-Emitting Meditation!''',
 "My dear Anchin... I'm sorry... I broke my promise...",
 "Ohh, my dear Anchin has gone away again...",
 "Victory brings me no joy. It saddens me to cause pain.",
@@ -28,7 +26,7 @@ Transforming, Flame-Emitting Meditation!",
 "It's embarrassing to admit, but I've always been blessed with love and affection. I don't really understand the concept of a Master.",
 "Honesty. What a beautiful word. I think it's the best word humans ever made.",
 "Lies. What an unpleasant word. It's the worst word. I hate it so much.",
-"A world without lies. Wouldn't that be wonderful?
-Perhaps the Holy Grail will make it a reality.",
+'''A world without lies. Wouldn't that be wonderful?
+Perhaps the Holy Grail will make it a reality.''',
 "It looks like something's happened. Shall we go check it out?",
 "Is it your birthday? Hehe, good for you."
