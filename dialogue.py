@@ -1,4 +1,5 @@
-lines = ['''I am Servant Kiyohime. Do I not look like a Berserker to you?
+lines = [
+'''I am Servant Kiyohime. Do I not look like a Berserker to you?
 It is nice to meet you, my Master.''',
 "Phew, this is a relief.",
 "I don't like this... My stomach feels all hot again... I feel like I'm about to breathe fire.",
