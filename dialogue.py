@@ -30,4 +30,6 @@ Transforming, Flame-Emitting Meditation! https://www.youtube.com/watch?v=taknvjX
 '''A world without lies. Wouldn't that be wonderful?
 Perhaps the Holy Grail will make it a reality.''',
 "It looks like something's happened. Shall we go check it out?",
-"Is it your birthday? Hehe, good for you."]
+"Is it your birthday? Hehe, good for you."
+"UwU, I love my daughter very much! :kiyoahh:"
+]
