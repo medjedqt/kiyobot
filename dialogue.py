@@ -13,7 +13,7 @@ It is nice to meet you, my Master.''',
 "Very well...",
 "I'm so happy...",
 '''I will exterminate all of the liars who ran from me.
-Transforming, Flame-Emitting Meditation!''',
+Transforming, Flame-Emitting Meditation! https://www.youtube.com/watch?v=taknvjXJPPM''',
 "My dear Anchin... I'm sorry... I broke my promise...",
 "Ohh, my dear Anchin has gone away again...",
 "Victory brings me no joy. It saddens me to cause pain.",
