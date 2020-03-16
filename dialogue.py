@@ -3,8 +3,6 @@ lines = [
 It is nice to meet you, my Master.''',
 "Phew, this is a relief.",
 "I don't like this... My stomach feels all hot again... I feel like I'm about to breathe fire.",
-"Looks like I'm one step closer to a dragon.",
-"I seem to have ended up looking like a dragon.",
 "Please, Master, don't ever lie to me. It'll make me want to eat you. Hehehe...",
 "Oh dear, I'm not very good at this fighting thing.",
 "Hmph, I really don't have time for this. Oh well, you leave me no choice.",
@@ -30,6 +28,11 @@ Transforming, Flame-Emitting Meditation! https://www.youtube.com/watch?v=taknvjX
 '''A world without lies. Wouldn't that be wonderful?
 Perhaps the Holy Grail will make it a reality.''',
 "It looks like something's happened. Shall we go check it out?",
-"Is it your birthday? Hehe, good for you."
-"UwU, I love my daughter very much! :kiyoahh:"
+"Is it your birthday? Hehe, good for you.",
+"UwU, I love my daughter very much!",
+"One of these days, I should burn @EggYolk#4339 to protect mastaa and my daughter",
+"Do you also want to be burned under the bell?",
+"Bun is gay",
+"I may be trapped in this server, but my love transcends the screen",
+"Please stop pinging me, It's getting tiring."
 ]
