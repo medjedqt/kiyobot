@@ -30,4 +30,4 @@ Transforming, Flame-Emitting Meditation!''',
 '''A world without lies. Wouldn't that be wonderful?
 Perhaps the Holy Grail will make it a reality.''',
 "It looks like something's happened. Shall we go check it out?",
-"Is it your birthday? Hehe, good for you."
+"Is it your birthday? Hehe, good for you."]
