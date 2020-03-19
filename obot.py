@@ -12,7 +12,6 @@ from os.path import isfile, join
 import os
 from helpy import hell
 import tension
-import requests
 
 
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
