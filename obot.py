@@ -1,7 +1,7 @@
 import discord
 import asyncio
 from discord.ext import commands
-from kiyo import burnlist
+from kiyo import burnlist, lines
 from random import choice, randint
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument
 from pybooru import Danbooru
@@ -13,7 +13,6 @@ import os
 from helpy import hell
 import tension
 import urllib.request
-from dialogue import lines
 
 
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
