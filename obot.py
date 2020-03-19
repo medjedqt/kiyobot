@@ -49,11 +49,6 @@ async def on_command_error(ctx, error):
 		await ctx.send(content="Missing arguments!")
 		return
 	raise error
-	
-@bot.event
-async def on_message(message):
-	if bot.user.mentioned_in(message):
-		await message.channel.send(choice(lines))
 
 @bot.command()
 async def help(ctx):
@@ -260,4 +255,9 @@ async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
 
+@bot.event
+async def on_message(message):
+	if bot.user.mentioned_in(message):
+		await message.channel.send(choice(lines))
+	
 bot.run(token)
