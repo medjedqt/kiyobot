@@ -254,10 +254,5 @@ async def door(ctx):
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
-
-@bot.event
-async def on_message(message):
-	if bot.user.mentioned_in(message):
-		await message.channel.send(choice(lines))
 	
 bot.run(token)
