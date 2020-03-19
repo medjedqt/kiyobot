@@ -12,7 +12,7 @@ from os.path import isfile, join
 import os
 from helpy import hell
 import tension
-import urllib.request
+import requests
 
 
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
@@ -249,8 +249,8 @@ async def tts(ctx, *msg):
 @bot.command()
 async def door(ctx):
 	
-	doorcode = urllib.request.urlopen("https://medjed.fun").getcode()
-	if doorcode == 200:
+	r = requests.get('https://medjed.fun')
+	if r.status_code == 200:
 		await ctx.send(content="Door is open")
 	else:
 		await ctx.send(content="A problem has occured")		
