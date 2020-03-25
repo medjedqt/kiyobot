@@ -52,6 +52,7 @@ async def on_command_error(ctx, error):
 async def on_message(message):
 	if bot.user.mentioned_in(message):
 		await message.channel.send(choice(lines))
+	await ctx.send(ctx.author.id)
 	await bot.process_commands(message)
 		
 @bot.command()
