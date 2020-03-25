@@ -51,8 +51,7 @@ async def on_command_error(ctx, error):
 @bot.event
 async def on_message(message):
 	if bot.user.mentioned_in(message):
-		await message.channel.send(choice(lines))
-		await ctx.send(ctx.author.id)
+		await message.channel.send(choice(lines))	
 	await bot.process_commands(message)
 		
 @bot.command()
@@ -259,5 +258,6 @@ async def door(ctx):
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
+	await ctx.send(ctx.author.id)
 	
 bot.run(token)
