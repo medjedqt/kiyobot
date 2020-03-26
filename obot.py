@@ -51,7 +51,8 @@ async def on_command_error(ctx, error):
 @bot.event
 async def on_message(message):
 	if bot.user.mentioned_in(message):
-		if message.author.id == 293395455830654977:
+		luck = randint(0,1)
+		if message.author.id == 293395455830654977 and luck == 1:
 			e=discord.Embed(color=0xffff00)
 			e.set_image(url="https://cdn.discordapp.com/attachments/569845300244774924/692219666478923776/23a8b2e1-21d4-4dac-84ba-1128207f0e30.png")
 			await message.channel.send(embed=e)
