@@ -29,6 +29,7 @@ async def on_ready():
 
 	print('We have logged in as {0.user}'.format(bot))
 	bot.loop.create_task(status_task())
+	await logchan.send(content='Restarted')
 
 async def status_task():
 
@@ -57,7 +58,7 @@ async def on_message(message):
 	keyword = 'CHEATING'
 	message_text = message.content.upper()
 	if keyword in message_text:
-		await trigger_typing()
+		await asyncio.sleep(3)
 		await message.channel.send('Do I smell a liar in here?')
 	emoji = '❤️'
 	reactluck = uniform(0, 1.0)
