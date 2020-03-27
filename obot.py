@@ -51,8 +51,8 @@ async def on_command_error(ctx, error):
 @bot.event
 async def on_message(message):
 	emoji = '❤️'
-	luck = randint(0,9)
-	if message.author.id == 346316432763650060 and luck >= 2:
+	reactluck = random.uniform(0, 1.0)
+	if message.author.id == 346316432763650060 and reactluck >= 0.85:
 		await message.add_reaction(emoji)
 	if bot.user.mentioned_in(message):
 		luck = randint(0,9)
