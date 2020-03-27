@@ -58,6 +58,7 @@ async def on_message(message):
 	keyword = 'CHEATING'
 	message_text = message.content.upper()
 	if keyword in message_text:
+		await message.channel.trigger_typing()
 		await asyncio.sleep(3)
 		await message.channel.send('Do I smell a liar in here?')
 	emoji = '❤️'
