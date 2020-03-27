@@ -22,6 +22,7 @@ db = Danbooru('danbooru',username='hidevlad',api_key=dbkey)
 cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
 token = os.environ['BOT_TOKEN']
+logchan = 693130723015524382
 
 @bot.event
 async def on_ready():
@@ -47,6 +48,8 @@ async def on_command_error(ctx, error):
 	if isinstance(error, MissingRequiredArgument):
 		await ctx.send(content="Missing arguments!")
 		return
+	else:
+		await logchan.send(content=error)
 	raise error
 
 @bot.event
