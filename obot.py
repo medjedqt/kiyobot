@@ -50,6 +50,10 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_message(message):
+	emoji = '\U000FE0F'
+	luck = randint(0,9)
+	if message.author.id == 293395455830654977 and luck >= 2:
+		message.add_reaction(emoji)
 	if bot.user.mentioned_in(message):
 		luck = randint(0,9)
 		if message.author.id == 293395455830654977 and luck >= 7:
