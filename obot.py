@@ -29,7 +29,7 @@ async def on_ready():
 
 	print('We have logged in as {0.user}'.format(bot))
 	bot.loop.create_task(status_task())
-	await logchan.send(content='Restarted')
+	await bot.logchan.send(content='Restarted')
 
 async def status_task():
 
