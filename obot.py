@@ -51,7 +51,9 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_message(message):
-	if 'cheating' in message.content:
+	keyword = "CHEATING"
+	message_text = message.content.strip().upper()
+	if keyword in message.text:
 		await trigger_typing()
 		await asyncio.sleep(3)
 		await message.channel.send('Do I smell a liar in here?')
