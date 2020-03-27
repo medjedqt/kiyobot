@@ -2,7 +2,7 @@ import discord
 import asyncio
 from discord.ext import commands
 from kiyo import burnlist, lines
-from random import choice, randint
+from random import choice, randint, uniform
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument
 from pybooru import Danbooru
 import requests
@@ -12,6 +12,7 @@ from os.path import isfile, join
 import os
 from helpy import hell
 import tension
+
 
 
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
@@ -51,7 +52,7 @@ async def on_command_error(ctx, error):
 @bot.event
 async def on_message(message):
 	emoji = '❤️'
-	reactluck = random.uniform(0, 1.0)
+	reactluck = uniform(0, 1.0)
 	if message.author.id == 346316432763650060 and reactluck >= 0.85:
 		await message.add_reaction(emoji)
 	if bot.user.mentioned_in(message):
