@@ -54,7 +54,7 @@ async def on_message(message):
 	if 'cheating' in message.content.lower:
 		await trigger_typing()
 		await asyncio.sleep(3)
-       		await message.channel.send('Do I smell a liar in here?')
+		await message.channel.send('Do I smell a liar in here?')
 	emoji = '❤️'
 	reactluck = uniform(0, 1.0)
 	if message.author.id == 293395455830654977 and reactluck >= 0.85:
