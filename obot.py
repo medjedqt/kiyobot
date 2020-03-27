@@ -50,7 +50,7 @@ async def on_command_error(ctx, error):
 		await ctx.send(content="Missing arguments!")
 		return
 	else:
-		await logchan.send(content=error)
+		await bot.logchan.send(content=error)
 	raise error
 
 @bot.event
