@@ -264,6 +264,5 @@ async def door(ctx):
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
-	await ctx.send(ctx.author.id)
 	
 bot.run(token)

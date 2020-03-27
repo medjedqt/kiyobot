@@ -8,4 +8,8 @@ hell = """`kiyo` - poops out kiyo pics
 `imgur <query>` - Looks up an image on imgur
 `urban <query>` - Finds an urban definition of a word
 `multi <query>` - Finds multiple images on danbooru
-`dan <query>` - Finds an image on danbooru"""
+`dan <query>` - Finds an image on danbooru
+`say <text> <cooldown> <count>` - yes
+`tts <text` - yesser
+`connect / disconnect` - vc
+`door` - door"""
