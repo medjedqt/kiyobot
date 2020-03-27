@@ -22,7 +22,6 @@ db = Danbooru('danbooru',username='hidevlad',api_key=dbkey)
 cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
 token = os.environ['BOT_TOKEN']
-logchan = bot.get_channel(693130723015524382)
 
 @bot.event
 async def on_ready():
