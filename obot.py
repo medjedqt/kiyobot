@@ -51,7 +51,7 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_message(message):
-	if 'cheating' in message.content.lower:
+	if 'cheating' in message.content:
 		await trigger_typing()
 		await asyncio.sleep(3)
 		await message.channel.send('Do I smell a liar in here?')
