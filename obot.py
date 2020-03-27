@@ -51,6 +51,10 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_message(message):
+	if 'cheating' in message.content.lower:
+		trigger_typing()
+		await asyncio.sleep(3
+       		print('Do I smell a liar in here?')
 	emoji = '❤️'
 	reactluck = uniform(0, 1.0)
 	if message.author.id == 293395455830654977 and reactluck >= 0.85:
