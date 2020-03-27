@@ -58,7 +58,6 @@ async def on_message(message):
 	message_text = message.content.upper()
 	if keyword in message_text:
 		await trigger_typing()
-		await asyncio.sleep(3)
 		await message.channel.send('Do I smell a liar in here?')
 	emoji = '❤️'
 	reactluck = uniform(0, 1.0)
