@@ -22,14 +22,14 @@ db = Danbooru('danbooru',username='hidevlad',api_key=dbkey)
 cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
 token = os.environ['BOT_TOKEN']
-logchan = 693130723015524382
+logchan = bot.get_channel(693130723015524382)
 
 @bot.event
 async def on_ready():
 
 	print('We have logged in as {0.user}'.format(bot))
 	bot.loop.create_task(status_task())
-	await bot.logchan.send(content='Restarted')
+	await logchan.send(content='Restarted')
 
 async def status_task():
 
@@ -50,7 +50,7 @@ async def on_command_error(ctx, error):
 		await ctx.send(content="Missing arguments!")
 		return
 	else:
-		await bot.logchan.send(content=error)
+		await logchan.send(content=error)
 	raise error
 
 @bot.event
