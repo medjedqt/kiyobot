@@ -115,6 +115,7 @@ async def nwordcount(ctx):
 					n1counter += 1
 				if keyword2 in message_text:
 					n2counter += 1
+				await ctx.send(content='Done!')
 	await ctx.send(content='According to my stalking, you have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (n2counter, n1counter))
 
 @bot.command(aliases=['k','kiyohime'])
