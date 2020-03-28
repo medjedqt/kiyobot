@@ -289,7 +289,7 @@ async def tts(ctx, *msg):
 	msg = ' '.join(msg)
 	msga = await ctx.send(content=msg, tts=True)
 	await msga.delete()
-	await ctx.delete()
+	await ctx.message.delete()
 
 @bot.command()
 async def door(ctx):
