@@ -107,7 +107,7 @@ async def nwordcount(ctx):
 	keyword1 = 'NIGGER'
 	keyword2 = 'NIGGA'
 	message_text = message.content.upper()
-	async for message in channel.history(limit=100):
+	async for message_text in channel.history(limit=100):
 		if keyword1 in message_text:
 			n1counter += 1
 		if keyword2 in message_text:
