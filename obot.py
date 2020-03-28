@@ -109,9 +109,9 @@ async def nwordcount(ctx):
 	message_text = message.content.upper()
 	async for message in channel.history(limit=100):
 		if keyword1 in message_text:
-		n1counter += 1
+			n1counter += 1
 		if keyword2 in message_text:
-		n2counter += 1
+			n2counter += 1
 	await ctx.send(content='According to my stalking, you have said the soft n-word %d times and the hard n-word %d times' % (n2counter, n1counter))
 
 @bot.command(aliases=['k','kiyohime'])
