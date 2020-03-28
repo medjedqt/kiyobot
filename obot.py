@@ -110,7 +110,7 @@ async def nwordcount(ctx):
 	async for message in ctx.channel.history(limit=10000):
 		await message.channel.trigger_typing()
 		await message.edit(content="stalking.")
-		await async.sleep(1)
+		await asyncio.sleep(1)
 		await message.edit(content="stalking..")
 		if message.author.id == ctx.message.author.id:
 			message_text = message.content.upper()
