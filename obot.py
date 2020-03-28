@@ -98,6 +98,21 @@ async def step(ctx):
 	e=discord.Embed(color=0xffff00)
 	e.set_image(url="https://cdn.discordapp.com/attachments/611844054669328394/635200592364699649/IMG_20191020_024438.JPG")
 	await ctx.send(embed=e)
+	
+@bot.command(aliases=['nword','nw'])
+async def nwordcount(ctx)
+	
+	n1counter = 0
+	n2counter = 0
+	keyword1 = 'NIGGER'
+	keyword2 = 'NIGGA'
+	message_text = message.content.upper()
+	async for message in channel.history(limit=100):
+		if keyword1 in message_text:
+		n1counter += 1
+		if keyword2 in message_text:
+		n2counter += 1
+	await ctx.send(content='According to my stalking, you have said the soft n-word %d times and the hard n-word %d times' % (n2counter, n1counter))
 
 @bot.command(aliases=['k','kiyohime'])
 async def kiyo(ctx):
