@@ -106,8 +106,8 @@ async def nwordcount(ctx):
 	n2counter = 0
 	keyword1 = 'NIGGER'
 	keyword2 = 'NIGGA'
-	await ctx.send(content='stalking')
-	async for message in ctx.channel.history(limit=10000):
+	await ctx.send(content='stalking...')
+	async for message in ctx.channel.history(limit=5000):
 		await message.channel.trigger_typing()
 		if message.author.id == ctx.message.author.id:
 			message_text = message.content.upper()
@@ -115,7 +115,7 @@ async def nwordcount(ctx):
 				n1counter += 1
 			if keyword2 in message_text:
 				n2counter += 1
-	await ctx.send(content='According to my stalking, you have said the soft n-word %d times and the hard n-word %d times in the last 1000 messages' % (n2counter, n1counter))
+	await ctx.send(content='According to my stalking, you have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (n2counter, n1counter))
 
 @bot.command(aliases=['k','kiyohime'])
 async def kiyo(ctx):
