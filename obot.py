@@ -107,15 +107,15 @@ async def nwordcount(ctx):
 	keyword1 = 'NIGGER'
 	keyword2 = 'NIGGA'
 	await ctx.send(content='stalking...')
-	async for message in ctx.channel.history(limit=5000):
-		async with ctx.channel.typing():
+	async with ctx.channel.typing()
+		async for message in ctx.channel.history(limit=5000):
 			if message.author.id == ctx.message.author.id:
 				message_text = message.content.upper()
 				if keyword1 in message_text:
 					n1counter += 1
 				if keyword2 in message_text:
 					n2counter += 1
-			await ctx.send(content='Done!')
+	await ctx.send(content='Done!')
 	await ctx.send(content='According to my stalking, you have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (n2counter, n1counter))
 
 @bot.command(aliases=['k','kiyohime'])
