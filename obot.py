@@ -107,9 +107,9 @@ async def nwordcount(ctx):
 	keyword1 = 'NIGGER'
 	keyword2 = 'NIGGA'
 	mes = await ctx.send(content='stalking')
-	mes.edit(content='stalking.')
+	await mes.edit(content='stalking.')
 	await asyncio.sleep(1)
-	mes.edit(content='stalking..')
+	await mes.edit(content='stalking..')
 	async with ctx.channel.typing():
 		async for message in ctx.channel.history(limit=5000):
 			if message.author.id == ctx.message.author.id:
