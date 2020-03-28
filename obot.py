@@ -107,7 +107,7 @@ async def nwordcount(ctx):
 	keyword1 = 'NIGGER'
 	keyword2 = 'NIGGA'
 	await ctx.send(content='stalking...')
-	async with ctx.channel.typing()
+	async with ctx.channel.typing():
 		async for message in ctx.channel.history(limit=5000):
 			if message.author.id == ctx.message.author.id:
 				message_text = message.content.upper()
