@@ -44,7 +44,8 @@ async def status_task():
 @bot.event
 async def on_command_error(ctx, error):
 
-	
+	if isinstance(error, CommandNotFound):
+		return
 	if isinstance(error, MissingRequiredArgument):
 		await ctx.send(content="Missing arguments!")
 		return
