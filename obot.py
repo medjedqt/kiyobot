@@ -100,7 +100,7 @@ async def step(ctx):
 	await ctx.send(embed=e)
 	
 @bot.command(aliases=['nword','nw'])
-async def nwordcount(ctx)
+async def nwordcount(ctx):
 	
 	n1counter = 0
 	n2counter = 0
