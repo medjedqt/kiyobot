@@ -271,6 +271,7 @@ async def disconnect(ctx):
 @bot.command()
 async def say(ctx, msg, time=5, count=1):
 
+	await ctx.message.delete()
 	if (time > 86400 or count > 100):
 		await ctx.send(content="Too long, I might die by then")
 		await ctx.send(content="tl;dr: " + msg)
@@ -289,6 +290,7 @@ async def tts(ctx, *msg):
 	msg = ' '.join(msg)
 	msga = await ctx.send(content=msg, tts=True)
 	await msga.delete()
+	await ctx.message.delete()
 
 @bot.command()
 async def door(ctx):
