@@ -106,13 +106,13 @@ async def nwordcount(ctx):
 	n2counter = 0
 	keyword1 = 'NIGGER'
 	keyword2 = 'NIGGA'
-	async for message in ctx.channel.history(limit=None):
+	async for message in ctx.channel.history(limit=1000):
 		message_text = message.content.upper()
 		if keyword1 in message_text:
 			n1counter += 1
 		if keyword2 in message_text:
 			n2counter += 1
-	await ctx.send(content='According to my stalking, you have said the soft n-word %d times and the hard n-word %d times' % (n2counter, n1counter))
+	await ctx.send(content='According to my stalking, you have said the soft n-word %d times and the hard n-word %d times in the last 1000 messages' % (n2counter, n1counter))
 
 @bot.command(aliases=['k','kiyohime'])
 async def kiyo(ctx):
