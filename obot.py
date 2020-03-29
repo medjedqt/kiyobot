@@ -131,10 +131,10 @@ async def id(ctx,user: discord.User):
 	await ctx.send(user.id)
 
 @bot.command()
-async def noods(ctx,user: discord.User):
+async def dm(ctx,user: discord.User, msg):
 	
 	target = bot.get_user(user.id)
-	await target.send('send noods')
+	await target.send(content=msg)
 	
 @bot.command(aliases=['k','kiyohime'])
 async def kiyo(ctx):
