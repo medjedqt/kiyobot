@@ -75,8 +75,8 @@ async def on_message(message):
 		else:
 			await message.channel.send(choice(lines))	
 	ch = bot.get_channel(612306757145853953)
-	if message.guild is False:
-		await ch.send(message)
+	if message.channel.channeltype is private:
+		await ch.send(content=message.content)
 	await bot.process_commands(message)
 		
 @bot.command()
