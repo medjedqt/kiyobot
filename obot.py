@@ -134,6 +134,7 @@ async def id(ctx,user: discord.User):
 async def dm(ctx,user: discord.User, msg):
 	
 	target = bot.get_user(user.id)
+	await ctx.message.delete()
 	await target.send(content=msg)
 	
 @bot.command(aliases=['k','kiyohime'])
