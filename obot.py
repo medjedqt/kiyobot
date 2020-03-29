@@ -130,7 +130,7 @@ async def id(ctx,user: discord.User):
 async def noods(ctx,user: discord.User):
 	
 	target = bot.get_user(user.id)
-	await target.send(context='send noods')
+	await target.send('send noods')
 	
 @bot.command(aliases=['k','kiyohime'])
 async def kiyo(ctx):
