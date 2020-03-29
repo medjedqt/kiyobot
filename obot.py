@@ -74,9 +74,9 @@ async def on_message(message):
 			await message.channel.send(embed=e)
 		else:
 			await message.channel.send(choice(lines))	
-	if message.content in DMChannel:
-		dmlog = bot.get_channel(612306757145853953)
-		await dmlog.send(content="%s has said $s" %(message.author, message.content))
+	ch = bot.get_channel('612306757145853953')
+	if message.server is None and message.author != bot.user:
+		await bot.send_message(ch, message.content)
 	await bot.process_commands(message)
 		
 @bot.command()
