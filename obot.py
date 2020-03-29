@@ -102,14 +102,16 @@ async def step(ctx):
 @bot.command(aliases=['nword','nw'])
 async def nwordcount(ctx):
 	
+	i=1
 	n1counter = 0
 	n2counter = 0
 	keyword1 = 'NIGGER'
 	keyword2 = 'NIGGA'
 	mes = await ctx.send(content='stalking')
-	await mes.edit(content='stalking.')
-	await asyncio.sleep(1)
-	await mes.edit(content='stalking..')
+	while i <5:
+		mes = mes + "."
+		await mes.edit(content=mes)
+		i += 1
 	async with ctx.channel.typing():
 		async for message in ctx.channel.history(limit=5000):
 			if message.author.id == ctx.message.author.id:
