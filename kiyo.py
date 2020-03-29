@@ -19,7 +19,7 @@ It is nice to meet you, my Master.''',
 "I'm so happy...",
 '''I will exterminate all of the liars who ran from me.
 Transforming, Flame-Emitting Meditation! https://www.youtube.com/watch?v=taknvjXJPPM''',
-"I can't burn Anchin iwth this mask on",
+"I can't burn Anchin with this mask on",
 "Ohh, my dear Anchin has gone away again...",
 "Yes? If it's for Masta and my musume, I'd do with all my love",
 "Oh dear, what's the matter? It's nothing to get upset over. I'm not angry.",
