@@ -111,7 +111,7 @@ async def nwordcount(ctx):
 	mes = await ctx.send(content='stalking')
 	while i <5: 
 		await mes.edit(content=mess)
-		mess = mes + "."
+		mess = mess + "."
 		await asyncio.sleep(1)
 		i += 1
 	async with ctx.channel.typing():
