@@ -107,7 +107,7 @@ async def nwordcount(ctx):
 	n2counter = 0
 	keyword1 = 'NIGGER'
 	keyword2 = 'NIGGA'
-	mess = 'stalking.'
+	mess = "stalking."
 	mes = await ctx.send(content='stalking')
 	while i <5: 
 		await mes.edit(content=mess)
