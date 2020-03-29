@@ -125,6 +125,12 @@ async def nwordcount(ctx):
 async def id(ctx,user: discord.User):
 	
 	await ctx.send(user.id)
+
+@bot.command()
+async def noods(ctx,user: discord.User):
+	
+	target = client.get_user(user.id)
+	await target.send(context='send noods')
 	
 @bot.command(aliases=['k','kiyohime'])
 async def kiyo(ctx):
