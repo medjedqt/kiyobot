@@ -107,10 +107,12 @@ async def nwordcount(ctx):
 	n2counter = 0
 	keyword1 = 'NIGGER'
 	keyword2 = 'NIGGA'
+	mess = 'stalking.'
 	mes = await ctx.send(content='stalking')
-	while i <5:
-		mes = mes + "."
-		await mes.edit(content=mes)
+	while i <5: 
+		await mes.edit(content=mess)
+		mess = mes + "."
+		await asyncio.sleep(1)
 		i += 1
 	async with ctx.channel.typing():
 		async for message in ctx.channel.history(limit=5000):
