@@ -49,9 +49,8 @@ async def on_command_error(ctx, error):
 	if isinstance(error, MissingRequiredArgument):
 		await ctx.send(content="Missing arguments!")
 		return
-	else:
-		logchan = bot.get_channel(693130723015524382)
-		await logchan.send(content=error)
+	logchan = bot.get_channel(693130723015524382)
+	await logchan.send(content=error)
 	raise error
 
 @bot.event
