@@ -56,16 +56,15 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_message(message):
-	keyword = 'CHEATING'
+
 	message_text = message.content.upper()
-	if keyword in message_text:
+	if 'CHEATING' in message_text:
 		await message.channel.trigger_typing()
 		await asyncio.sleep(3)
 		await message.channel.send('Do I smell a liar in here?')
-	emoji = '❤️'
 	reactluck = uniform(0, 1.0)
 	if message.author.id == 293395455830654977 and reactluck >= 0.85:
-		await message.add_reaction(emoji)
+		await message.add_reaction('❤️')
 	if bot.user.mentioned_in(message):
 		luck = randint(0,9)
 		if message.author.id == 293395455830654977 and luck >= 7:
@@ -73,9 +72,9 @@ async def on_message(message):
 			e.set_image(url="https://cdn.discordapp.com/attachments/569845300244774924/692219666478923776/23a8b2e1-21d4-4dac-84ba-1128207f0e30.png")
 			await message.channel.send(embed=e)
 		else:
-			await message.channel.send(choice(lines))	
-	ch = bot.get_channel(612306757145853953)
+			await message.channel.send(choice(lines))
 	if message.ChannelType is private:
+		ch = bot.get_channel(612306757145853953)
 		await ch.send(content=message.content)
 	await bot.process_commands(message)
 		
