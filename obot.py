@@ -73,9 +73,6 @@ async def on_message(message):
 			await message.channel.send(embed=e)
 		else:
 			await message.channel.send(choice(lines))
-	if message.channel.ChannelType is private:
-		ch = bot.get_channel(612306757145853953)
-		await ch.send(content=message.content)
 	await bot.process_commands(message)
 		
 @bot.command()
