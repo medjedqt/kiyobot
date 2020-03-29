@@ -121,6 +121,11 @@ async def nwordcount(ctx):
 	await ctx.send(content='Done!')
 	await ctx.send(content='According to my stalking, you have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (n2counter, n1counter))
 
+@bot.command()
+async def id(ctx,user: discord.User)
+	
+	await ctx.send(user.id)
+	
 @bot.command(aliases=['k','kiyohime'])
 async def kiyo(ctx):
 
