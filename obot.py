@@ -76,7 +76,7 @@ async def on_message(message):
 			await message.channel.send(embed=e)
 		else:
 			await message.channel.send(choice(lines))
-	elif isinstance(ctx.channel,discord.DMChannel):
+	elif isinstance(message.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
 		await channel.send(content=message.content)
 	await bot.process_commands(message)
