@@ -17,11 +17,11 @@ import tension
 
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
 bot.remove_command('help')
+token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 db = Danbooru('danbooru',username='hidevlad',api_key=dbkey)
 cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
-token = os.environ['BOT_TOKEN']
 logchan = 693130723015524382
 messagechan = [612306757145853953]
 
@@ -74,6 +74,9 @@ async def on_message(message):
 			await message.channel.send(embed=e)
 		else:
 			await message.channel.send(choice(lines))
+	if message.channel == DMChannel:
+		channel = bot.get_channel(612306757145853953)
+		await channel.send(content=message.content)
 	await bot.process_commands(message)
 		
 @bot.command()
