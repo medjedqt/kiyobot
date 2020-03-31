@@ -22,14 +22,16 @@ db = Danbooru('danbooru',username='hidevlad',api_key=dbkey)
 cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
 token = os.environ['BOT_TOKEN']
+logchan = 693130723015524382
+mainchan = 612306757145853953
 
 @bot.event
 async def on_ready():
 
 	print('We have logged in as {0.user}'.format(bot))
 	bot.loop.create_task(status_task())
-	logchan = bot.get_channel(693130723015524382)
-	await logchan.send(content='Restarted')
+	channel = bot.get_channel(logchan)
+	await channel.send(content='Restarted')
 
 async def status_task():
 
@@ -49,8 +51,8 @@ async def on_command_error(ctx, error):
 	if isinstance(error, MissingRequiredArgument):
 		await ctx.send(content="Missing arguments!")
 		return
-	logchan = bot.get_channel(693130723015524382)
-	await logchan.send(content=error)
+	channel = bot.get_channel(logchan)
+	await channel.send(content=error)
 	raise error
 
 @bot.event
@@ -314,6 +316,11 @@ async def door(ctx):
 		await ctx.send(content="Door is open")
 	else:
 		await ctx.send(content="A problem has occured")		
+@bot.command()
+async def hello(ctx, *actmessage):
+
+	channel = bot.get_channel(mainchan)
+	await channel.send(actmessage)
 
 @bot.command()
 async def ping(ctx):
