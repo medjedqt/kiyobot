@@ -336,7 +336,7 @@ async def hello(ctx, *actmessage):
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
-	if isinstance(msg.channel,discord.DMChannel):
+	if isinstance(ctx.channel,discord.DMChannel):
 		await ctx.send(content='this is a dm')
 	
 bot.run(token)
