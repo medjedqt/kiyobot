@@ -336,5 +336,7 @@ async def hello(ctx, *actmessage):
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
+	if ctx.guild is False:
+		await ctx.send(content='this is a dm')
 	
 bot.run(token)
