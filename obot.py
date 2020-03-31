@@ -61,7 +61,7 @@ async def on_message(message):
 
 	message_text = message.content.upper()
 	reactluck = uniform(0, 1.0)
-	if message.author.bot:
+	if message.author.bot or message_text.startswith('?'):
 		pass
 	elif 'CHEATING' in message_text:
 		await message.channel.trigger_typing()
@@ -337,8 +337,8 @@ async def hello(ctx, *actmessage):
 async def google(ctx,*query):
 	
 	query = ''.join(query)
-	result = search(query, tld='com', num=1, stop=1, pause=2)
-	await ctx.send(result)
+	for result in search(query, tld='com', num=1, stop=1, pause=2):
+		await ctx.send(result)
 
 @bot.command()
 async def ping(ctx):
