@@ -319,8 +319,9 @@ async def door(ctx):
 @bot.command()
 async def hello(ctx, *actmessage):
 
+	message = ' '.join(actmessage)
 	channel = bot.get_channel(mainchan)
-	await channel.send(actmessage)
+	await channel.send(message)
 
 @bot.command()
 async def ping(ctx):
