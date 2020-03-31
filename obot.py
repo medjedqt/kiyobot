@@ -76,7 +76,7 @@ async def on_message(message):
 			await message.channel.send(embed=e)
 		else:
 			await message.channel.send(choice(lines))
-	elif message.channel == discord.DMChannel:
+	elif isinstance(ctx.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
 		await channel.send(content=message.content)
 	await bot.process_commands(message)
@@ -336,7 +336,5 @@ async def hello(ctx, *actmessage):
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
-	if isinstance(ctx.channel,discord.DMChannel):
-		await ctx.send(content='this is a dm')
 	
 bot.run(token)
