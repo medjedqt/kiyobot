@@ -11,7 +11,6 @@ To get a local copy up and running follow these simple example steps.
 
 * [Python 3](python.org)
 * Discord bot token
-* Danbooru API key
 
 ### Installation
 
@@ -26,8 +25,4 @@ pip install -r requirements.txt
 3. Enter your bot token and danbooru key in `obot.py`
 ```PY
 token = 'ENTER YOUR TOKEN'
-dbkey = 'DANBOORU KEY'
 ```
-
-
-
