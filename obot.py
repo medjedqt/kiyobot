@@ -12,6 +12,7 @@ from os.path import isfile, join
 import os
 from helpy import hell
 import tension
+from googlesearch import search
 
 
 
@@ -331,6 +332,13 @@ async def hello(ctx, *actmessage):
 			await channel.send(message)
 	except HTTPException:
 		await ctx.send(content="Can't send empty messages >:c")
+
+@bot.command()
+async def google(ctx,*query):
+	
+	query = ''.join(query)
+	result = search(query, tld='com', num=1, stop=1, pause=2)
+	await ctx.send(result)
 
 @bot.command()
 async def ping(ctx):
