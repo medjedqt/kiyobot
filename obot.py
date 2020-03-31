@@ -23,7 +23,7 @@ cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
 token = os.environ['BOT_TOKEN']
 logchan = 693130723015524382
-mainchan = 612306757145853953
+messagechan = [612306757145853953]
 
 @bot.event
 async def on_ready():
@@ -320,8 +320,12 @@ async def door(ctx):
 async def hello(ctx, *actmessage):
 
 	message = ' '.join(actmessage)
-	channel = bot.get_channel(mainchan)
-	await channel.send(message)
+	try:
+		for chan in messagechan:
+			channel = bot.get_channel(chan)
+			await channel.send(message)
+	except HTTPException:
+		await ctx.send(content="Can't send empty messages >:c")
 
 @bot.command()
 async def ping(ctx):
