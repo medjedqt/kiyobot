@@ -78,7 +78,7 @@ async def on_message(message):
 			await message.channel.send(choice(lines))
 	elif isinstance(message.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
-		await channel.send(content=message.content)
+		await channel.send(content='{0} said {1}'.format(message.author.name, message.content))
 	await bot.process_commands(message)
 		
 @bot.command()
