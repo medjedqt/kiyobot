@@ -75,7 +75,7 @@ async def on_message(message):
 		else:
 			await message.channel.send(choice(lines))
 	if message.channel == DMChannel:
-		channel = bot.get_channel(612306757145853953)
+		channel = bot.get_channel(logchan)
 		await channel.send(content=message.content)
 	await bot.process_commands(message)
 		
