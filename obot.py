@@ -58,14 +58,14 @@ async def on_command_error(ctx, error):
 @bot.event
 async def on_message(message):
 
+	message_text = message.content.upper()
+	reactluck = uniform(0, 1.0)
 	if message.author.bot:
 		pass
-	message_text = message.content.upper()
 	elif 'CHEATING' in message_text:
 		await message.channel.trigger_typing()
 		await asyncio.sleep(3)
 		await message.channel.send('Do I smell a liar in here?')
-	reactluck = uniform(0, 1.0)
 	elif message.author.id == 293395455830654977 and reactluck >= 0.85:
 		await message.add_reaction('❤️')
 	elif bot.user.mentioned_in(message):
