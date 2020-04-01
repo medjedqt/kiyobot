@@ -90,7 +90,7 @@ async def on_message_edit(before, after):
 		return
 	channel = bot.get_channel(logchan)
 	e = discord.Embed(title=before.author.name, color=0xff0000)
-	e.add_field(name=before.content, value=after.content)
+	e.add_field(name="Edited", value='"{0.content}" to "{1.content}"'.format(before,after))
 	await channel.send(embed=e)
 
 @bot.command()
