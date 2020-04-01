@@ -13,7 +13,8 @@ import os
 from helpy import hell
 import tension
 from googlesearch import search
-
+import aiohttp
+import io
 
 
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
@@ -80,7 +81,19 @@ async def on_message(message):
 			await message.channel.send(choice(lines))
 	elif isinstance(message.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
-		await channel.send(content='{0.author.name} said {0.content}'.format(message))
+		if message.attachments != False:
+			att =ctx.message.attachments[0]
+			fileurl=att.url
+			if fileurl.find('/'):
+				name=fileurl.rsplit('/',1)[1]
+			async with aiohttp.ClientSession() as session:
+				async with session.get(fileurl) as resp:
+					if resp.status != 200:
+						return await channel.send('Could not download file...')
+					data = io.BytesIO(await resp.read())
+					await channel.send(content='{0.author.name} said {0.content}'.format(message),file=discord.File(data, 'cool_image.png'))
+		else:
+			await channel.send(content='{0.author.name} said {0.content}'.format(message))
 	await bot.process_commands(message)
 
 @bot.event
