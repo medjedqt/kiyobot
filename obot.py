@@ -20,7 +20,8 @@ bot = commands.Bot(command_prefix='?',case_insensitive=True)
 bot.remove_command('help')
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
-db = Danbooru('danbooru',username='hidevlad',api_key=dbkey)
+dbname = os.environ['DAN_NAME']
+db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
 logchan = 693130723015524382
