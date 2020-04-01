@@ -79,7 +79,7 @@ async def on_message(message):
 			await message.channel.send(choice(lines))
 	elif isinstance(message.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
-		await channel.send(content='{0} said {1}'.format(message.author.name, message.content))
+		await channel.send(content='{0.author.name} said {0.content}'.format(message))
 	await bot.process_commands(message)
 
 @bot.event
@@ -88,7 +88,7 @@ async def on_message_edit(before, after):
 	if before.author.bot:
 		return
 	channel = bot.get_channel(logchan)
-	await channel.send(content='{0} edited "{1}" to "{2}"'.format(before.author.name, before.content, after.content))
+	await channel.send(content='{0.author.name} edited "{0.content}" to "{1.content}"'.format(before, after))
 
 @bot.command()
 async def help(ctx):
