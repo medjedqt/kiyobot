@@ -89,7 +89,9 @@ async def on_message_edit(before, after):
 	if before.author.bot or before.content == after.content:
 		return
 	channel = bot.get_channel(logchan)
-	await channel.send(content='{0.author.name} edited "{0.content}" to "{1.content}"'.format(before, after))
+	e = discord.Embed(title=before.author.name, color=0xff0000)
+	e.add_field(name=before.content, value=after.content)
+	await channel.send(embed=e)
 
 @bot.command()
 async def help(ctx):
