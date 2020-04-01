@@ -82,8 +82,8 @@ async def on_message(message):
 	elif isinstance(message.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
 		if message.attachments != False:
-			att =ctx.message.attachments[0]
-			fileurl=att.url
+			att = message.attachments[0]
+			fileurl = att.url
 			if fileurl.find('/'):
 				name=fileurl.rsplit('/',1)[1]
 			async with aiohttp.ClientSession() as session:
