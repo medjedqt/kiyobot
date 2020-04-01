@@ -80,7 +80,7 @@ async def on_message(message):
 			await message.channel.send(choice(lines))
 	elif isinstance(message.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
-		await channel.send(content='{0.author.name} said {0.content}'.format(message), files=message.attachments)
+		await channel.send(content='{0.author.name} said {0.content}'.format(message))
 	await bot.process_commands(message)
 
 @bot.event
