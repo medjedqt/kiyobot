@@ -82,6 +82,7 @@ async def on_message(message):
 		await channel.send(content='{0} said {1}'.format(message.author.name, message.content))
 	await bot.process_commands(message)
 
+@bot.event
 async def on_message_edit(before, after):
 
 	if before.author.bot:
