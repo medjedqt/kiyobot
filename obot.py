@@ -81,7 +81,14 @@ async def on_message(message):
 		channel = bot.get_channel(logchan)
 		await channel.send(content='{0} said {1}'.format(message.author.name, message.content))
 	await bot.process_commands(message)
-		
+
+async def on_message_edit(before, after):
+
+	if before.author.bot:
+		return
+	channel = bot.get_channel(logchan)
+	channel.send(content='{0} edited "{1}" to "{2}"'.format(before.author.name, before.content, after.content))
+
 @bot.command()
 async def help(ctx):
 
