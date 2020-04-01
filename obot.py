@@ -85,7 +85,7 @@ async def on_message(message):
 @bot.event
 async def on_message_edit(before, after):
 
-	if before.author.bot:
+	if before.author.bot or before.content == after.content:
 		return
 	channel = bot.get_channel(logchan)
 	await channel.send(content='{0.author.name} edited "{0.content}" to "{1.content}"'.format(before, after))
