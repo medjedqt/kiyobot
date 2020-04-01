@@ -330,17 +330,7 @@ async def door(ctx):
 	if r.status_code == 200:
 		await ctx.send(content="Door is open")
 	else:
-		await ctx.send(content="A problem has occured")		
-@bot.command()
-async def hello(ctx, *actmessage):
-
-	message = ' '.join(actmessage)
-	try:
-		for chan in messagechan:
-			channel = bot.get_channel(chan)
-			await channel.send(message)
-	except HTTPException:
-		await ctx.send(content="Can't send empty messages >:c")
+		await ctx.send(content="A problem has occured")	
 
 @bot.command()
 async def google(ctx,*query):
