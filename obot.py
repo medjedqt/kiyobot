@@ -164,8 +164,8 @@ async def nwordcount(ctx):
 
 @bot.command()
 async def facto(ctx,num):
-	
-	await ctx.send(content='%d' % (factoria(num))
+
+	await ctx.send(content='%d' % (factoria(num)))
 
 @bot.command()
 async def dm(ctx,user: discord.User, msg):
