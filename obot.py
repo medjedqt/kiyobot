@@ -158,7 +158,7 @@ async def nwordcount(ctx):
 @bot.command()
 async def facto(ctx,num):
 	
-	async def factorial(n):
+	def factorial(n):
 		if n == 0:
 			pass
 		else:
