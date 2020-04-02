@@ -82,7 +82,7 @@ async def on_message(message):
 			await message.channel.send(choice(lines))
 	elif isinstance(message.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
-		if message.attachments != False:
+		if message.attachments != []:
 			att = message.attachments[0]
 			fileurl = att.url
 			if fileurl.find('/'):
