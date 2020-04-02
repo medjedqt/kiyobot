@@ -28,6 +28,12 @@ cloudirs = "/app/cloud/"
 logchan = 693130723015524382
 messagechan = [612306757145853953]
 
+def factorial(n):
+	if n == 0:
+		pass
+	else:
+		return n * factorial(n-1)
+
 @bot.event
 async def on_ready():
 
@@ -158,11 +164,6 @@ async def nwordcount(ctx):
 @bot.command()
 aync def facto(ctx,num):
 	
-	def factorial(n):
-		if n == 0:
-			pass
-		else:
-			return n * factorial(n-1)
 	await ctx.send(content='%d' % (factorial(num))
 		 
 @bot.command()
