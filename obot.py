@@ -46,13 +46,6 @@ async def status_task():
 		await bot.change_presence(activity=discord.Game(name="?help"))
 		await asyncio.sleep(8)
 
-async def factoria(n):
-
-	if n == 0:
-		pass
-	else:
-		return await n * factoria(n-1)
-
 @bot.event
 async def on_command_error(ctx, error):
 
@@ -165,6 +158,12 @@ async def nwordcount(ctx):
 @bot.command()
 async def facto(ctx,num):
 
+	def factoria(n):
+
+		if n == 0:
+			pass
+		else:
+			return n * factoria(n-1)
 	satan = factoria(num)
 	await ctx.send(content='{0}'.format(satan))
 
