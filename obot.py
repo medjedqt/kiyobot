@@ -163,7 +163,7 @@ aync def facto(ctx,num):
 			pass
 		else:
 			return n * factorial(n-1)
-	ctx.send(content='%d' % (factorial(num))
+	await ctx.send(content='%d' % (factorial(num))
 		 
 @bot.command()
 async def id(ctx,user: discord.User):
