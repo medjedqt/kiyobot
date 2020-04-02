@@ -28,12 +28,6 @@ cloudirs = "/app/cloud/"
 logchan = 693130723015524382
 messagechan = [612306757145853953]
 
-def factorial(n):
-	if n == 0:
-		pass
-	else:
-		return n * factorial(n-1)
-
 @bot.event
 async def on_ready():
 
@@ -160,11 +154,6 @@ async def nwordcount(ctx):
 					n2counter += 1
 	await mes.edit(content='Done!')
 	await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
-
-@bot.command()
-aync def facto(ctx,num):
-	
-	await ctx.send(content='%d' % (factorial(num))
 		 
 @bot.command()
 async def id(ctx,user: discord.User):
