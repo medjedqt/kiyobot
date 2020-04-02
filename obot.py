@@ -51,7 +51,7 @@ async def factoria(n):
 	if n == 0:
 		pass
 	else:
-		return n * factoria(n-1)
+		return await n * factoria(n-1)
 
 @bot.event
 async def on_command_error(ctx, error):
