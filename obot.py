@@ -156,7 +156,7 @@ async def nwordcount(ctx):
 	await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
 
 @bot.command()
-aync def facto(ctx,num):
+async def facto(ctx,num):
 	
 	async def factorial(n):
 		if n == 0:
