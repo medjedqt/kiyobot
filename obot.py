@@ -159,7 +159,7 @@ async def nwordcount(ctx):
 aync def facto(ctx,num):
 	
 	def factorial(n)
-		if num == 0:
+		if n == 0:
 			pass
 		else:
 			return n * factorial(n-1)
