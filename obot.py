@@ -158,13 +158,13 @@ async def nwordcount(ctx):
 @bot.command()
 async def facto(ctx,num):
 
+	num = int(num)
 	def factoria(n):
 
 		if n == 0:
 			pass
 		else:
-			return n * factoria(n-1)
-	satan = factoria(num)
+			return n * factoria(n-1) as satan
 	await ctx.send(content='{0}'.format(satan))
 
 @bot.command()
