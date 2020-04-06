@@ -100,7 +100,7 @@ async def on_message(message):
 @bot.event
 async def on_message_edit(before, after):
 
-	if before.author.bot or before.content == after.content or message.guild.id not 569845300244774922:
+	if before.author.bot or before.content == after.content or message.guild.id is not 569845300244774922:
 		return
 	channel = bot.get_channel(logchan)
 	e = discord.Embed(title=before.author.name, color=0xff0000)
