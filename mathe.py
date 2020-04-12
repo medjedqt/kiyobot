@@ -1,0 +1,1 @@
+calculate = {'sqrt':math.sqrt}
