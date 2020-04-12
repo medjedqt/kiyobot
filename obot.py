@@ -14,6 +14,7 @@ from googlesearch import search
 import aiohttp
 import io
 import math
+from mathe import calculate
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
@@ -352,6 +353,11 @@ async def google(ctx,*query):
 	query = ''.join(query)
 	for result in search(query, tld='com', num=1, stop=1, pause=2):
 		await ctx.send(result)
+
+@bot.command()
+async def calc(ctx, func):
+	
+	pass
 
 @bot.command()
 async def ping(ctx):
