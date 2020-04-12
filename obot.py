@@ -358,7 +358,10 @@ async def google(ctx,*query):
 async def calc(ctx, func, arg=None, arg2=None):
 	
 	function = calculate[func]
-	result = function(int(arg),int(arg2))
+	if arg2 is None:
+		result = function(int(arg))
+	else:
+		result = function(int(arg),int(arg2))
 	await ctx.send(content=result)
 
 @bot.command()
