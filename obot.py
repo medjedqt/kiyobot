@@ -355,9 +355,11 @@ async def google(ctx,*query):
 		await ctx.send(result)
 
 @bot.command()
-async def calc(ctx, func):
+async def calc(ctx, func, arg):
 	
-	pass
+	function = calculate[func]
+	result = function(int(arg))
+	await ctx.send(content=result)
 
 @bot.command()
 async def ping(ctx):
