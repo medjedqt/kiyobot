@@ -61,18 +61,17 @@ async def on_command_error(ctx, error):
 async def on_message(message):
 
 	message_text = message.content.upper()
-	reactluck = uniform(0, 1.0)
+	luck = uniform(0, 1.0)
 	if message.author.bot or message_text.startswith('?'):
 		pass
 	elif 'CHEATING' in message_text:
 		await message.channel.trigger_typing()
 		await asyncio.sleep(3)
 		await message.channel.send('Do I smell a liar in here?')
-	elif message.author.id == 293395455830654977 and reactluck >= 0.85:
+	elif message.author.id == 293395455830654977 and luck >= 0.85:
 		await message.add_reaction('❤️')
 	elif bot.user.mentioned_in(message):
-		luck = randint(0,9)
-		if message.author.id == 293395455830654977 and luck >= 7:
+		if message.author.id == 293395455830654977 and luck >= 0.97:
 			e=discord.Embed(color=0xffff00)
 			e.set_image(url="https://cdn.discordapp.com/attachments/569845300244774924/692219666478923776/23a8b2e1-21d4-4dac-84ba-1128207f0e30.png")
 			await message.channel.send(embed=e)
