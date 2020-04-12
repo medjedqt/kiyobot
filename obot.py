@@ -1,14 +1,12 @@
 import discord
 import asyncio
-from discord.ext import commands
 from kiyo import burnlist, lines
 from random import choice, randint, uniform
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument
 from pybooru import Danbooru
 import requests
 import shutil
-from os import listdir
-from os.path import isfile, join
+from os import listdir, path
 import os
 from helpy import hell
 import tension
@@ -18,7 +16,7 @@ import io
 import math
 
 
-bot = commands.Bot(command_prefix='?',case_insensitive=True)
+bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
 bot.remove_command('help')
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
@@ -271,7 +269,7 @@ async def upload(ctx,title=None):
 async def download(ctx,file):
 
 	ind = {}
-	x = [f for f in listdir(cloudirs) if isfile(join(cloudirs, f))]
+	x = [f for f in listdir(cloudirs) if path.isfile(path.join(cloudirs, f))]
 	e = discord.Embed(color=0x00ffff)
 	for i in x:
 		name, ext = os.path.splitext(i)
@@ -286,7 +284,7 @@ async def download(ctx,file):
 @bot.command(aliases=['ls'])
 async def list(ctx):
 
-	x = [f for f in listdir(cloudir) if isfile(join(cloudir, f))]
+	x = [f for f in listdir(cloudir) if path.isfile(path.join(cloudir, f))]
 	e = discord.Embed(color=0x00ffff)
 	for i in x:
 		name, ext = os.path.splitext(i)
