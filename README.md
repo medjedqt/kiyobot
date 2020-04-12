@@ -10,7 +10,7 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 * [Python 3](python.org)
-* Discord bot token
+* [Discord bot token](https://discordapp.com/developers/applications)
 * [Danbooru account and API key](https://danbooru.donmai.us/profile)
 
 ### Installation
