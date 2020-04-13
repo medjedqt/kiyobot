@@ -69,7 +69,7 @@ async def on_message(message):
 		await message.channel.trigger_typing()
 		await asyncio.sleep(3)
 		await message.channel.send('Do I smell a liar in here?')
-	elif message.author.id == 293395455830654977 and luck >= 0.85:
+	elif message.author.id == 293395455830654977 and luck >= 0.85 and message.guild.id == 569845300244774922:
 		await message.add_reaction('❤️')
 	elif bot.user.mentioned_in(message):
 		if message.author.id == 293395455830654977 and luck >= 0.97:
