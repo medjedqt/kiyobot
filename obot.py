@@ -155,12 +155,6 @@ async def nwordcount(ctx):
 	await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
 
 @bot.command()
-async def facto(ctx,num):
-
-	satan = math.factorial(int(num))
-	await ctx.send(content='{0}'.format(satan))
-
-@bot.command()
 async def dm(ctx,user: discord.User, msg):
 	
 	target = bot.get_user(user.id)
