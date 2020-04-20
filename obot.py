@@ -33,7 +33,8 @@ async def on_ready():
 
 	print('We have logged in as {0.user}'.format(bot))
 	bot.loop.create_task(status_task())
-	channel = bot.get_channel(logchan)
+	#channel = bot.get_channel(logchan)
+	#await channel.send(content='Restarted')
 
 async def status_task():
 
@@ -82,8 +83,6 @@ async def on_message(message):
 		if message.attachments != []:
 			att = message.attachments[0]
 			fileurl = att.url
-			if fileurl.find('/'):
-				name=fileurl.rsplit('/',1)[1]
 			async with aiohttp.ClientSession() as session:
 				async with session.get(fileurl) as resp:
 					if resp.status != 200:
@@ -114,8 +113,6 @@ async def help(ctx):
 @bot.command()
 async def burn(ctx):
 
-	x = []
-	x = burnlist
 	e=discord.Embed(color=0xff0000)
 	e.set_image(url=choice(burnlist))
 	await ctx.send(embed=e)
@@ -263,9 +260,8 @@ async def download(ctx,file):
 
 	ind = {}
 	x = [f for f in listdir(cloudirs) if path.isfile(path.join(cloudirs, f))]
-	e = discord.Embed(color=0x00ffff)
 	for i in x:
-		name, ext = os.path.splitext(i)
+		name, _ = os.path.splitext(i)
 		ind[i]= name
 	for truepath, truename in ind.items():
 		if file in truename:
@@ -280,7 +276,7 @@ async def list(ctx):
 	x = [f for f in listdir(cloudir) if path.isfile(path.join(cloudir, f))]
 	e = discord.Embed(color=0x00ffff)
 	for i in x:
-		name, ext = os.path.splitext(i)
+		_, ext = os.path.splitext(i)
 		next = tension.Ext(ext)
 		e.add_field(name=i,value=next,inline=False)
 	await ctx.send(embed=e)
