@@ -15,6 +15,9 @@ import aiohttp
 import io
 import math
 from mathe import calculate
+import pydrive2
+from pydrive2.auth import GoogleAuth
+from pydrive2.drive import GoogleDrive
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
@@ -27,6 +30,14 @@ cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
 logchan = 693130723015524382
 messagechan = [612306757145853953]
+gauth = GoogleAuth()
+gauth.LoadCredentialsFile("auth.json")
+if gauth.access_token_expired:
+	gauth.Refresh()
+else:
+	gauth.Authorize()
+drive = GoogleDrive(gauth)
+
 
 @bot.event
 async def on_ready():
@@ -251,7 +262,11 @@ async def upload(ctx,title=None):
 				r.raw.decode_content=True
 				shutil.copyfileobj(r.raw,f)
 				shutil.move(newname,cloudir)
-				await ctx.send(content="Uploaded as {0}".format(newname))
+		file1 = drive.CreateFile()
+		file1.SetContentFile(newname)
+		file1.Upload()
+		await ctx.send(content="Uploaded as {0}".format(newname))
+		os.remove(newname)
 	except:
 		await ctx.send(content="Attach a file!")
 
