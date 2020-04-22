@@ -287,12 +287,15 @@ async def download(ctx,file):
 @bot.command(aliases=['ls'])
 async def list(ctx):
 
-	x = [f for f in listdir(cloudir) if path.isfile(path.join(cloudir, f))]
 	e = discord.Embed(color=0x00ffff)
-	for i in x:
-		_, ext = os.path.splitext(i)
+	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
+	for file1 in file_list:
+		print('title: {}, id: {}'.format(file1['title'], file1['id']))
+	#x = [f for f in listdir(cloudir) if path.isfile(path.join(cloudir, f))]
+	#for i in x:
+		_, ext = os.path.splitext(file1['title'])
 		next = tension.Ext(ext)
-		e.add_field(name=i,value=next,inline=False)
+		e.add_field(name=file1['title'],value=next,inline=False)
 	await ctx.send(embed=e)
 
 @bot.command()
