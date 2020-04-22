@@ -289,6 +289,7 @@ async def download(ctx,file):
 		if file == name:
 			file1 = drive.CreateFile({'id':file2['id']})
 			file1.GetContentFile(file2['title'])
+			await ctx.send(file=discord.File(file2['title']))
 
 @bot.command(aliases=['ls'])
 async def list(ctx):
