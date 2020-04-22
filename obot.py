@@ -262,13 +262,13 @@ async def upload(ctx,title=None):
 				r.raw.decode_content=True
 				shutil.copyfileobj(r.raw,f)
 				shutil.move(newname,cloudir)
-		file1 = drive.CreateFile()
-		file1.SetContentFile(newname)
-		file1.Upload()
-		await ctx.send(content="Uploaded as {0}".format(newname))
-		os.remove(newname)
 	except:
 		await ctx.send(content="Attach a file!")
+	file1 = drive.CreateFile()
+	file1.SetContentFile(newname)
+	file1.Upload()
+	await ctx.send(content="Uploaded as {0}".format(newname))
+	os.remove(newname)
 
 @bot.command(aliases=['dl','down'])
 async def download(ctx,file):
