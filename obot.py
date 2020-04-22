@@ -272,17 +272,6 @@ async def upload(ctx,title=None):
 @bot.command(aliases=['dl','down'])
 async def download(ctx,file):
 
-	'''ind = {}
-	x = [f for f in listdir(cloudirs) if path.isfile(path.join(cloudirs, f))]
-	for i in x:
-		name, _ = os.path.splitext(i)
-		ind[i]= name
-	for truepath, truename in ind.items():
-		if file in truename:
-			try:
-				await ctx.send(file=discord.File(cloudirs + truepath))
-			except:
-				await ctx.send(content="File too big, please contact bot owner")'''
 	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 	for file2 in file_list:
 		name, _ = os.path.splitext(file2['title'])
@@ -290,6 +279,8 @@ async def download(ctx,file):
 			file1 = drive.CreateFile({'id':file2['id']})
 			file1.GetContentFile(file2['title'])
 			await ctx.send(file=discord.File(file2['title']))
+		else:
+			await ctx.send(content="Can't find file :c")
 
 @bot.command(aliases=['ls'])
 async def list(ctx):
