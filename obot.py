@@ -286,7 +286,7 @@ async def download(ctx,file):
 	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 	for file2 in file_list:
 		name, _ = os.path.splitext(file2['title'])
-		if file == name:
+		if file in name:
 			file1 = drive.CreateFile({'id':file2['id']})
 			file1.GetContentFile(file2['title'])
 			await ctx.send(file=discord.File(file2['title']))
