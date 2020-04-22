@@ -261,7 +261,6 @@ async def upload(ctx,title=None):
 			with open(newname,'wb') as f:
 				r.raw.decode_content=True
 				shutil.copyfileobj(r.raw,f)
-				shutil.move(newname,cloudir)
 	except:
 		await ctx.send(content="Attach a file!")
 	file1 = drive.CreateFile()
