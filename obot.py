@@ -279,6 +279,7 @@ async def download(ctx,file):
 			file1 = drive.CreateFile({'id':file2['id']})
 			file1.GetContentFile(file2['title'])
 			await ctx.send(file=discord.File(file2['title']))
+			os.remove(file2['title'])
 		else:
 			await ctx.send(content="Can't find file :c")
 
@@ -289,21 +290,10 @@ async def list(ctx):
 	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 	for file1 in file_list:
 		print('title: {}, id: {}'.format(file1['title'], file1['id']))
-	#x = [f for f in listdir(cloudir) if path.isfile(path.join(cloudir, f))]
-	#for i in x:
 		_, ext = os.path.splitext(file1['title'])
 		next = tension.Ext(ext)
 		e.add_field(name=file1['title'],value=next,inline=False)
 	await ctx.send(embed=e)
-
-@bot.command()
-async def rename(ctx, oldname, newname):
-
-	try:
-		os.rename(cloudirs+oldname, cloudirs+newname)
-		await ctx.send(content="Renamed {0} to {1}!".format(oldname, newname))
-	except:
-		await ctx.send(content="Invalid name")
 
 @bot.command()
 async def connect(ctx):
