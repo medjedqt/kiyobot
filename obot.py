@@ -74,6 +74,7 @@ async def on_message(message):
 
 	message_text = message.content.upper()
 	luck = uniform(0, 1.0)
+	e = discord.Embed(color=0xffff00)
 	if message.author.bot or message_text.startswith('?'):
 		pass
 	elif 'CHEATING' in message_text:
@@ -84,7 +85,6 @@ async def on_message(message):
 		await message.add_reaction('❤️')
 	elif bot.user.mentioned_in(message):
 		if message.author.id == 293395455830654977 and luck >= 0.97:
-			e=discord.Embed(color=0xffff00)
 			e.set_image(url="https://cdn.discordapp.com/attachments/569845300244774924/692219666478923776/23a8b2e1-21d4-4dac-84ba-1128207f0e30.png")
 			await message.channel.send(embed=e)
 		else:
@@ -101,7 +101,9 @@ async def on_message(message):
 					data = io.BytesIO(await resp.read())
 					await channel.send(content='{0.author.name} said {0.content}'.format(message),file=discord.File(data, 'cool_image.png'))
 		else:
-			await channel.send(content='{0.author.name} said {0.content}'.format(message))
+			sender = message.author.name + "said"
+			e.add_field(name=sender, value=message.content)
+			await channel.send(embed=e)
 	await bot.process_commands(message)
 
 @bot.event
@@ -274,12 +276,13 @@ async def download(ctx,file):
 
 	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 	for file2 in file_list:
-		name, _ = os.path.splitext(file2['title'])
+		title = file2['title']
+		name, _ = os.path.splitext(title)
 		if file in name:
 			file1 = drive.CreateFile({'id':file2['id']})
-			file1.GetContentFile(file2['title'])
-			await ctx.send(file=discord.File(file2['title']))
-			os.remove(file2['title'])
+			file1.GetContentFile(title)
+			await ctx.send(file=discord.File(title))
+			os.remove(title)
 		else:
 			await ctx.send(content="Can't find file :c")
 
@@ -289,7 +292,6 @@ async def list(ctx):
 	e = discord.Embed(color=0x00ffff)
 	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 	for file1 in file_list:
-		print('title: {}, id: {}'.format(file1['title'], file1['id']))
 		_, ext = os.path.splitext(file1['title'])
 		next = tension.Ext(ext)
 		e.add_field(name=file1['title'],value=next,inline=False)
