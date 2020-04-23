@@ -91,6 +91,7 @@ async def on_message(message):
 			await message.channel.send(choice(lines))
 	elif isinstance(message.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
+		sender = message.author.name + " said"
 		if message.attachments != []:
 			att = message.attachments[0]
 			fileurl = att.url
@@ -99,9 +100,9 @@ async def on_message(message):
 					if resp.status != 200:
 						return await channel.send('Could not download file...')
 					data = io.BytesIO(await resp.read())
-					await channel.send(content='{0.author.name} said {0.content}'.format(message),file=discord.File(data, 'cool_image.png'))
+					e.add_field(name=sender, value=message.content)
+					await channel.send(embed=e,file=discord.File(data, 'image.png'))
 		else:
-			sender = message.author.name + "said"
 			e.add_field(name=sender, value=message.content)
 			await channel.send(embed=e)
 	await bot.process_commands(message)
