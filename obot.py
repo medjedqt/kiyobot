@@ -44,8 +44,8 @@ async def on_ready():
 
 	print('We have logged in as {0.user}'.format(bot))
 	bot.loop.create_task(status_task())
-	#channel = bot.get_channel(logchan)
-	#await channel.send(content='Restarted')
+	channel = bot.get_channel(logchan)
+	await channel.send(content='Restarted')
 
 async def status_task():
 
