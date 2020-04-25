@@ -137,7 +137,7 @@ async def step(ctx):
 	e=discord.Embed(color=0xffff00)
 	e.set_image(url="https://cdn.discordapp.com/attachments/611844054669328394/635200592364699649/IMG_20191020_024438.JPG")
 	await ctx.send(embed=e)
-	
+
 @bot.command(aliases=['nword','nw'])
 async def nwordcount(ctx):
 	
@@ -170,7 +170,7 @@ async def dm(ctx,user: discord.User, msg):
 	target = bot.get_user(user.id)
 	await ctx.message.delete()
 	await target.send(content=msg)
-	
+
 @bot.command(aliases=['k','kiyohime'])
 async def kiyo(ctx):
 
@@ -224,10 +224,10 @@ async def dan(ctx, *tag):
 		await ctx.send(embed=e)
 	except:
 		await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
-		
+
 @bot.command()
 async def multi(ctx, *tag):
-	
+
 	x=[]
 	tag = ' '.join(tag)
 	page = randint(1,5)
@@ -299,6 +299,17 @@ async def list(ctx):
 	await ctx.send(embed=e)
 
 @bot.command()
+async def trash(ctx, file):
+
+	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
+	for filed in file_list:
+		title = filed['title']
+		name, _ = os.path.splitext(title)
+		if file in name:
+			filex = drive.CreateFile({'id':filed['id']})
+			filex.Trash()
+
+@bot.command()
 async def connect(ctx):
 
 	channel = ctx.author.voice.channel
@@ -319,7 +330,7 @@ async def say(ctx, msg, time=5, count=1):
 		await ctx.send(content="Too long, I might die by then")
 		await ctx.send(content="tl;dr: " + msg)
 		return
-	
+
 	while True:
 		await ctx.send(content=msg)
 		await asyncio.sleep(time)
@@ -329,7 +340,7 @@ async def say(ctx, msg, time=5, count=1):
 
 @bot.command()
 async def tts(ctx, *msg):
-	
+
 	msg = ' '.join(msg)
 	msga = await ctx.send(content=msg, tts=True)
 	await msga.delete()
@@ -337,7 +348,7 @@ async def tts(ctx, *msg):
 
 @bot.command()
 async def door(ctx):
-	
+
 	r = requests.get('https://medjed.fun')
 	if r.status_code == 200:
 		await ctx.send(content="Door is open")
@@ -346,14 +357,14 @@ async def door(ctx):
 
 @bot.command()
 async def google(ctx,*query):
-	
+
 	query = ''.join(query)
 	for result in search(query, tld='com', num=1, stop=1, pause=2):
 		await ctx.send(result)
 
 @bot.command()
 async def calc(ctx, func, arg=None, arg2=None):
-	
+
 	function = calculate[func]
 	if arg2 is None:
 		result = function(int(arg))
@@ -365,5 +376,5 @@ async def calc(ctx, func, arg=None, arg2=None):
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
-	
+
 bot.run(token)
