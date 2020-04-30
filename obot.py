@@ -18,6 +18,7 @@ from mathe import calculate
 import pydrive2
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
+from bs4 import BeautifulSoup
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
@@ -372,6 +373,14 @@ async def calc(ctx, func, arg=None, arg2=None):
 	else:
 		result = function(int(arg),int(arg2))
 	await ctx.send(content=result)
+
+@bot.command()
+async def server(ctx):
+
+	r = requests.get('https://milogang.aternos.me')
+	soup = BeautifulSoup(r.text, 'html.parser')
+	for thatoneline in soup.find_all('span'):
+		print(thatoneline['class'])
 
 @bot.command()
 async def ping(ctx):
