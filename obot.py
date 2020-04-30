@@ -94,13 +94,13 @@ async def on_message(message):
 		channel = bot.get_channel(logchan)
 		sender = message.author.name + " said"
 		if message.attachments != []:
-			att = message.attachments[0]
-			fileurl = att.url
+			attachment = message.attachments[0]
+			fileurl = attachment.url
 			async with aiohttp.ClientSession() as session:
-				async with session.get(fileurl) as resp:
-					if resp.status != 200:
+				async with session.get(fileurl) as response:
+					if response.status != 200:
 						return await channel.send('Could not download file...')
-					data = io.BytesIO(await resp.read())
+					data = io.BytesIO(await response.read())
 					e.add_field(name=sender, value=message.content)
 					await channel.send(embed=e,file=discord.File(data, 'image.png'))
 		else:
@@ -251,8 +251,8 @@ async def multi(ctx, *tag):
 async def upload(ctx,title=None):
 
 	try:
-		ass =ctx.message.attachments[0]
-		fileurl=ass.url
+		attachment =ctx.message.attachments[0]
+		fileurl=attachment.url
 		if fileurl.find('/'):
 			name=fileurl.rsplit('/',1)[1]
 			exname, ext = os.path.splitext(name)
@@ -300,29 +300,35 @@ async def list(ctx):
 	await ctx.send(embed=e)
 
 @bot.command()
-async def trash(ctx, file):
+async def trash(ctx, filename):
 
 	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
-	for filed in file_list:
-		title = filed['title']
+	for file in file_list:
+		title = file['title']
 		name, _ = os.path.splitext(title)
-		if file in name:
-			filex = drive.CreateFile({'id':filed['id']})
-			filex.Trash()
-			await ctx.send(content='Binned {0}'.format(filed['title']))
+		if filename in name:
+			actual_file = drive.CreateFile({'id':file['id']})
+			actual_file.Trash()
+			await ctx.send(content='Binned {0}'.format(file['title']))
 
 @bot.command()
 async def connect(ctx):
 
 	channel = ctx.author.voice.channel
-	await channel.connect()
-	await ctx.send("*hacker voice* I'M IN")
+	if channel == None:
+		await ctx.send(content='Join a voice channel first')
+	else:
+		await channel.connect()
+		await ctx.send("*hacker voice* I'M IN")
 
 @bot.command(aliases=['dc'])
 async def disconnect(ctx):
 
-	await ctx.voice_client.disconnect()
-	await ctx.send("bye...")
+	if bot.voice_clients == []:
+		await ctx.send(content="I'm not in a voice channel")
+	else:
+		await ctx.voice_client.disconnect()
+		await ctx.send("bye...")
 
 @bot.command()
 async def say(ctx, msg, time=5, count=1):
@@ -347,15 +353,6 @@ async def tts(ctx, *msg):
 	msga = await ctx.send(content=msg, tts=True)
 	await msga.delete()
 	await ctx.message.delete()
-
-@bot.command()
-async def door(ctx):
-
-	r = requests.get('https://medjed.fun')
-	if r.status_code == 200:
-		await ctx.send(content="Door is open")
-	else:
-		await ctx.send(content="A problem has occured")	
 
 @bot.command()
 async def google(ctx,*query):
