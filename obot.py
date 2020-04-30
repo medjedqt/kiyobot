@@ -379,8 +379,9 @@ async def server(ctx):
 
 	r = requests.get('https://milogang.aternos.me')
 	soup = BeautifulSoup(r.text, 'html.parser')
-	for thatoneline in soup.find_all('span'):
-		print(thatoneline['class'])
+	classes = soup.span['class']
+	status = classes[1]
+	await ctx.send(content='Server is {}!'.format(status))
 
 @bot.command()
 async def ping(ctx):
