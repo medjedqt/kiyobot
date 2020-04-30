@@ -314,11 +314,11 @@ async def trash(ctx, filename):
 @bot.command()
 async def connect(ctx):
 
-	channel = ctx.author.voice.channel
-	if channel == None:
+	voice = ctx.author.voice
+	if voice == None:
 		await ctx.send(content='Join a voice channel first')
 	else:
-		await channel.connect()
+		await voice.channel.connect()
 		await ctx.send("*hacker voice* I'M IN")
 
 @bot.command(aliases=['dc'])
