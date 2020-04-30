@@ -374,7 +374,7 @@ async def calc(ctx, func, arg=None, arg2=None):
 @bot.command()
 async def server(ctx):
 
-	r = requests.get('https://milogang.aternos.me')
+	r = requests.get('https://milokurangmanis.aternos.me')
 	soup = BeautifulSoup(r.text, 'html.parser')
 	classes = soup.span['class']
 	status = classes[1]
