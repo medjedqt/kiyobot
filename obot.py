@@ -372,15 +372,6 @@ async def calc(ctx, func, arg=None, arg2=None):
 	await ctx.send(content=result)
 
 @bot.command()
-async def server(ctx):
-
-	r = requests.get('https://milokurangmanis.aternos.me')
-	soup = BeautifulSoup(r.text, 'html.parser')
-	classes = soup.span['class']
-	status = classes[1]
-	await ctx.send(content='Server is {}!'.format(status))
-
-@bot.command()
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
