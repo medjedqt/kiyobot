@@ -372,6 +372,11 @@ async def calc(ctx, func, arg=None, arg2=None):
 	await ctx.send(content=result)
 
 @bot.command()
+async def play(ctx, link):
+
+	pass
+
+@bot.command()
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
