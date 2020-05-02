@@ -18,7 +18,7 @@ It is nice to meet you, my Master.''',
 "Very well...",
 "I'm so happy...",
 '''I will exterminate all of the liars who ran from me.
-Transforming, Flame-Emitting Meditation! https://www.youtube.com/watch?v=taknvjXJPPM''',
+Transforming, Flame-Emitting Meditation! https://vsbattles.fandom.com/wiki/Berserker_(Kiyohime)?file=Tenshin_Kashou_Zanmai.gif''',
 "I can't burn Anchin with this mask on",
 "Ohh, my dear Anchin has gone away again...",
 "Yes? If it's for Masta and my musume, I'd do with all my love",
