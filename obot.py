@@ -37,7 +37,7 @@ if gauth.access_token_expired:
 else:
 	gauth.Authorize()
 drive = GoogleDrive(gauth)
-DefaultHelpCommand.dm_help = True
+DefaultHelpCommand(dm_help=True)
 
 
 @bot.event
