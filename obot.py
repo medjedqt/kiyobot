@@ -22,7 +22,6 @@ from bs4 import BeautifulSoup
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
-bot.remove_command('help')
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
@@ -118,28 +117,28 @@ async def on_message_edit(before, after):
 	e.add_field(name="Edited", value='"{0.content}" to "{1.content}"'.format(before,after))
 	await channel.send(embed=e)
 
-@bot.command()
+@bot.command(enabled=False)
 async def help(ctx):
 
 	e = discord.Embed(title="**__Basic Commands__**",color=0x00ff00)
 	e.add_field(name="User Commands", value=hell, inline=False)
 	await ctx.author.send(embed=e)
 
-@bot.command()
+@bot.command(help=hell['burn'])
 async def burn(ctx):
 
 	e=discord.Embed(color=0xff0000)
 	e.set_image(url=choice(burnlist))
 	await ctx.send(embed=e)
 
-@bot.command()
+@bot.command(help=hell['step'])
 async def step(ctx):
 
 	e=discord.Embed(color=0xffff00)
 	e.set_image(url="https://cdn.discordapp.com/attachments/611844054669328394/635200592364699649/IMG_20191020_024438.JPG")
 	await ctx.send(embed=e)
 
-@bot.command(aliases=['nword','nw'])
+@bot.command(aliases=['nword','nw'],help=hell['nwordcount'])
 async def nwordcount(ctx):
 	
 	i=1
@@ -165,14 +164,14 @@ async def nwordcount(ctx):
 	await mes.edit(content='Done!')
 	await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
 
-@bot.command()
+@bot.command(hell['dm'])
 async def dm(ctx,user: discord.User, msg):
 	
 	target = bot.get_user(user.id)
 	await ctx.message.delete()
 	await target.send(content=msg)
 
-@bot.command(aliases=['k','kiyohime'])
+@bot.command(aliases=['k','kiyohime'], help=hell['kiyo'])
 async def kiyo(ctx):
 
 	x = []
@@ -188,7 +187,7 @@ async def kiyo(ctx):
 	e.set_image(url=choice(x))
 	await ctx.send(embed=e)
 
-@bot.command()
+@bot.command(help=hell['latest'])
 async def latest(ctx, key=None, *tag):
 
 	if key is None:
@@ -206,7 +205,7 @@ async def latest(ctx, key=None, *tag):
 	e.set_image(url=fileurl)
 	await ctx.send(embed=e)
 
-@bot.command(aliases=['danbooru','d'])
+@bot.command(aliases=['danbooru','d'],help=hell['danbooru'])
 async def dan(ctx, *tag):
 
 	x = []
@@ -226,7 +225,7 @@ async def dan(ctx, *tag):
 	except:
 		await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
 
-@bot.command()
+@bot.command(help=hell['multi'])
 async def multi(ctx, *tag):
 
 	x=[]
@@ -247,7 +246,7 @@ async def multi(ctx, *tag):
 	except:
 		await ctx.send(content="Some shit broke. Also firara is gay")
 
-@bot.command(aliases=['u','up'])
+@bot.command(aliases=['u','up'],help=hell['upload'])
 async def upload(ctx,title=None):
 
 	try:
@@ -273,7 +272,7 @@ async def upload(ctx,title=None):
 	await ctx.send(content="Uploaded as {0}".format(newname))
 	os.remove(newname)
 
-@bot.command(aliases=['dl','down'])
+@bot.command(aliases=['dl','down'], help=hell['download'])
 async def download(ctx,file):
 
 	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
@@ -288,7 +287,7 @@ async def download(ctx,file):
 		else:
 			await ctx.send(content="Can't find file :c")
 
-@bot.command(aliases=['ls'])
+@bot.command(aliases=['ls'], help=hell['list'])
 async def list(ctx):
 
 	e = discord.Embed(color=0x00ffff)
@@ -299,7 +298,7 @@ async def list(ctx):
 		e.add_field(name=file1['title'],value=next,inline=False)
 	await ctx.send(embed=e)
 
-@bot.command()
+@bot.command(help=hell['trash'])
 async def trash(ctx, filename):
 
 	file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
@@ -311,7 +310,7 @@ async def trash(ctx, filename):
 			actual_file.Trash()
 			await ctx.send(content='Binned {0}'.format(file['title']))
 
-@bot.command()
+@bot.command(help=hell['connect'])
 async def connect(ctx):
 
 	voice = ctx.author.voice
@@ -321,7 +320,7 @@ async def connect(ctx):
 		await voice.channel.connect()
 		await ctx.send("*hacker voice* I'M IN")
 
-@bot.command(aliases=['dc'])
+@bot.command(aliases=['dc'],help=hell['disconnect'])
 async def disconnect(ctx):
 
 	if bot.voice_clients == []:
@@ -330,7 +329,7 @@ async def disconnect(ctx):
 		await ctx.voice_client.disconnect()
 		await ctx.send("bye...")
 
-@bot.command()
+@bot.command(help=hell['say'])
 async def say(ctx, msg, time=5, count=1):
 
 	await ctx.message.delete()
@@ -346,7 +345,7 @@ async def say(ctx, msg, time=5, count=1):
 		if count == 0:
 			break
 
-@bot.command()
+@bot.command(help=hell['tts'])
 async def tts(ctx, *msg):
 
 	msg = ' '.join(msg)
@@ -354,14 +353,14 @@ async def tts(ctx, *msg):
 	await msga.delete()
 	await ctx.message.delete()
 
-@bot.command()
+@bot.command(help=hell['google'])
 async def google(ctx,*query):
 
 	query = ''.join(query)
 	for result in search(query, tld='com', num=1, stop=1, pause=2):
 		await ctx.send(result)
 
-@bot.command()
+@bot.command(help=hell['calc'])
 async def calc(ctx, func, arg=None, arg2=None):
 
 	function = calculate[func]
@@ -376,7 +375,7 @@ async def play(ctx, link):
 
 	pass
 
-@bot.command()
+@bot.command(help=hell['ping'])
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
