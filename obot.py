@@ -117,12 +117,12 @@ async def on_message_edit(before, after):
 	e.add_field(name="Edited", value='"{0.content}" to "{1.content}"'.format(before,after))
 	await channel.send(embed=e)
 
-@bot.command(enabled=False)
-async def help(ctx):
+#@bot.command(enabled=False)
+#async def help(ctx):
 
-	e = discord.Embed(title="**__Basic Commands__**",color=0x00ff00)
-	e.add_field(name="User Commands", value=hell, inline=False)
-	await ctx.author.send(embed=e)
+#	e = discord.Embed(title="**__Basic Commands__**",color=0x00ff00)
+#	e.add_field(name="User Commands", value=hell, inline=False)
+#	await ctx.author.send(embed=e)
 
 @bot.command(help=hell['burn'])
 async def burn(ctx):
