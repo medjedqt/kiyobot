@@ -2,7 +2,7 @@ import discord
 import asyncio
 from kiyo import burnlist, lines
 from random import choice, randint, uniform
-from discord.ext.commands import CommandNotFound,MissingRequiredArgument
+from discord.ext.commands import CommandNotFound,MissingRequiredArgument,DefaultHelpCommand
 from pybooru import Danbooru
 import requests
 import shutil
@@ -37,6 +37,7 @@ if gauth.access_token_expired:
 else:
 	gauth.Authorize()
 drive = GoogleDrive(gauth)
+DefaultHelpCommand.dm_help = True
 
 
 @bot.event
