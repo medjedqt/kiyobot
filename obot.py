@@ -2,7 +2,7 @@ import discord
 import asyncio
 from kiyo import burnlist, lines
 from random import choice, randint, uniform
-from discord.ext.commands import CommandNotFound,MissingRequiredArgument,DefaultHelpCommand
+from discord.ext.commands import CommandNotFound,MissingRequiredArgument,MinimalHelpCommand
 from pybooru import Danbooru
 import requests
 import shutil
@@ -22,6 +22,7 @@ from bs4 import BeautifulSoup
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
+MinimalHelpCommand(dm_help=True)
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
@@ -37,7 +38,6 @@ if gauth.access_token_expired:
 else:
 	gauth.Authorize()
 drive = GoogleDrive(gauth)
-DefaultHelpCommand(dm_help=True)
 
 
 @bot.event
