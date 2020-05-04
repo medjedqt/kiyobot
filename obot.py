@@ -19,7 +19,6 @@ import pydrive2
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 from bs4 import BeautifulSoup
-import wikipedia
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
@@ -371,23 +370,6 @@ async def calc(ctx, func, arg=None, arg2=None):
 	else:
 		result = function(int(arg),int(arg2))
 	await ctx.send(content=result)
-
-@bot.command()
-async def wiki(ctx, *thing):
-
-	thing = ' '.join(thing)
-	try:
-		await ctx.send(content=wikipedia.summary(thing))
-	except wikipedia.exceptions.DisambiguationError:
-		await ctx.send(content="Can't find content, try using ?wikifind to find similar results")
-
-@bot.command()
-async def wikifind(ctx, *thing):
-
-	thing = ' '.join(thing)
-	e = discord.Embed(color=0xffffff)
-	for result in wikipedia.search(thing,results=5):
-		e.add_field(name=result, value='yes')
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):

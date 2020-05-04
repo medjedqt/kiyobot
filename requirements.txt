@@ -23,5 +23,4 @@ six==1.13.0
 tornado==6.0.3
 urllib3==1.25.7
 websockets==6.0
-wikipedia==1.4.0
 yarl==1.4.2
