@@ -19,6 +19,7 @@ import pydrive2
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 from bs4 import BeautifulSoup
+import wikipedia
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
@@ -372,9 +373,10 @@ async def calc(ctx, func, arg=None, arg2=None):
 	await ctx.send(content=result)
 
 @bot.command()
-async def play(ctx, link):
+async def wiki(ctx, *thing):
 
-	pass
+	thing = ' '.join(thing)
+	await ctx.send(wikipedia.summary(thing))
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
