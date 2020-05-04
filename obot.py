@@ -292,7 +292,7 @@ async def download(ctx,file):
 @bot.command(aliases=['ls'], help=hell['list'])
 async def list(ctx):
 
-	e = discord.Embed(color=0x00ffff)
+	e = discord.Embed(title='Cloud Files',color=0x00ffff)
 	file_list = drive.ListFile({'q': "'root' in parents and trashed = false"}).GetList()
 	for file1 in file_list:
 		_, ext = os.path.splitext(file1['title'])
@@ -376,7 +376,18 @@ async def calc(ctx, func, arg=None, arg2=None):
 async def wiki(ctx, *thing):
 
 	thing = ' '.join(thing)
-	await ctx.send(wikipedia.summary(thing))
+	try:
+		await ctx.send(content=wikipedia.summary(thing))
+	except wikipedia.exceptions.DisambiguationError:
+		await ctx.send(content="Can't find content, try using ?wikifind to find similar results")
+
+@bot.command()
+async def wikifind(ctx, *thing):
+
+	thing = ' '.join(thing)
+	e = discord.Embed(color=0xffffff)
+	for result in wikipedia.search(thing,results=5):
+		e.add_field(name=result, value='yes')
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
