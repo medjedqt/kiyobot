@@ -2,7 +2,7 @@ import discord
 import asyncio
 from kiyo import burnlist, lines
 from random import choice, randint, uniform
-from discord.ext.commands import CommandNotFound,MissingRequiredArgument,MinimalHelpCommand
+from discord.ext.commands import CommandNotFound,MissingRequiredArgument,HelpCommand
 from pybooru import Danbooru
 import requests
 import shutil
@@ -22,7 +22,7 @@ from bs4 import BeautifulSoup
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
-MinimalHelpCommand(dm_help=True)
+HelpCommand(dm_help=True)
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
