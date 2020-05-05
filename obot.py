@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from kiyo import burnlist, lines
+from kiyo import burnlist, lines, rpsfunc
 from random import choice, randint, uniform
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument
 from pybooru import Danbooru
@@ -31,6 +31,7 @@ cloudir = "/app/cloud"
 cloudirs = "/app/cloud/"
 logchan = 693130723015524382
 messagechan = [612306757145853953]
+rpslist = ['rock', 'paper', 'scissors']
 gauth = GoogleAuth()
 gauth.LoadCredentialsFile("auth.json")
 if gauth.access_token_expired:
@@ -370,6 +371,41 @@ async def calc(ctx, func, arg=None, arg2=None):
 	else:
 		result = function(int(arg),int(arg2))
 	await ctx.send(content=result)
+
+@bot.command()
+async def rps(ctx, user, move):
+
+	if isinstance(ctx.channel,discord.DMChannel) and move in rpslist:
+		target = bot.get_user(user.id)
+		await ctx.send(content="Challenged {}".format(target.name))
+		await target.send(content='{} challenged you to a rock paper scissors! Reply with your move (Rock/Paper/Scissors)'.format(ctx.author.name))
+	elif isinstance(ctx.channel,discord.DMChannel) and move not in rpslist:
+		await ctx.send(content='Not a valid move')
+	else:
+		await ctx.send(content='You have to use this command in my DM')
+	
+	def check(victim):
+		if victim.name == target.name and isinstance(victim.channel, discord.DMChannel):
+			return True
+		else:
+			return False
+	
+	msg = await bot.wait_for('message', check=check)
+	xmove = msg.content
+	if xmove in rpslist:
+		result = rpsfunc(move, xmove)
+		if result == 'tie':
+			await ctx.send(content="It's a tie!")
+			await target.send(content="It's a tie!")
+		elif result == 'p1loss':
+			await ctx.send(content="You've lost!")
+			await target.send(content="You've won!")
+		elif result == 'p1win':
+			await ctx.send(content="You've won!")
+			await target.send(content="You've lost!")
+	else:
+		await ctx.move(content='Invalid move!')
+		
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):

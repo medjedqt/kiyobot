@@ -42,3 +42,26 @@ Transforming, Flame-Emitting Meditation! https://vsbattles.fandom.com/wiki/Berse
 "I may be trapped in this server, but my love transcends the screen",
 "Please stop pinging me, It's getting tiring."
 ]
+
+def rpsfunc(p1,p2):
+
+    p1 = p1.lower()
+    p2 = p2.lower()
+    if p1 == p2:
+        return 'tie'
+    elif p1 == 'rock':
+        if p2 == 'paper':
+            return 'p1loss'
+        else:
+            return 'p1win'
+    elif p1 == 'paper':
+        if p2 == 'scissors':
+            return 'p1loss'
+        else:
+            return 'p1win'
+    elif p1 == 'scissors':
+        if p2 == 'rock':
+            return 'p1loss'
+        else:
+            return 'p1win'
+        
