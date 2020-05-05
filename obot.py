@@ -77,7 +77,7 @@ async def on_message(message):
 	message_text = message.content.upper()
 	luck = uniform(0, 1.0)
 	e = discord.Embed(color=0xffff00)
-	if message.author.bot or message_text.startswith('?'):
+	if message.author.bot or message_text.startswith('?') or message.content in rpslist:
 		pass
 	elif 'CHEATING' in message_text:
 		await message.channel.trigger_typing()
