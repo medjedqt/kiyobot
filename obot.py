@@ -376,7 +376,7 @@ async def calc(ctx, func, arg=None, arg2=None):
 async def rps(ctx, userid, move):
 
 	if isinstance(ctx.channel,discord.DMChannel) and move in rpslist:
-		target = bot.get_user(userid)
+		target = bot.get_user(int(userid))
 		await ctx.send(content="Challenged {}".format(target.name))
 		await target.send(content='{} challenged you to a rock paper scissors! Reply with your move (Rock/Paper/Scissors)'.format(ctx.author.name))
 	elif isinstance(ctx.channel,discord.DMChannel) and move not in rpslist:
