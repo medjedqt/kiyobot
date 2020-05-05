@@ -385,7 +385,7 @@ async def rps(ctx, userid, move):
 		await ctx.send(content='You have to use this command in my DM')
 	
 	def check(victim):
-		if victim.name == target.name and isinstance(victim.channel, discord.DMChannel):
+		if victim.author.name == target.name and isinstance(victim.channel, discord.DMChannel):
 			return True
 		else:
 			return False
