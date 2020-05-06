@@ -405,8 +405,7 @@ async def rps(ctx, userid, move):
 			await target.send(content="You've lost!")
 	else:
 		await target.send(content='Invalid move! Game cancelled')
-		await ctx.send(content='Opponent made an invalid move. Game is cancelled')
-		
+		await ctx.send(content='Opponent made an invalid move. Game is cancelled')		
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
