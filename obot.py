@@ -413,7 +413,7 @@ async def word(ctx):
 	r = requests.get('https://www.thisworddoesnotexist.com/')
 	soup = BeautifulSoup(r.text, 'html.parser')
 	e = discord.Embed(title=soup.find(id='definition-word').string, url=soup.find(id='link-button-a')['href'],color=0x002258)
-	e.add_field(name=soup.find(id='definition-definition').string, value=soup.find(id='definition-usage').string)
+	e.add_field(name=soup.find(id='definition-definition').string, value=soup.find(id='definition-example').string)
 	await ctx.send(embed=e)
 
 @bot.command(help=hell['ping'])
