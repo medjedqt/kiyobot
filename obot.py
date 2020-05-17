@@ -414,8 +414,7 @@ async def word(ctx):
 	soup = BeautifulSoup(r.text, 'html.parser')
 	e = discord.Embed(title=soup.find(id='definition-word').string, url=soup.find(id='link-button-a')['href'],color=0x002258)
 	grm = soup.find(id='definition-pos').string
-	grm = grm.replace('"','')
-	grm = grm.strip()
+	grm = grm.replace('"','').strip()
 	desc = grm + ' ' + soup.find(id='definition-definition').string
 	e.add_field(name=desc, value=soup.find(id='definition-example').string)
 	e.set_footer(text='Powered by This Word Does Not Exist',icon_url='https://www.thisworddoesnotexist.com/favicon-32x32.png')
