@@ -5,10 +5,9 @@ from discord.ext.commands import CommandNotFound,MissingRequiredArgument
 import os
 
 
-
 bot = commands.Bot(command_prefix='?',case_insensitive=True)
 bot.remove_command('help')
-token = os.environ['BOT_TOKEN']
+token = ''
 
 @bot.event
 async def on_ready():
