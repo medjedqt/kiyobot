@@ -405,7 +405,16 @@ async def rps(ctx, userid, move):
 			await target.send(content="You've lost!")
 	else:
 		await target.send(content='Invalid move! Game cancelled')
-		await ctx.send(content='Opponent made an invalid move. Game is cancelled')		
+		await ctx.send(content='Opponent made an invalid move. Game is cancelled')
+
+@bot.command()
+async def word(ctx):
+
+	r = requests.get('https://www.thisworddoesnotexist.com/')
+	e = discord.Embed(title="This Word Does Not Exist", url='https://www.thisworddoesnotexist.com/',color=0x002258)
+	soup = BeautifulSoup(r.text, 'html.parser')
+	e.add_field(name=soup.find(id='definition-word').string, value=soup.find(id='definition-definition').string)
+	await ctx.send(embed=e)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
