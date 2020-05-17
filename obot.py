@@ -418,6 +418,7 @@ async def word(ctx):
 	grm = grm.strip()
 	desc = grm + ' ' + soup.find(id='definition-definition').string
 	e.add_field(name=desc, value=soup.find(id='definition-example').string)
+	e.set_footer(text='Powered by This Word Does Not Exist',icon_url='https://www.thisworddoesnotexist.com/favicon-32x32.png')
 	await ctx.send(embed=e)
 
 @bot.command(help=hell['ping'])
