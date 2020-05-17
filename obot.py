@@ -416,8 +416,8 @@ async def word(ctx):
 	grm = soup.find(id='definition-pos').string
 	grm = grm.replace('"','')
 	grm = grm.strip()
-	desc = grm + ' ' + soup.find(id='definition-example').string
-	e.add_field(name=soup.find(id='definition-definition').string, value=desc)
+	desc = grm + ' ' + soup.find(id='definition-definition').string
+	e.add_field(name=desc, value=soup.find(id='definition-example').string)
 	await ctx.send(embed=e)
 
 @bot.command(help=hell['ping'])
