@@ -19,6 +19,7 @@ import pydrive2
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 from bs4 import BeautifulSoup
+import youtube_dl
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
@@ -419,6 +420,39 @@ async def word(ctx):
 	e.add_field(name=desc, value=soup.find(id='definition-example').string)
 	e.set_footer(text='Powered by This Word Does Not Exist',icon_url='https://www.thisworddoesnotexist.com/favicon-32x32.png')
 	await ctx.send(embed=e)
+
+@bot.command()
+async def sing(ctx, link):
+
+	if bot.voice_clients == []:
+		voice = ctx.author.voice
+		await voice.channel.connect()
+	song_there = os.path.isfile("song.mp3")
+	try:
+		if song_there:
+			os.remove("song.mp3")
+	except PermissionError:
+		await ctx.send("Wait for the current playing music end or use the 'stop' command")
+		return
+	await ctx.send("Getting everything ready, playing audio soon")
+	print("Someone wants to play music let me get that ready for them...")
+	voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+	ydl_opts = {
+		'format': 'bestaudio/best',
+		'postprocessors': [{
+			'key': 'FFmpegExtractAudio',
+			'preferredcodec': 'mp3',
+			'preferredquality': '192',
+		}],
+	}
+	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+		ydl.download([link])
+	for file in os.listdir("./"):
+		if file.endswith(".mp3"):
+			os.rename(file, 'song.mp3')
+	voice.play(discord.FFmpegPCMAudio("song.mp3"))
+	voice.volume = 100
+	voice.is_playing()
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
