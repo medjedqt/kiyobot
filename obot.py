@@ -435,7 +435,6 @@ async def sing(ctx, link):
 		await ctx.send("Wait for the current playing music end or use the 'stop' command")
 		return
 	await ctx.send("Getting everything ready, playing audio soon")
-	print("Someone wants to play music let me get that ready for them...")
 	voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 	ydl_opts = {
 		'format': 'bestaudio/best',
