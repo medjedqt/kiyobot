@@ -1,2 +1,4 @@
 libffi-dev
 python-dev
+ffmpeg
+ffprobe
