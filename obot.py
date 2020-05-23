@@ -282,13 +282,16 @@ async def download(ctx,file):
 	for file2 in file_list:
 		title = file2['title']
 		name, _ = os.path.splitext(title)
+		file_notthere = True
 		if file in name:
 			file1 = drive.CreateFile({'id':file2['id']})
 			file1.GetContentFile(title)
 			await ctx.send(file=discord.File(title))
 			os.remove(title)
-		else:
-			await ctx.send(content="Can't find file :c")
+			file_notthere = False
+			break
+	if file_notthere:
+		await ctx.send("Can't find file :c")
 
 @bot.command(aliases=['ls'], help=hell['list'])
 async def list(ctx):
