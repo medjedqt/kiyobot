@@ -417,17 +417,14 @@ async def word(ctx):
 	r = requests.get('https://www.thisworddoesnotexist.com/')
 	soup = BeautifulSoup(r.text, 'html.parser')
 	defword = soup.find(id='definition-word').string
-	defsyl = soup.find(id='definition-syllables').string
-	if defsyl == '':
-		endtitle = defword
-	else:
-		defsyl = defsyl.replace('"','').strip()
-		endtitle = '{0} ({1})'.format(defword, defsyl)
-	e = discord.Embed(title=endtitle, url=soup.find(id='link-button-a')['href'],color=0x002258)
-	grm = soup.find(id='definition-pos').string
-	grm = grm.replace('"','').strip()
-	desc = grm + ' ' + soup.find(id='definition-definition').string
-	e.add_field(name=desc, value=soup.find(id='definition-example').string)
+	deflink = soup.find(id='link-button-a')['href']
+	defgrammar = soup.find(id='definition-pos').string
+	defgrammar = defgrammar.replace('"','').strip()
+	defex = soup.find(id='definition-example').string
+	defdef = soup.find(id='definition-definition').string
+	defdesc = defgrammar + ' ' + defdef
+	e = discord.Embed(title=defword, url=deflink,color=0x002258)
+	e.add_field(name=defdesc, value=defex)
 	e.set_footer(text='Powered by This Word Does Not Exist',icon_url='https://www.thisworddoesnotexist.com/favicon-32x32.png')
 	await ctx.send(embed=e)
 
