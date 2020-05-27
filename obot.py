@@ -418,10 +418,10 @@ async def word(ctx):
 	soup = BeautifulSoup(r.text, 'html.parser')
 	defword = soup.find(id='definition-word').string
 	defsyl = soup.find(id='definition-syllables').string
-	defsyl = defsyl.replace('"','').strip()
 	if defsyl == '':
 		endtitle = defword
 	else:
+		defsyl = defsyl.replace('"','').strip()
 		endtitle = '{0} ({1})'.format(defword, defsyl)
 	e = discord.Embed(title=endtitle, url=soup.find(id='link-button-a')['href'],color=0x002258)
 	grm = soup.find(id='definition-pos').string
