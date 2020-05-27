@@ -416,7 +416,14 @@ async def word(ctx):
 
 	r = requests.get('https://www.thisworddoesnotexist.com/')
 	soup = BeautifulSoup(r.text, 'html.parser')
-	e = discord.Embed(title=soup.find(id='definition-word').string, url=soup.find(id='link-button-a')['href'],color=0x002258)
+	defword = soup.find(id='definition-word').string
+	defsyl = soup.find(id='definition-syllables').string
+	defsyl = defsyl.replace('"','').strip()
+	if defsyl == '':
+		endtitle = defword
+	else:
+		endtitle = '{0} ({1})'.format(defword, defsyl)
+	e = discord.Embed(title=endtitle, url=soup.find(id='link-button-a')['href'],color=0x002258)
 	grm = soup.find(id='definition-pos').string
 	grm = grm.replace('"','').strip()
 	desc = grm + ' ' + soup.find(id='definition-definition').string
