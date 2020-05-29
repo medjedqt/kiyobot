@@ -20,6 +20,10 @@ from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 from bs4 import BeautifulSoup
 import youtube_dl
+import multidict
+import re
+from wordcloud import WordCloud
+
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
@@ -459,6 +463,34 @@ async def sing(ctx, link):
 	voice.play(discord.FFmpegPCMAudio("song.mp3"))
 	voice.volume = 100
 	voice.is_playing()
+
+@bot.command()
+async def wordcloud(ctx, chanlimit=100, max=100):
+
+	def getFrequencyDictForText(sentence):
+		fullTermsDict = multidict.MultiDict()
+		tmpDict = {}
+
+		for text in sentence.split(" "):
+			if text.startswith(('.','f.','!','<','-','?')):
+				continue
+			if re.match("a|the|an|the|to|in|for|of|or|by|with|is|on|that|be", text):
+				continue
+			val = tmpDict.get(text, 0)
+			tmpDict[text.lower()] = val + 1
+		for key in tmpDict:
+			fullTermsDict.add(key, tmpDict[key])
+		return fullTermsDict
+
+	messages = []
+	for channel in ctx.guild.channels:
+		if isinstance(channel, discord.TextChannel) and channel.permissions_for(ctx.guild.me).read_messages:
+			async for stuff in channel.history(limit=chanlimit):
+				messages.append(stuff.content)
+	text = ' '.join(messages)
+	wordcloud = WordCloud(max_words=max,width=1920, height=1080, min_word_length=2).generate_from_frequencies(getFrequencyDictForText(text))
+	wordcloud.to_file('wc.png')
+	await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
