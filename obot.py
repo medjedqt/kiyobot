@@ -498,7 +498,7 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 async def chat(ctx, *question):
 
 	q = ' '.join(question)
-	browser.get('https://cleverbot.com')
+	browser.get('https://www.cleverbot.com')
 	async with ctx.channel.typing():
 		await asyncio.sleep(5)
 	inputbox = browser.find_element_by_name('stimulus')
