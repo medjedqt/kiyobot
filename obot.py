@@ -23,7 +23,8 @@ import youtube_dl
 import multidict
 import re
 from wordcloud import WordCloud
-
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 
 bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
@@ -44,6 +45,7 @@ if gauth.access_token_expired:
 else:
 	gauth.Authorize()
 drive = GoogleDrive(gauth)
+browser = webdriver.Chrome()
 
 
 @bot.event
@@ -491,6 +493,22 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 	wordcloud = WordCloud(max_words=max,width=1920, height=1080, min_word_length=2).generate_from_frequencies(getFrequencyDictForText(text))
 	wordcloud.to_file('wc.png')
 	await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
+
+@bot.command()
+async def chat(ctx, *question):
+
+	q = ' '.join(question)
+	browser.get('https://cleverbot.com')
+	async with ctx.channel.typing():
+		await asyncio.sleep(5)
+	inputbox = browser.find_element_by_name('stimulus')
+	inputbox.clear()
+	inputbox.send_keys(q)
+	inputbox.send_keys(Keys.RETURN)
+	response = browser.find_element_by_xpath("//p[@id='line1']/span")
+	async with ctx.channel.typing():
+		await asyncio.sleep(5)
+	await ctx.send(content=response)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
