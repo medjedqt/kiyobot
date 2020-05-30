@@ -508,7 +508,7 @@ async def chat(ctx, *question):
 	response = browser.find_element_by_xpath("//p[@id='line1']/span")
 	async with ctx.channel.typing():
 		await asyncio.sleep(5)
-	await ctx.send(content=response)
+	await ctx.send(content=response.text)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
