@@ -46,6 +46,7 @@ else:
 	gauth.Authorize()
 drive = GoogleDrive(gauth)
 browser = webdriver.Chrome()
+clev = browser.get('https://www.cleverbot.com')
 
 
 @bot.event
@@ -498,18 +499,16 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 async def chat(ctx, *question):
 
 	q = ' '.join(question)
-	browser.get('https://www.cleverbot.com')
 	async with ctx.channel.typing():
 		await asyncio.sleep(5)
-	inputbox = browser.find_element_by_name('stimulus')
+	inputbox = clev.find_element_by_name('stimulus')
 	inputbox.clear()
 	inputbox.send_keys(q)
 	inputbox.send_keys(Keys.RETURN)
-	response = browser.find_element_by_xpath("//p[@id='line1']/span")
+	response = clev.find_element_by_xpath("//p[@id='line1']/span")
 	async with ctx.channel.typing():
 		await asyncio.sleep(5)
 	await ctx.send(content=response.text)
-	browser.close()
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
