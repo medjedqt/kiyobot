@@ -509,6 +509,7 @@ async def chat(ctx, *question):
 	async with ctx.channel.typing():
 		await asyncio.sleep(5)
 	await ctx.send(content=response.text)
+	browser.close()
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
