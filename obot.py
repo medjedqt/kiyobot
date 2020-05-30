@@ -474,7 +474,7 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 		tmpDict = {}
 
 		for text in sentence.split(" "):
-			if text.startswith(('.','f.','!','<','-','?','$')):
+			if text.startswith(('.','f.','!','<','-','?','$','_')):
 				continue
 			if re.match("a|the|an|the|to|in|for|of|or|by|with|is|on|that|be", text):
 				continue
