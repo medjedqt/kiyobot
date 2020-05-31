@@ -500,14 +500,12 @@ async def chat(ctx, *question):
 
 	q = ' '.join(question)
 	async with ctx.channel.typing():
+		inputbox = browser.find_element_by_name('stimulus')
+		inputbox.clear()
+		inputbox.send_keys(q)
+		inputbox.send_keys(Keys.RETURN)
 		await asyncio.sleep(5)
-	inputbox = browser.find_element_by_name('stimulus')
-	inputbox.clear()
-	inputbox.send_keys(q)
-	inputbox.send_keys(Keys.RETURN)
-	response = browser.find_element_by_xpath("//p[@id='line1']/span")
-	async with ctx.channel.typing():
-		await asyncio.sleep(5)
+		response = browser.find_element_by_xpath("//p[@id='line1']/span")
 	await ctx.send(content=response.text)
 
 @bot.command(help=hell['ping'])
