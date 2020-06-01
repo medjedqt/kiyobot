@@ -504,7 +504,7 @@ async def chat(ctx, *question):
 		inputbox.clear()
 		inputbox.send_keys(q)
 		inputbox.send_keys(Keys.RETURN)
-		await asyncio.sleep(2)
+		await asyncio.sleep(5)
 		response = browser.find_element_by_xpath("//p[@id='line1']/span")
 		if response.text == '':
 			ctx.send(content='One at a time >:c')
