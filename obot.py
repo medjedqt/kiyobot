@@ -505,11 +505,10 @@ async def chat(ctx, *question):
 		inputbox.send_keys(q)
 		inputbox.send_keys(Keys.RETURN)
 		await asyncio.sleep(2)
-		before = browser.find_element_by_xpath("//p[@id='line1']/span").text
-		while before != browser.find_element_by_xpath("//p[@id='line1']/span").text:
-			await asyncio.sleep(3)
-			before = browser.find_element_by_xpath("//p[@id='line1'/span").text
-		#if response.text == '':
+		response = browser.find_element_by_xpath("//p[@id='line1']/span")
+		if response.text == '':
+			ctx.send(content='One at a time >:c')
+			return
 		await ctx.send(content=before)
 
 @bot.command(help=hell['ping'])
