@@ -509,7 +509,7 @@ async def chat(ctx, *question):
 		if response.text == '':
 			ctx.send(content='One at a time >:c')
 			return
-		await ctx.send(content=before)
+		await ctx.send(content=response.text)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
