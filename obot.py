@@ -504,9 +504,13 @@ async def chat(ctx, *question):
 		inputbox.clear()
 		inputbox.send_keys(q)
 		inputbox.send_keys(Keys.RETURN)
-		await asyncio.sleep(5)
-		response = browser.find_element_by_xpath("//p[@id='line1']/span")
-	await ctx.send(content=response.text)
+		#await asyncio.sleep(5)
+		before = browser.find_element_by_xpath("//p[@id='line1']/span").text
+		while before != browser.find_element_by_xpath("//p[@id='line1']/span").text:
+			await asyncio.sleep(3)
+			before = browser.find_element_by_xpath("//p[@id='line1'/span").text
+		#if response.text == '':
+	await ctx.send(content=before)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
