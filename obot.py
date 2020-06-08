@@ -524,7 +524,7 @@ async def poll(ctx, question, *choices):
 	x = 0
 	for choice in choices:
 		x = x
-		message.add_reaction(str(x))
+		await message.add_reaction(str(x))
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
