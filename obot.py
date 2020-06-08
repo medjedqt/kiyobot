@@ -2,7 +2,7 @@ import discord
 import asyncio
 from kiyo import burnlist, lines, rpsfunc, numbers
 from random import choice, randint, uniform
-from discord.ext.commands import CommandNotFound,MissingRequiredArgument
+from discord.ext.commands import CommandNotFound,MissingRequiredArgument,cooldown
 from pybooru import Danbooru
 import requests
 import shutil
@@ -496,6 +496,7 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 	await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 @bot.command()
+@cooldown(1,1000)
 async def chat(ctx, *question):
 
 	q = ' '.join(question)
@@ -509,6 +510,7 @@ async def chat(ctx, *question):
 		if response.text == '':
 			ctx.send(content='One at a time >:c')
 			return
+		chat.reset_cooldown(ctx)
 		await ctx.send(content=response.text)
 
 @bot.command()
