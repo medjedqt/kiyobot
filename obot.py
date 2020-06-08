@@ -511,6 +511,21 @@ async def chat(ctx, *question):
 			return
 		await ctx.send(content=response.text)
 
+@bot.command()
+async def poll(ctx, question, *choices):
+
+	x = 0
+	e = discord.Embed(title=question, color=0x019901)
+	e.set_footer(text='asked by {ctx.author.nick}', icon_url=ctx.author.avatar_url)
+	for choice in choices:
+		x = x + 1
+		e.add_field(name='Choice {x}', value=choice)
+	message = await ctx.send(embed=e)
+	x = 0
+	for choice in choices:
+		x = x
+		message.add_reaction('{x}')
+
 @bot.command(help=hell['ping'])
 async def ping(ctx):
 
