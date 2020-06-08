@@ -2,7 +2,7 @@ import discord
 import asyncio
 from kiyo import burnlist, lines, rpsfunc, numbers
 from random import choice, randint, uniform
-from discord.ext.commands import CommandNotFound,MissingRequiredArgument,cooldown
+from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown
 from pybooru import Danbooru
 import requests
 import shutil
@@ -75,6 +75,8 @@ async def on_command_error(ctx, error):
 	if isinstance(error, MissingRequiredArgument):
 		await ctx.send(content="Missing arguments!")
 		return
+	if isinstance(error, CommandOnCooldown):
+		await ctx.send(content="Please wait!")
 	channel = bot.get_channel(logchan)
 	await channel.send(content=error)
 	raise error
