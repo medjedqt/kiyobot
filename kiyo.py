@@ -65,3 +65,4 @@ def rpsfunc(p1,p2):
         else:
             return 'p1win'
         
+numbers = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']

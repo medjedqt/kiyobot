@@ -523,8 +523,8 @@ async def poll(ctx, question, *choices):
 	message = await ctx.send(embed=e)
 	x = 0
 	for choice in choices:
-		x = x
-		await message.add_reaction(str(x))
+		x = x + 1
+		await message.add_reaction(kiyo.numbers[x])
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
