@@ -516,15 +516,15 @@ async def poll(ctx, question, *choices):
 
 	x = 0
 	e = discord.Embed(title=question, color=0x019901)
-	e.set_footer(text='asked by {ctx.author.nick}', icon_url=ctx.author.avatar_url)
+	e.set_footer(text='asked by {}'.format(ctx.author.nick), icon_url=ctx.author.avatar_url)
 	for choice in choices:
 		x = x + 1
-		e.add_field(name='Choice {x}', value=choice)
+		e.add_field(name='Choice {}'.format(x), value=choice)
 	message = await ctx.send(embed=e)
 	x = 0
 	for choice in choices:
 		x = x
-		message.add_reaction('{x}')
+		message.add_reaction(str(x))
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
