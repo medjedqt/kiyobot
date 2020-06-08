@@ -514,6 +514,9 @@ async def chat(ctx, *question):
 @bot.command()
 async def poll(ctx, question, *choices):
 
+	if len(choices) > 9:
+		await ctx.send(content="Choices can't be more than 9")
+		return
 	x = 0
 	e = discord.Embed(title=question, color=0x019901)
 	e.set_footer(text='asked by {}'.format(ctx.author.nick), icon_url=ctx.author.avatar_url)
@@ -524,7 +527,8 @@ async def poll(ctx, question, *choices):
 	x = 0
 	for choice in choices:
 		x = x + 1
-		await message.add_reaction(numbers[x])
+		emote = discord.utils.get(bot.emojis, name=numbers[x])
+		await message.add_reaction(emote)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
