@@ -527,8 +527,7 @@ async def poll(ctx, question, *choices):
 	x = 0
 	for choice in choices:
 		x = x + 1
-		emote = discord.utils.get(bot.emojis, name=numbers[x])
-		await message.add_reaction(emote)
+		await message.add_reaction(numbers[x])
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
