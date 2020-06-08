@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from kiyo import burnlist, lines, rpsfunc
+from kiyo import burnlist, lines, rpsfunc, numbers
 from random import choice, randint, uniform
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument
 from pybooru import Danbooru
@@ -524,7 +524,7 @@ async def poll(ctx, question, *choices):
 	x = 0
 	for choice in choices:
 		x = x + 1
-		await message.add_reaction(kiyo.numbers[x])
+		await message.add_reaction(numbers[x])
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
