@@ -503,10 +503,9 @@ async def chat(ctx, *question: str):
 
 	q = []
 	for word in question:
-		if isinstance(word, (discord.User, discord.Member, discord.User.mention, discord.Member.mention)):
-			#discord.utils.get(ctx.guild.members, )
-			#q.append(word.name)
-			pass
+		if word.startswith('<@'):
+			word = word.replace('<', '')
+			word = word.replace('@', '')
 		else:
 			q.append(word)
 	q = ' '.join(q)
