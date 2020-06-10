@@ -505,7 +505,9 @@ async def chat(ctx, *question: str):
 	for word in question:
 		if word.startswith('<@'):
 			word = word.replace('<', '')
+			word = word.replace('>', '')
 			word = word.replace('@', '')
+			word = word.replace('!', '')
 			word = bot.get_user(int(word)).name
 		q.append(word)
 	q = ' '.join(q)
