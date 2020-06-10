@@ -354,6 +354,7 @@ async def say(ctx, msg, time=5, count=1):
 		return
 
 	while True:
+		msg = discord.utils.escape_mentions(msg)
 		await ctx.send(content=msg)
 		await asyncio.sleep(time)
 		count = count - 1
@@ -501,11 +502,15 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 @cooldown(1,1000)
 async def chat(ctx, *question):
 
-	q = ' '.join(question)
+	q = []
+	for word in question:
+		pee = discord.utils.escape_mentions(word)
+		q.append(pee)
+	p = ' '.join(q)
 	async with ctx.channel.typing():
 		inputbox = browser.find_element_by_name('stimulus')
 		inputbox.clear()
-		inputbox.send_keys(q)
+		inputbox.send_keys(p)
 		inputbox.send_keys(Keys.RETURN)
 		await asyncio.sleep(5)
 		response = browser.find_element_by_xpath("//p[@id='line1']/span")
