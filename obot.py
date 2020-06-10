@@ -501,13 +501,13 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 @cooldown(1,1000)
 async def chat(ctx, *question: str):
 
-	#q = []
-	#for word in question:
-		#if isinstance(word, discord.User):
-		#	q.append(word.name)
-		#else:
-		#	q.append(word)
-	q = ' '.join(question)
+	q = []
+	for word in question:
+		if isinstance(word, discord.User):
+			q.append(word.name)
+		else:
+			q.append(word)
+	q = ' '.join(q)
 	async with ctx.channel.typing():
 		inputbox = browser.find_element_by_name('stimulus')
 		inputbox.clear()
