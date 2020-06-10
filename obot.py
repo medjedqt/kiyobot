@@ -506,8 +506,8 @@ async def chat(ctx, *question: str):
 		if word.startswith('<@'):
 			word = word.replace('<', '')
 			word = word.replace('@', '')
-		else:
-			q.append(word)
+			word = bot.get_user(int(word)).name
+		q.append(word)
 	q = ' '.join(q)
 	async with ctx.channel.typing():
 		inputbox = browser.find_element_by_name('stimulus')
