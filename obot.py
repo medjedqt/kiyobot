@@ -365,13 +365,15 @@ async def google(ctx,*query):
 		await ctx.send(result)
 
 @bot.command(help=hell['calc'])
-async def calc(ctx, func, arg=None, arg2=None):
-
-	function = calculate[func]
-	if arg2 is None:
-		result = function(int(arg))
-	else:
-		result = function(int(arg),int(arg2))
+#async def calc(ctx, func, arg=None, arg2=None):
+async def calc(ctx, *inp):
+	#function = calculate[func]
+	#if arg2 is None:
+	#	result = function(int(arg))
+	#else:
+	#	result = function(int(arg),int(arg2))
+	inp = ' '.join(inp)
+	result = eval(inp)
 	await ctx.send(content=result)
 
 @bot.command()
