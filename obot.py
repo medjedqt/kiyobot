@@ -2,11 +2,10 @@ import discord
 import asyncio
 from kiyo import burnlist, lines, rpsfunc, numbers
 from random import choice, randint, uniform
-from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown
+from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown,Bot
 from pybooru import Danbooru
 import requests
 import shutil
-from os import listdir, path
 import os
 from helpy import hell
 import tension
@@ -27,14 +26,11 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-bot = discord.ext.commands.Bot(command_prefix='?',case_insensitive=True)
-bot.remove_command('help')
+bot = Bot(command_prefix='?',case_insensitive=True,help_command=None)
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
 db = Danbooru('danbooru',username=dbname,api_key=dbkey)
-cloudir = "/app/cloud"
-cloudirs = "/app/cloud/"
 logchan = 693130723015524382
 messagechan = [612306757145853953]
 rpslist = ['rock', 'paper', 'scissors']
