@@ -504,6 +504,8 @@ async def chat(ctx, *question: str):
 			word = word[-19:-1]
 			word = bot.get_emoji(int(word)).name
 			word = '*{}*'.format(word)
+		if True:
+			pass
 		q.append(word)
 	q = ' '.join(q)
 	async with ctx.channel.typing():
