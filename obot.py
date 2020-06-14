@@ -492,6 +492,9 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 @cooldown(1,1000)
 async def chat(ctx, *question: str):
 
+	if ctx.author == 293395455830654977:
+		ctx.send(content='eat shit, nitwit')
+		break
 	q = []
 	for word in question:
 		if word.startswith('<@'):
