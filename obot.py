@@ -489,7 +489,6 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 	await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 @bot.command()
-@cooldown(1,1000)
 async def chat(ctx, *question: str):
 
 	if ctx.author.id == 293395455830654977:
@@ -514,10 +513,6 @@ async def chat(ctx, *question: str):
 		inputbox.send_keys(Keys.RETURN)
 		await asyncio.sleep(5)
 		response = browser.find_element_by_xpath("//p[@id='line1']/span")
-		if response.text == '':
-			ctx.send(content='One at a time >:c')
-			return
-		chat.reset_cooldown(ctx)
 		await ctx.send(content=response.text)
 
 @bot.command()
