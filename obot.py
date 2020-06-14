@@ -494,7 +494,7 @@ async def chat(ctx, *question: str):
 
 	if ctx.author == 293395455830654977:
 		ctx.send(content='eat shit, nitwit')
-		break
+		return
 	q = []
 	for word in question:
 		if word.startswith('<@'):
