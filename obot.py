@@ -492,7 +492,7 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 async def chat(ctx, *question: str):
 
 	if ctx.author.id == 293395455830654977:
-		ctx.send(content='eat shit, nitwit')
+		await ctx.send(content='eat shit, nitwit')
 		return
 	q = []
 	for word in question:
