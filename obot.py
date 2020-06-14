@@ -500,6 +500,8 @@ async def chat(ctx, *question: str):
 		if word.startswith('<#'):
 			word = re.sub('[^0-9]', '', word)
 			word = bot.get_channel(int(word)).name
+		if word.startswith('<:'):
+			continue
 		q.append(word)
 	q = ' '.join(q)
 	async with ctx.channel.typing():
