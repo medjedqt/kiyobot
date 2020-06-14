@@ -501,11 +501,7 @@ async def chat(ctx, *question: str):
 			word = re.sub('[^0-9]', '', word)
 			word = bot.get_channel(int(word)).name
 		if word.startswith('<:') or word.startswith('<a:'):
-			word = word[-19:-1]
-			word = bot.get_emoji(int(word)).name
-			word = '*{}*'.format(word)
-		if True:
-			pass
+			continue
 		q.append(word)
 	q = ' '.join(q)
 	async with ctx.channel.typing():
