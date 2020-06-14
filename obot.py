@@ -491,9 +491,6 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 @bot.command()
 async def chat(ctx, *question: str):
 
-	if ctx.author.id == 293395455830654977:
-		await ctx.send(content='Im not talking to you anymore')
-		return
 	q = []
 	for word in question:
 		if word.startswith('<@'):
