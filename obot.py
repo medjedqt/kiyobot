@@ -531,12 +531,12 @@ async def poll(ctx, question, *choices):
 		await message.add_reaction(numbers[x])
 
 @bot.command()
-async def clone(ctx, user: discord.User, *message):
+async def clone(ctx, user: discord.Member, *message):
 
 	message = ' '.join(message)
 	hook = await ctx.guild.webhooks()
 	hook = hook[0]
-	await hook.send(content=message, username=user.display_name, avatar_url=user.avatar_url)
+	await hook.send(content=message, username=user.nick, avatar_url=user.avatar_url)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
