@@ -492,18 +492,18 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 async def chat(ctx, *question: str):
 
 	q = []
-	for word in question:
-		if word.startswith('<@'):
-			word = re.sub('[^0-9]', '', word)
-			word = bot.get_user(int(word)).name
-		if word.startswith('<#'):
-			word = re.sub('[^0-9]', '', word)
-			word = bot.get_channel(int(word)).name
-		if word.startswith('<:') or word.startswith('<a:'):
-			continue
-		q.append(word)
-	q = ' '.join(q)
 	async with ctx.channel.typing():
+		for word in question:
+			if word.startswith('<@'):
+				word = re.sub('[^0-9]', '', word)
+				word = bot.get_user(int(word)).name
+			if word.startswith('<#'):
+				word = re.sub('[^0-9]', '', word)
+				word = bot.get_channel(int(word)).name
+			if word.startswith('<:') or word.startswith('<a:') or word.startswith(':'):
+				continue
+			q.append(word)
+		q = ' '.join(q)
 		inputbox = browser.find_element_by_name('stimulus')
 		inputbox.clear()
 		inputbox.send_keys(q)
@@ -529,6 +529,14 @@ async def poll(ctx, question, *choices):
 	for choice in choices:
 		x = x + 1
 		await message.add_reaction(numbers[x])
+
+@bot.command()
+async def clone(ctx, user: discord.User, *message):
+
+	message = ' '.join(message)
+	hook = await ctx.guild.webhooks()
+	hook = hook[0]
+	await hook.send(content=message, username=user.display_name, avatar_url=user.avatar_url)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
