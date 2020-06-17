@@ -24,6 +24,7 @@ import re
 from wordcloud import WordCloud
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 bot = Bot(command_prefix='?',case_insensitive=True,help_command=None)
@@ -44,7 +45,7 @@ drive = GoogleDrive(gauth)
 browser = webdriver.Chrome()
 browser.get('https://www.cleverbot.com')
 button = browser.find_element_by_xpath("//input[@type='submit']")
-button.click()
+ActionChains(browser).click(button).perform()
 
 
 @bot.event
