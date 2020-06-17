@@ -542,7 +542,7 @@ async def clone(ctx, userid, *message):
 	message = ' '.join(message)
 	hook = await ctx.guild.webhooks()
 	hook = hook[0]
-	await hook.send(content=message, username=user.nick, avatar_url=user.avatar_url)
+	await hook.send(content=message, username=user.display_name, avatar_url=user.avatar_url)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
