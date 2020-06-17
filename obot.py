@@ -535,14 +535,14 @@ async def clone(ctx, userid, *message):
 
 	try:
 		userid = int(userid)
-		user = bot.get_user(userid)
+		user = ctx.guild.get_member(userid)
 	except ValueError:
 		await ctx.send(content='Specify target id')
 		return
 	message = ' '.join(message)
 	hook = await ctx.guild.webhooks()
 	hook = hook[0]
-	await hook.send(content=message, username=user.display_name, avatar_url=user.avatar_url)
+	await hook.send(content=message, username=user.nick, avatar_url=user.avatar_url)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
