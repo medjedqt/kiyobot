@@ -531,8 +531,14 @@ async def poll(ctx, question, *choices):
 		await message.add_reaction(numbers[x])
 
 @bot.command()
-async def clone(ctx, user: discord.Member, *message):
+async def clone(ctx, userid, *message):
 
+	try:
+		userid = int(userid)
+		user = bot.get_user(userid)
+	except ValueError:
+		await ctx.send(content='Specify target id')
+		return
 	message = ' '.join(message)
 	hook = await ctx.guild.webhooks()
 	hook = hook[0]
