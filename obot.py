@@ -45,7 +45,7 @@ drive = GoogleDrive(gauth)
 browser = webdriver.Chrome()
 browser.get('https://www.cleverbot.com')
 button = browser.find_element_by_xpath("//input[@type='submit']")
-ActionChains(browser).click(button).perform()
+ActionChains(browser).move_to_element(button).click(button).perform()
 
 
 @bot.event
