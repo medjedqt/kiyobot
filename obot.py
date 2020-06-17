@@ -43,6 +43,8 @@ else:
 drive = GoogleDrive(gauth)
 browser = webdriver.Chrome()
 browser.get('https://www.cleverbot.com')
+button = browser.find_element_by_xpath("//input[@type='submit']")
+button.click()
 
 
 @bot.event
