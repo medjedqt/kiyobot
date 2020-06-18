@@ -13,7 +13,7 @@ from googlesearch import search
 import aiohttp
 import io
 import math
-from mathe import calculate
+#from mathe import calculate
 import pydrive2
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
@@ -25,6 +25,7 @@ from wordcloud import WordCloud
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+import math
 
 
 bot = Bot(command_prefix='?',case_insensitive=True,help_command=None)
@@ -375,7 +376,7 @@ async def calc(ctx, *inp):
 	#else:
 	#	result = function(int(arg),int(arg2))
 	inp = ' '.join(inp)
-	result = eval(inp)
+	exec('from math import *\nresult = {}')
 	await ctx.send(content=result)
 
 @bot.command()
