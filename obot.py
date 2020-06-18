@@ -547,6 +547,14 @@ async def clone(ctx, userid, *message):
 	hook = hook[0]
 	await hook.send(content=message, username=user.nick, avatar_url=user.avatar_url)
 
+@bot.command()
+async def embed(ctx, *words):
+
+	words = ' '.join(words)
+	e = discord.Embed(title=ctx.author.name, description=words, color=0x523523)
+	e.set_footer(text=ctx.author.nick, icon_url=ctx.author.avatar_url)
+	await ctx.send(embed=e)
+
 @bot.command(help=hell['ping'])
 async def ping(ctx):
 
