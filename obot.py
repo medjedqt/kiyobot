@@ -376,7 +376,8 @@ async def calc(ctx, *inp):
 	#else:
 	#	result = function(int(arg),int(arg2))
 	inp = ' '.join(inp)
-	exec('from math import *\nresult = {}')
+	result = 'error maybe'
+	exec('from math import *\nresult = {}'.format(inp))
 	await ctx.send(content=result)
 
 @bot.command()
