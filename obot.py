@@ -26,6 +26,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import math
+from googletrans import Translator
 
 
 bot = Bot(command_prefix='?',case_insensitive=True,help_command=None)
@@ -46,6 +47,7 @@ drive = GoogleDrive(gauth)
 browser = webdriver.Chrome()
 browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
+trans = Translator()
 
 
 @bot.event
@@ -494,8 +496,8 @@ async def wordcloud(ctx, chanlimit=100, max=100):
 @bot.command()
 async def chat(ctx, *question: str):
 
-	q = []
 	async with ctx.channel.typing():
+		q = []
 		for word in question:
 			if word.startswith('<@'):
 				word = re.sub('[^0-9]', '', word)
@@ -553,6 +555,18 @@ async def embed(ctx, *words):
 	words = ' '.join(words)
 	e = discord.Embed(title=ctx.author.name, description=words, color=0x523523)
 	e.set_footer(text=ctx.author.nick, icon_url=ctx.author.avatar_url)
+	await ctx.send(embed=e)
+
+@bot.command(aliases=['trans'])
+async def translate(ctx, words, target='en', source='auto'):
+
+	try:
+		neword = trans.translate(words, dest=target, src=source)
+	except ValueError:
+		await ctx.send(content="Usage: `.translate 'words' destination(optional) source(optional)`")
+		return
+	e = discord.Embed(color=0x000055, title='Translator')
+	e.add_field(name='Translated from {}'.format(neword.src), value=neword.text)
 	await ctx.send(embed=e)
 
 @bot.command(help=hell['ping'])
