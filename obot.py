@@ -573,5 +573,6 @@ async def translate(ctx, words, target='en', source='auto'):
 async def ping(ctx):
 
 	await ctx.send(content=":ping_pong: Pong!")
+	await ctx.send(content='0\N{variation selector-16}\N{combining enclosing keycap}')
 
 bot.run(token)
