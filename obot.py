@@ -528,12 +528,12 @@ async def poll(ctx, question, *choices):
 	e.set_footer(text='asked by {}'.format(ctx.author.nick), icon_url=ctx.author.avatar_url)
 	for choice in choices:
 		x = x + 1
-		e.add_field(name='Choice {}'.format(x), value=choice)
+		e.add_field(name='Choice {}\N{variation selector-16}\N{combining enclosing keycap}'.format(x), value=choice)
 	message = await ctx.send(embed=e)
 	x = 0
 	for choice in choices:
 		x = x + 1
-		await message.add_reaction(numbers[x])
+		await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
 
 @bot.command()
 async def clone(ctx, userid, *message):
@@ -572,7 +572,6 @@ async def translate(ctx, words, target='en', source='auto'):
 @bot.command(help=hell['ping'])
 async def ping(ctx):
 
-	message = await ctx.send(content=":ping_pong: Pong!")
-	await message.add_reaction('0\N{variation selector-16}\N{combining enclosing keycap}')
+	await ctx.send(content=":ping_pong: Pong!")
 
 bot.run(token)
