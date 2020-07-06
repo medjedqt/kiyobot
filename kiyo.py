@@ -64,5 +64,4 @@ def rpsfunc(p1,p2):
             return 'p1loss'
         else:
             return 'p1win'
-        
-numbers = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
+            

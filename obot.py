@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from kiyo import burnlist, lines, rpsfunc, numbers
+from kiyo import burnlist, lines, rpsfunc
 from random import choice, randint, uniform
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown,Bot
 from pybooru import Danbooru
@@ -525,7 +525,7 @@ async def poll(ctx, question, *choices):
 		return
 	x = 0
 	e = discord.Embed(title=question, color=0x019901)
-	e.set_footer(text='asked by {}'.format(ctx.author.nick), icon_url=ctx.author.avatar_url)
+	e.set_author(name='asked by {}'.format(ctx.author.nick), icon_url=ctx.author.avatar_url)
 	for choice in choices:
 		x = x + 1
 		e.add_field(name='Choice {}\N{variation selector-16}\N{combining enclosing keycap}'.format(x), value=choice)
@@ -554,7 +554,7 @@ async def embed(ctx, *words):
 
 	words = ' '.join(words)
 	e = discord.Embed(title=ctx.author.name, description=words, color=0x523523)
-	e.set_footer(text=ctx.author.nick, icon_url=ctx.author.avatar_url)
+	e.set_author(name=ctx.author.nick, icon_url=ctx.author.avatar_url)
 	await ctx.send(embed=e)
 
 @bot.command(aliases=['trans'])
