@@ -53,7 +53,7 @@ trans = Translator()
 @bot.event
 async def on_ready():
 
-	print('We have logged in as {0.user}'.format(bot))
+	print(f'We have logged in as {bot.user}')
 	bot.loop.create_task(status_task())
 	channel = bot.get_channel(logchan)
 	await channel.send(content='Restarted')
@@ -127,7 +127,7 @@ async def on_message_edit(before, after):
 		return
 	channel = bot.get_channel(logchan)
 	e = discord.Embed(title=before.author.name, color=0xff0000)
-	e.add_field(name="Edited", value='"{0.content}" to "{1.content}"'.format(before,after))
+	e.add_field(name="Edited", value=f'"{before.content}" to "{after.content}"')
 	await channel.send(embed=e)
 
 @bot.command(help=hell['burn'])
@@ -386,8 +386,8 @@ async def rps(ctx, userid, move):
 
 	if isinstance(ctx.channel,discord.DMChannel) and move in rpslist:
 		target = bot.get_user(int(userid))
-		await ctx.send(content="Challenged {}".format(target.name))
-		await target.send(content='{} challenged you to a rock paper scissors! Reply with your move (Rock/Paper/Scissors)'.format(ctx.author.name))
+		await ctx.send(content=f"Challenged {target.name}")
+		await target.send(content=f'{ctx.author.name} challenged you to a rock paper scissors! Reply with your move (Rock/Paper/Scissors)')
 	elif isinstance(ctx.channel,discord.DMChannel) and move not in rpslist:
 		await ctx.send(content='Not a valid move')
 	else:
@@ -525,7 +525,7 @@ async def poll(ctx, question, *choices):
 		return
 	x = 0
 	e = discord.Embed(title=question, color=0x019901)
-	e.set_author(name='asked by {}'.format(ctx.author.nick), icon_url=ctx.author.avatar_url)
+	e.set_author(name=f'asked by {ctx.author.nick}', icon_url=ctx.author.avatar_url)
 	for choice in choices:
 		x = x + 1
 		e.add_field(name='Choice {}\N{variation selector-16}\N{combining enclosing keycap}'.format(x), value=choice)
