@@ -579,6 +579,7 @@ async def ytdl(ctx, link):
 			if file.endswith(".mp4"):
 				os.rename(file, 'vid.mp4')
 		await ctx.send(file=discord.File('vid.mp4'))
+		os.remove('vid.mp4')
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
