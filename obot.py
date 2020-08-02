@@ -572,14 +572,16 @@ async def translate(ctx, words, target='en', source='auto'):
 @bot.command()
 async def ytdl(ctx, link):
 
+	format = ''
 	async with ctx.channel.typing():
 		with youtube_dl.YoutubeDL({}) as ydl:
 			ydl.download([link])
 		for file in os.listdir("./"):
-			if file.endswith(".mp4"):
-				os.rename(file, 'vid.mp4')
-		await ctx.send(file=discord.File('vid.mp4'))
-		os.remove('vid.mp4')
+			if file.endswith((".mp4", ".3gp", ".avi", ".flv", ".m4v", ".mkv", ".mov", ".wmv")):
+				_, format = os.path.splitext(file)
+				os.rename(file, f'vid{format}')
+		await ctx.send(file=discord.File(f'vid{format}'))
+		os.remove(f'vid{format}')
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
