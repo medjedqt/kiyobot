@@ -597,7 +597,7 @@ async def dic(ctx, *words):
 					ctx.send("Cant find word")
 					return
 				meaning = soup.find_all('span', class_='one-click-content css-1p89gle e1q3nk1v4')[0].get_text()	
-				e = discord.Embed(title=subject, description=meaning, url=resp.url, color=0x441400)
+				e = discord.Embed(title=subject, description=meaning, url=resp.url(), color=0x441400)
 				await ctx.send(embed=e)
 
 @bot.command(help=hell['ping'])
