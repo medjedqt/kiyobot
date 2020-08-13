@@ -590,7 +590,7 @@ async def dic(ctx, *words):
 	async with ctx.channel.typing():
 		async with aiohttp.ClientSession() as session:
 			async with session.get(f'https://www.dictionary.com/browse/{words}') as resp:
-				soup = BeautifulSoup(resp.text, 'html.parser')
+				soup = BeautifulSoup(resp.text(), 'html.parser')
 				try:
 					subject = soup.h1.string
 				except AttributeError:
