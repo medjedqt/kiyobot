@@ -594,7 +594,7 @@ async def dic(ctx, *words):
 				try:
 					subject = soup.h1.string
 				except AttributeError:
-					ctx.send("Cant find word")
+					await ctx.send("Cant find word")
 					return
 				meaning = soup.find_all('span', class_='one-click-content css-1p89gle e1q3nk1v4')[0].get_text()	
 				e = discord.Embed(title=subject, description=meaning, color=0x441400)
