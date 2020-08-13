@@ -586,7 +586,7 @@ async def ytdl(ctx, link):
 @bot.command(aliases=['dictionary'])
 async def dic(ctx, *words):
 
-	words = words.replace(' ', '%20')
+	words = '%20'.join(words)
 	async with ctx.channel.typing():
 		async with aiohttp.ClientSession() as session:
 			async with session.get(f'https://www.dictionary.com/browse/{words}') as resp:
