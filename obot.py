@@ -583,6 +583,23 @@ async def ytdl(ctx, link):
 		await ctx.send(file=discord.File(f'vid{format}'))
 		os.remove(f'vid{format}')
 
+@bot.command(aliases=['dictionary'])
+async def dic(ctx, *words):
+
+	words = words.replace(' ', '%20')
+	async with ctx.channel.typing():
+		async with aiohttp.ClientSession() as session:
+			async with session.get(f'https://www.dictionary.com/browse/{words}') as resp:
+				soup = BeautifulSoup(resp.text, 'html.parser')
+				try:
+					subject = soup.h1.string
+				except AttributeError:
+					ctx.send("Cant find word")
+					return
+				meaning = soup.find_all('span', class_='one-click-content css-1p89gle e1q3nk1v4')[0].get_text()	
+				e = discord.Embed(title=subject, description=meaning, url=resp.url, color=0x441400)
+				await ctx.send(embed=e)
+
 @bot.command(help=hell['ping'])
 async def ping(ctx):
 
