@@ -115,9 +115,8 @@ async def on_message(message):
 						return await channel.send('Could not download file...')
 					data = io.BytesIO(await response.read())
 					await channel.send(file=discord.File(data, f'file{ext}'))
-		else:
-			e.add_field(name=sender, value=message.content)
-			await channel.send(embed=e)
+		e.add_field(name=sender, value=message.content)
+		await channel.send(embed=e)
 	await bot.process_commands(message)
 
 @bot.event
