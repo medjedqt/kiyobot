@@ -108,12 +108,13 @@ async def on_message(message):
 		if message.attachments != []:
 			attachment = message.attachments[0]
 			fileurl = attachment.url
+			ext = fileurl[-4:]
 			async with aiohttp.ClientSession() as session:
 				async with session.get(fileurl) as response:
 					if response.status != 200:
 						return await channel.send('Could not download file...')
 					data = io.BytesIO(await response.read())
-					await channel.send(file=discord.File(data, 'image.png'))
+					await channel.send(file=discord.File(data, f'file{ext}'))
 		else:
 			e.add_field(name=sender, value=message.content)
 			await channel.send(embed=e)
