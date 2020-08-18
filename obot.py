@@ -113,8 +113,7 @@ async def on_message(message):
 					if response.status != 200:
 						return await channel.send('Could not download file...')
 					data = io.BytesIO(await response.read())
-					e.add_field(name=sender, value=message.content)
-					await channel.send(embed=e,file=discord.File(data, 'image.png'))
+					await channel.send(file=discord.File(data, 'image.png'))
 		else:
 			e.add_field(name=sender, value=message.content)
 			await channel.send(embed=e)
