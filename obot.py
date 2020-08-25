@@ -36,6 +36,7 @@ dbname = os.environ['DAN_NAME']
 db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 logchan = 693130723015524382
 messagechan = [612306757145853953]
+releasechan = 747734789385355304
 rpslist = ['rock', 'paper', 'scissors']
 gauth = GoogleAuth()
 gauth.LoadCredentialsFile("auth.json")
@@ -49,6 +50,20 @@ browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 trans = Translator()
 
+def nh_check():
+	channel = bot.get_channel(releasechan)
+	html = requests.get('https://nhentai.net')
+	soup = bs(html.text, 'html.parser')
+	kw = 'melty scans'
+	for title in soup.find_all('div', class_="caption")[5:]:
+		if kw in title.string.lower():
+			halfurl = title.parent.get('href')
+			async for message in channel.history:
+				if halfurl in message_text:
+					pass
+				else:
+					channel.send(content='Melty Scans has a new release uploaded on NHentai!')
+					channel.send(content=f'https://nhentai.net{halfurl}')
 
 @bot.event
 async def on_ready():
@@ -62,11 +77,14 @@ async def status_task():
 
 	while True:
 		await bot.change_presence(activity=discord.Game(name="with Fira's pussy"))
+		nh_check()
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Activity(name="Fira nutting to me", type=discord.ActivityType.watching))
+		nh_check()
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Game(name="?help"))
-		await asyncio.sleep(8)
+		nh_check()
+		await asyncio.sleep(8)		
 
 @bot.event
 async def on_command_error(ctx, error):
