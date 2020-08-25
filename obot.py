@@ -55,6 +55,7 @@ async def on_ready():
 
 	print(f'We have logged in as {bot.user}')
 	bot.loop.create_task(status_task())
+	bot.loop.create_task(nh_task())
 	channel = bot.get_channel(logchan)
 	await channel.send(content='Restarted')
 
@@ -70,6 +71,22 @@ async def status_task():
 		await bot.change_presence(activity=discord.Game(name="?help"))
 		#await nh_check(bot, releasechan)
 		await asyncio.sleep(8)		
+
+async def nh_task():
+
+	while True:
+		channel = bot.get_channel(releasechan)
+		html = requests.get('https://nhentai.net')
+		soup = BeautifulSoup(html.text, 'html.parser')
+		kw = 'english'
+		for title in soup.find_all('div', class_="caption")[5:]:
+			if kw in title.string.lower():
+				halfurl = title.parent.get('href')
+				async for message in channel.history():
+					if halfurl in message.content:
+						return
+					await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
+					await channel.send(content=f'https://nhentai.net{halfurl}')
 
 @bot.event
 async def on_command_error(ctx, error):
