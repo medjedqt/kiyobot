@@ -49,6 +49,7 @@ browser = webdriver.Chrome()
 browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 trans = Translator()
+releasehistory = {}
 
 @bot.event
 async def on_ready():
@@ -58,18 +59,17 @@ async def on_ready():
 	bot.loop.create_task(nh_task())
 	channel = bot.get_channel(logchan)
 	await channel.send(content='Restarted')
+	global releasehistory
+	releasehistory = await bot.get_channel(releasechan).history().flatten()
 
 async def status_task():
 
 	while True:
 		await bot.change_presence(activity=discord.Game(name="with Fira's pussy"))
-		#await nh_check(bot, releasechan)
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Activity(name="Fira nutting to me", type=discord.ActivityType.watching))
-		#await nh_check(bot, releasechan)
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Game(name="?help"))
-		#await nh_check(bot, releasechan)
 		await asyncio.sleep(8)		
 
 async def nh_task():
@@ -81,12 +81,12 @@ async def nh_task():
 		kw = 'english'
 		for title in soup.find_all('div', class_="caption")[5:16]:
 			if kw in title.string.lower():
-				halfurl = title.parent.get('href')
-				async for message in channel.history():
-					if halfurl in message.clean_content:
+				url = f"https://nhentai.net{title.parent.get('href')}"
+				async for message in bot.get(releasechan):
+					if url in message.clean_content:
 						continue
-				#await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
-				await channel.send(content=f'https://nhentai.net{halfurl}')
+				await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
+				await channel.send(content=url)
 		await asyncio.sleep(100)
 
 @bot.event
