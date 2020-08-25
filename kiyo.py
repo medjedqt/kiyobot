@@ -74,7 +74,7 @@ async def nh_check(bot, releasechan):
 	for title in soup.find_all('div', class_="caption")[5:]:
 		if kw in title.string.lower():
 			halfurl = title.parent.get('href')
-			async for message in bot.user.history():
+			async for message in channel.guild.me.history():
 				if halfurl in message.content:
 					pass
 				else:
