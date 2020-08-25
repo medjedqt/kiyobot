@@ -76,8 +76,6 @@ async def nh_check(bot, releasechan):
 			halfurl = title.parent.get('href')
 			async for message in channel.history():
 				if halfurl in message.content:
-					pass
-				else:
-					await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
-					await channel.send(content=f'https://nhentai.net{halfurl}')
-					continue
+					return
+				await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
+				await channel.send(content=f'https://nhentai.net{halfurl}')

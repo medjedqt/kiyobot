@@ -602,16 +602,16 @@ async def dic(ctx, *words):
 				e = discord.Embed(title=subject, description=meaning, color=0x441400)
 				await ctx.send(embed=e)
 
-#@bot.command()
-#async def nhc(ctx):
+@bot.command()
+async def nhc(ctx):
 
-#	html = requests.get('https://nhentai.net')
-#	soup = BeautifulSoup(html.text, 'html.parser')
-#	kw = 'english'
-#	for title in soup.find_all('div', class_="caption")[5:]:
-#		if kw in title.string.lower():
-#			halfurl = title.parent.get('href')
-#			await ctx.send(content=f'https://nhentai.net{halfurl}')
+	html = requests.get('https://nhentai.net')
+	soup = BeautifulSoup(html.text, 'html.parser')
+	kw = 'english'
+	for title in soup.find_all('div', class_="caption")[5:]:
+		if kw in title.string.lower():
+			halfurl = title.parent.get('href')
+			await ctx.send(content=f'https://nhentai.net{halfurl}')
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
