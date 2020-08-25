@@ -80,3 +80,4 @@ async def nh_check(bot, releasechan):
 				else:
 					channel.send(content='Melty Scans has a new release uploaded on NHentai!')
 					channel.send(content=f'https://nhentai.net{halfurl}')
+					continue
