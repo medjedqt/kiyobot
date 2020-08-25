@@ -78,13 +78,13 @@ async def nh_task():
 		channel = bot.get_channel(releasechan)
 		html = requests.get('https://nhentai.net')
 		soup = BeautifulSoup(html.text, 'html.parser')
-		kw = 'english'
+		kw = 'melty scans'
 		for title in soup.find_all('div', class_="caption")[5:]:
 			if kw in title.string.lower():
 				halfurl = title.parent.get('href')
 				async for message in channel.history():
 					if halfurl in message.content:
-						return
+						continue
 					await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
 					await channel.send(content=f'https://nhentai.net{halfurl}')
 
