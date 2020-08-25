@@ -62,13 +62,13 @@ async def status_task():
 
 	while True:
 		await bot.change_presence(activity=discord.Game(name="with Fira's pussy"))
-		nh_check(bot, releasechan)
+		await nh_check(bot, releasechan)
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Activity(name="Fira nutting to me", type=discord.ActivityType.watching))
-		nh_check(bot, releasechan)
+		await nh_check(bot, releasechan)
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Game(name="?help"))
-		nh_check(bot, releasechan)
+		await nh_check(bot, releasechan)
 		await asyncio.sleep(8)		
 
 @bot.event
