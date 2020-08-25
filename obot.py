@@ -86,12 +86,13 @@ async def nh_task():
 		for title in soup.find_all('div', class_="caption")[5:16]:
 			if kw in title.string.lower():
 				url = f"https://nhentai.net{title.parent.get('href')}"
-				for link in releaselinks:
-					if url in link:
-						break
+				
+				if url in releaselinks:
+					continue
+				else:
 					#await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
-				await channel.send(content=url)
-				releaselinks.append(url)
+					await channel.send(content=url)
+					releaselinks.append(url)
 		await asyncio.sleep(20)
 
 @bot.event
