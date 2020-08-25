@@ -70,7 +70,7 @@ async def nh_check(bot, releasechan):
 	channel = bot.get_channel(releasechan)
 	html = requests.get('https://nhentai.net')
 	soup = BeautifulSoup(html.text, 'html.parser')
-	kw = 'melty scans'
+	kw = 'chinese'
 	for title in soup.find_all('div', class_="caption")[5:]:
 		if kw in title.string.lower():
 			halfurl = title.parent.get('href')
