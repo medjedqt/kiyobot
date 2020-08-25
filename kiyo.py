@@ -49,19 +49,16 @@ def rpsfunc(p1,p2):
     p2 = p2.lower()
     if p1 == p2:
         return 'tie'
-    elif p1 == 'rock':
+    if p1 == 'rock':
         if p2 == 'paper':
             return 'p1loss'
-        else:
-            return 'p1win'
-    elif p1 == 'paper':
+        return 'p1win'
+    if p1 == 'paper':
         if p2 == 'scissors':
             return 'p1loss'
-        else:
-            return 'p1win'
-    elif p1 == 'scissors':
+        return 'p1win'
+    if p1 == 'scissors':
         if p2 == 'rock':
             return 'p1loss'
-        else:
-            return 'p1win'
+        return 'p1win'
             
