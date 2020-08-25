@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from kiyo import burnlist, lines, rpsfunc
+from kiyo import burnlist, lines, rpsfunc, nh_check
 from random import choice, randint, uniform
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown,Bot
 from pybooru import Danbooru
@@ -50,21 +50,6 @@ browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 trans = Translator()
 
-def nh_check():
-	channel = bot.get_channel(releasechan)
-	html = requests.get('https://nhentai.net')
-	soup = bs(html.text, 'html.parser')
-	kw = 'melty scans'
-	for title in soup.find_all('div', class_="caption")[5:]:
-		if kw in title.string.lower():
-			halfurl = title.parent.get('href')
-			async for message in channel.history:
-				if halfurl in message_text:
-					pass
-				else:
-					channel.send(content='Melty Scans has a new release uploaded on NHentai!')
-					channel.send(content=f'https://nhentai.net{halfurl}')
-
 @bot.event
 async def on_ready():
 
@@ -77,13 +62,13 @@ async def status_task():
 
 	while True:
 		await bot.change_presence(activity=discord.Game(name="with Fira's pussy"))
-		nh_check()
+		nh_check(bot, releasechan)
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Activity(name="Fira nutting to me", type=discord.ActivityType.watching))
-		nh_check()
+		nh_check(bot, releasechan)
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Game(name="?help"))
-		nh_check()
+		nh_check(bot, releasechan)
 		await asyncio.sleep(8)		
 
 @bot.event
