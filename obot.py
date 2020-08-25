@@ -60,15 +60,18 @@ async def on_ready():
 
 async def status_task():
 
+	chanchun = bot.get_channel(665930845114204215)
+
 	while True:
 		await bot.change_presence(activity=discord.Game(name="with Fira's pussy"))
-		await nh_check(bot, releasechan)
+		#await nh_check(bot, releasechan)
+		await chanchun.send(content='fuck me')
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Activity(name="Fira nutting to me", type=discord.ActivityType.watching))
-		await nh_check(bot, releasechan)
+		#await nh_check(bot, releasechan)
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Game(name="?help"))
-		await nh_check(bot, releasechan)
+		#await nh_check(bot, releasechan)
 		await asyncio.sleep(8)		
 
 @bot.event
@@ -603,11 +606,10 @@ async def dic(ctx, *words):
 				await ctx.send(embed=e)
 
 @bot.command()
-async def nhc(ctx):
+async def nh(ctx, kw):
 
 	html = requests.get('https://nhentai.net')
 	soup = BeautifulSoup(html.text, 'html.parser')
-	kw = 'english'
 	for title in soup.find_all('div', class_="caption")[5:]:
 		if kw in title.string.lower():
 			halfurl = title.parent.get('href')
