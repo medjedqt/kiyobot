@@ -83,7 +83,7 @@ async def nh_task():
 			if kw in title.string.lower():
 				halfurl = title.parent.get('href')
 				async for message in channel.history():
-					if halfurl in message.content:
+					if halfurl in message.clean_content:
 						continue
 				#await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
 				await channel.send(content=f'https://nhentai.net{halfurl}')
