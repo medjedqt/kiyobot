@@ -49,7 +49,7 @@ browser = webdriver.Chrome()
 browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 trans = Translator()
-releasehistory = {}
+releasehistory = []
 
 @bot.event
 async def on_ready():
@@ -74,8 +74,11 @@ async def status_task():
 
 async def nh_task():
 
+	releaselinks = []
+	for things in releasehistory:
+		releaselinks.append(things.content)
+
 	while True:
-		global releasehistory
 		channel = bot.get_channel(releasechan)
 		html = requests.get('https://nhentai.net')
 		soup = BeautifulSoup(html.text, 'html.parser')
@@ -83,11 +86,11 @@ async def nh_task():
 		for title in soup.find_all('div', class_="caption")[5:16]:
 			if kw in title.string.lower():
 				url = f"https://nhentai.net{title.parent.get('href')}"
-				for message in releasehistory:
-					if url in message.clean_content:
-						continue
-				await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
-				await channel.send(content=url)
+				for link in releaselinks:
+					if url in link:
+						break
+					#await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
+					await channel.send(content=url)
 				releasehistory.append(url)
 		await asyncio.sleep(100)
 
