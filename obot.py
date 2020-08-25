@@ -75,6 +75,7 @@ async def status_task():
 async def nh_task():
 
 	while True:
+		global releasehistory
 		channel = bot.get_channel(releasechan)
 		html = requests.get('https://nhentai.net')
 		soup = BeautifulSoup(html.text, 'html.parser')
@@ -82,11 +83,12 @@ async def nh_task():
 		for title in soup.find_all('div', class_="caption")[5:16]:
 			if kw in title.string.lower():
 				url = f"https://nhentai.net{title.parent.get('href')}"
-				async for message in bot.get_channel(releasechan):
+				for message in releasehistory:
 					if url in message.clean_content:
 						continue
 				await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
 				await channel.send(content=url)
+				releasehistory.append(url)
 		await asyncio.sleep(100)
 
 @bot.event
