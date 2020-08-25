@@ -90,9 +90,9 @@ async def nh_task():
 					if url in link:
 						break
 					#await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
-					await channel.send(content=url)
+				await channel.send(content=url)
 				releasehistory.append(url)
-		await asyncio.sleep(100)
+		await asyncio.sleep(20)
 
 @bot.event
 async def on_command_error(ctx, error):
