@@ -60,12 +60,9 @@ async def on_ready():
 
 async def status_task():
 
-	chanchun = bot.get_channel(665930845114204215)
-
 	while True:
 		await bot.change_presence(activity=discord.Game(name="with Fira's pussy"))
 		#await nh_check(bot, releasechan)
-		await chanchun.send(content='fuck me')
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Activity(name="Fira nutting to me", type=discord.ActivityType.watching))
 		#await nh_check(bot, releasechan)
