@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import asyncio
-from asyncio.tasks import async
 
 burnlist = [
 "https://cdn.discordapp.com/attachments/612306757145853953/635142189814513665/Berserker.Kiyohime.full.2461721.jpg",
@@ -67,7 +66,7 @@ def rpsfunc(p1,p2):
             return 'p1loss'
         return 'p1win'
             
-def nh_check(bot, releasechan):
+async def nh_check(bot, releasechan):
 	channel = bot.get_channel(releasechan)
 	html = requests.get('https://nhentai.net')
 	soup = BeautifulSoup(html.text, 'html.parser')
@@ -75,7 +74,7 @@ def nh_check(bot, releasechan):
 	for title in soup.find_all('div', class_="caption")[5:]:
 		if kw in title.string.lower():
 			halfurl = title.parent.get('href')
-			for message in bot.user.history():
+			async for message in bot.user.history():
 				if halfurl in message.content:
 					pass
 				else:
