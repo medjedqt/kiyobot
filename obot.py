@@ -91,7 +91,7 @@ async def nh_task():
 						break
 					#await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
 				await channel.send(content=url)
-				releasehistory.append(url)
+				releaselinks.append(url)
 		await asyncio.sleep(20)
 
 @bot.event
