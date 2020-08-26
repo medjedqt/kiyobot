@@ -25,6 +25,7 @@ from wordcloud import WordCloud
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from webdriver_manager.chrome import ChromeDriverManager
 import math
 from googletrans import Translator
 
@@ -45,7 +46,7 @@ if gauth.access_token_expired:
 else:
 	gauth.Authorize()
 drive = GoogleDrive(gauth)
-browser = webdriver.Chrome()
+browser = webdriver.Chrome(ChromeDriverManager().install())
 browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 trans = Translator()
