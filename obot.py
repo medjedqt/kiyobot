@@ -36,7 +36,7 @@ dbname = os.environ['DAN_NAME']
 db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 logchan = 693130723015524382
 messagechan = [612306757145853953]
-releasechan = 665930845114204215
+releasechan = 747734789385355304
 rpslist = ['rock', 'paper', 'scissors']
 gauth = GoogleAuth()
 gauth.LoadCredentialsFile("auth.json")
@@ -82,7 +82,7 @@ async def nh_task():
 		channel = bot.get_channel(releasechan)
 		html = requests.get('https://nhentai.net')
 		soup = BeautifulSoup(html.text, 'html.parser')
-		kw = 'english'
+		kw = 'melty scans'
 		for title in soup.find_all('div', class_="caption")[5:16]:
 			if kw in title.string.lower():
 				url = f"https://nhentai.net{title.parent.get('href')}"
