@@ -37,7 +37,7 @@ dbname = os.environ['DAN_NAME']
 db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 logchan = 693130723015524382
 messagechan = [612306757145853953]
-releasechan = 747734789385355304
+releasechan = 748084599447355523
 rpslist = ['rock', 'paper', 'scissors']
 gauth = GoogleAuth()
 gauth.LoadCredentialsFile("auth.json")
