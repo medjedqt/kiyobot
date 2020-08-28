@@ -641,7 +641,7 @@ async def nh(ctx, kw):
 async def funa(ctx):
 	
 	funachar = str(randint(1, 400)).zfill(4)
-	c_link = "http://funamusea.com/character/img/{funachar}.html"
+	c_link = f"http://funamusea.com/character/img/{funachar}.png"
 	funa = requests.get('http://funamusea.com/character/{0}.html'.format(funachar))
 	soup = BeautifulSoup(funa.text, 'html.parser')
 	try:
@@ -649,6 +649,7 @@ async def funa(ctx):
 		cname_jp = soup.find('div', class_='c_name').string
 	except AttributeError:
 		await ctx.send("Your roll failed, roll again")
+		return
 	e = discord.Embed(color=0xfcba03, title=cname_en, description=cname_jp)
 	e.set_image(url=c_link) 
 	await ctx.send(embed=e)
