@@ -47,7 +47,7 @@ else:
 	gauth.Authorize()
 drive = GoogleDrive(gauth)
 browser = webdriver.Chrome(ChromeDriverManager().install())
-funabrowse = webdriver.Chrome()
+funabrowse = webdriver.Chrome(ChromeDriverManager())
 browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 trans = Translator()
