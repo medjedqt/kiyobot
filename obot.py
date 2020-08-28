@@ -636,6 +636,21 @@ async def nh(ctx, kw):
 		if kw in title.string.lower():
 			halfurl = title.parent.get('href')
 			await ctx.send(content=f'https://nhentai.net{halfurl}')
+			
+@bot.command()
+async def funa(ctx)
+	
+	funachar = str(random.randint(1, 400)).zfill(4)
+	c_link = 'http://funamusea.com/character/img/{0}.html'.format(funachar)
+	funa = requests.get('http://funamusea.com/character/{0}.html'.format(funachar))
+	soup = BeautifulSoup(funa.text, 'html.parser')
+	try:
+		cname_en = soup.find('div', class_='c_name2').string
+		cname_jp = soup.find('div', class_='c_name').string
+	except AttributeError:
+		await ctx.send("Your roll failed, roll again")
+	e = discord.Embed(color=fc8c03, title=cname_en, description=cname_jp)
+	e.set_image(url=c_link) 
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
