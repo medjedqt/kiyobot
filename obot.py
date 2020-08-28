@@ -643,7 +643,6 @@ async def funa(ctx):
 	
 	funachar = str(randint(1, 400)).zfill(4)
 	funabrowse.get(f'http://funamusea.com/character/{funachar}.html')
-	c_link = f"http://funamusea.com/character/img/{funachar}.png"
 	soup = BeautifulSoup(funabrowse.page_source, 'html.parser')
 	try:
 		cname_en = soup.find('div', class_='c_name2').string
@@ -651,9 +650,13 @@ async def funa(ctx):
 	except AttributeError:
 		await ctx.send("Your roll failed, roll again")
 		return
+	c_image = requests.get(f"http://funamusea.com/character/img/{funachar}.png", stream = True)
+	c_image.decode_content = True
+	with open('image.png', 'wb') as f:
+		shutil.copyfileobj(c_image.raw, f)
 	e = discord.Embed(color=0xfcba03, title=cname_en, description=cname_jp)
-	e.set_image(url=c_link) 
-	await ctx.send(embed=e)
+	#e.set_image(url=c_link)
+	await ctx.send(embed=e, file=discord.File('image.png'))
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
