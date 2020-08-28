@@ -6,7 +6,6 @@ from discord.ext.commands import CommandNotFound,MissingRequiredArgument,Command
 from pybooru import Danbooru
 import requests
 import shutil
-import urllib3
 import os
 from helpy import hell
 import tension
@@ -651,15 +650,9 @@ async def funa(ctx):
 	except AttributeError:
 		await ctx.send("Your roll failed, roll again")
 		return
-	pool = urllib3.PoolManager()
-	resp = pool.request('GET', f"http://funamusea.com/character/img/{funachar}.png")
-	f = open('image.png', 'wb')
-	f.write(resp.data)
-	f.close()
-	resp.release_conn()
 	e = discord.Embed(color=0xfcba03, title=cname_en, description=cname_jp)
 	#e.set_image(url=c_link)
-	await ctx.send(embed=e, file=discord.File('image.png'))
+	await ctx.send(embed=e)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
