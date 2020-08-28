@@ -640,7 +640,7 @@ async def nh(ctx, kw):
 @bot.command()
 async def funa(ctx):
 	
-	funachar = str(random.randint(1, 400)).zfill(4)
+	funachar = str(randint(1, 400)).zfill(4)
 	c_link = 'http://funamusea.com/character/img/{0}.html'.format(funachar)
 	funa = requests.get('http://funamusea.com/character/{0}.html'.format(funachar))
 	soup = BeautifulSoup(funa.text, 'html.parser')
