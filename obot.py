@@ -638,7 +638,7 @@ async def nh(ctx, kw):
 			await ctx.send(content=f'https://nhentai.net{halfurl}')
 			
 @bot.command()
-async def funa(ctx)
+async def funa(ctx):
 	
 	funachar = str(random.randint(1, 400)).zfill(4)
 	c_link = 'http://funamusea.com/character/img/{0}.html'.format(funachar)
