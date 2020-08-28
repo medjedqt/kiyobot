@@ -47,6 +47,7 @@ else:
 	gauth.Authorize()
 drive = GoogleDrive(gauth)
 browser = webdriver.Chrome(ChromeDriverManager().install())
+funabrowse = webdriver.Chrome()
 browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 trans = Translator()
@@ -641,9 +642,9 @@ async def nh(ctx, kw):
 async def funa(ctx):
 	
 	funachar = str(randint(1, 400)).zfill(4)
+	funabrowse.get(f'http://funamusea.com/character/{funachar}.html')
 	c_link = f"http://funamusea.com/character/img/{funachar}.png"
-	funa = requests.get('http://funamusea.com/character/{0}.html'.format(funachar))
-	soup = BeautifulSoup(funa.text, 'html.parser')
+	soup = BeautifulSoup(funabrowse.page_source, 'html.parser')
 	try:
 		cname_en = soup.find('div', class_='c_name2').string
 		cname_jp = soup.find('div', class_='c_name').string
