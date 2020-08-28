@@ -649,8 +649,9 @@ async def funa(ctx):
 		cname_jp = soup.find('div', class_='c_name').string
 	except AttributeError:
 		await ctx.send("Your roll failed, roll again")
-	e = discord.Embed(color=0x441400)
+	e = discord.Embed(color=0xfcba03, title=cname_en, description=cname_jp)
 	e.set_image(url=c_link) 
+	await ctx.send(embed=e)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
