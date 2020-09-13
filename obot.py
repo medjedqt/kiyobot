@@ -655,7 +655,7 @@ async def funa(ctx):
 	await ctx.send(embed=e)
 
 @bot.command()
-async def queue(ctx, entitle, nhlink, raws, doclink):
+async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 
 	if ctx.author.id != 346316432763650060:
 		await ctx.send(content='Bot owner only command')
