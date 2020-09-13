@@ -689,7 +689,7 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 	NH link: {nhlink}
 	raw source: {raws}
 	TL link: {doclink}'''
-	await queuechannel.send(content=text, file='nhimage.jpg')
+	await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
