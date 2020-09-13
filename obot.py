@@ -684,7 +684,7 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 	f = open("nhimage.jpg", "wb")
 	f.write(imgresp.content)
 	f.close()
-	orititle = soup.find('h1', class_='title')
+	orititle = soup.find('h1', class_='title').get_text()
 	text = f'''MS#{queuetag} **{orititle}** --> {entitle}
 	NH link: {nhlink}
 	raw source: {raws}
