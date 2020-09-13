@@ -38,6 +38,7 @@ db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 logchan = 693130723015524382
 messagechan = [612306757145853953]
 releasechan = 748084599447355523
+queuechan = 665930845114204215
 rpslist = ['rock', 'paper', 'scissors']
 gauth = GoogleAuth()
 gauth.LoadCredentialsFile("auth.json")
@@ -669,7 +670,7 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 			await ctx.send(content='Error: Check your input')
 			return
 		nhlink = f'https://nhentai.net/g/{nhcode}'
-	queuechannel = bot.get_channel(665930845114204215)
+	queuechannel = bot.get_channel(queuechan)
 	pastqueue = await queuechannel.history(limit=1).flatten()
 	prevmessage = pastqueue[0]
 	if 'MS#' not in prevmessage.content:
@@ -692,6 +693,15 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 	raw source: {raws}
 	TL link: {doclink}'''
 	await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
+
+@bot.command()
+async def raw(ctx, id_, url):
+
+	messages = await bot.get_channel(queuechan).history().flatten()
+	for message in messages:
+		if f'MS#{id_}' in message.content:
+			newcontent = message.content.replace('source: None', f'source: {url}')
+			await message.edit(content=newcontent)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
