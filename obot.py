@@ -679,7 +679,9 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 		queuetag = f'{1:04d}'
 	firstpage = requests.get(nhlink)
 	soup = BeautifulSoup(firstpage.text, 'html.parser')
-	nhimglink = soup.find('div', id='cover').a.img.get('src')
+	nhimg = requests.get(f'{nhlink}/1')
+	imgsoup = BeautifulSoup(nhimg, 'html.parser')
+	nhimglink = imgsoup.find('section', id='image-container').a.img['src']
 	imgresp = requests.get(nhimglink)
 	f = open("nhimage.jpg", "wb")
 	f.write(imgresp.content)
