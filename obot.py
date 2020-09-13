@@ -677,16 +677,16 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 	else:
 		queuetag = int(prevmessage.content[3:7]) + 1
 		queuetag = f'{1:04d}'
-	firstpage = requests.get(f'{nhlink}/1')
+	firstpage = requests.get(nhlink)
 	soup = BeautifulSoup(firstpage.text, 'html.parser')
-	nhimglink = soup.find(id='image-container').a.img['src']
+	nhimglink = soup.find(id='cover').a.img['src']
 	imgresp = requests.get(nhimglink)
 	f = open("nhimage.jpg", "wb")
 	f.write(imgresp.content)
 	f.close()
-	orititle = soup.find('h1', class_='title').get_text()
+	orititle = soup.find(id='info').h1.get_text()
 	text = f'''MS#{queuetag} **{orititle}** --> {entitle}
-	NH link: {nhlink}
+	NH link: <{nhlink}>
 	raw source: {raws}
 	TL link: {doclink}'''
 	await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
