@@ -657,9 +657,9 @@ async def funa(ctx):
 @bot.command()
 async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 
-	if ctx.author.id != 346316432763650060:
-		await ctx.send(content='Bot owner only command')
-		return
+	#if ctx.author.id != 346316432763650060:
+	#	await ctx.send(content='Bot owner only command')
+	#	return
 	if nhlink.startswith('https://nh'):
 		pass
 	else:
@@ -669,7 +669,7 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 			await ctx.send(content='Error: Check your input')
 			return
 		nhlink = f'https://nhentai.net/g/{nhcode}'
-	queuechannel = bot.get_channel(743713887123275817)
+	queuechannel = bot.get_channel(665930845114204215)
 	pastqueue = await queuechannel.history(limit=1).flatten()
 	prevmessage = pastqueue[0]
 	if 'MS#' not in prevmessage.content:
