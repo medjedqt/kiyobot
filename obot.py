@@ -654,6 +654,43 @@ async def funa(ctx):
 	#e.set_image(url=c_link)
 	await ctx.send(embed=e)
 
+@bot.command()
+async def queue(ctx, entitle, nhlink, raws, doclink):
+
+	if ctx.author.id != 346316432763650060:
+		await ctx.send(content='Bot owner only command')
+		return
+	if nhlink.startswith('https://nh'):
+		pass
+	else:
+		try:
+			nhcode = int(nhlink)
+		except ValueError:
+			await ctx.send(content='Error: Check your input')
+			return
+		nhlink = f'https://nhentai.net/g/{nhcode}'
+	queuechannel = bot.get_channel(743713887123275817)
+	pastqueue = await queuechannel.history(limit=1).flatten()
+	prevmessage = pastqueue[0]
+	if 'MS#' not in prevmessage.content:
+		queuetag = '0001'
+	else:
+		queuetag = int(prevmessage.content[3:7]) + 1
+		queuetag = f'{1:04d}'
+	firstpage = requests.get(f'{nhlink}/1')
+	soup = BeautifulSoup(firstpage.text, 'html.parser')
+	nhimglink = soup.find(id='image-container').a.img['src']
+	imgresp = requests.get(nhimglink)
+	f = open("nhimage.jpg", "wb")
+	f.write(imgresp.content)
+	f.close()
+	orititle = soup.find('h1', class_='title')
+	text = f'''MS#{queuetag} **{orititle}** --> {entitle}
+	NH link: {nhlink}
+	raw source: {raws}
+	TL link: {doclink}'''
+	await queuechannel.send(content=text, file='nhimage.jpg')
+
 @bot.command(help=hell['ping'])
 async def ping(ctx):
 
