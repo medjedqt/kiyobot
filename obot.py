@@ -77,6 +77,7 @@ async def status_task():
 
 async def nh_task():
 
+	await asyncio.sleep(10)
 	releaselinks = []
 	for things in releasehistory:
 		releaselinks.append(things.content)
@@ -96,7 +97,7 @@ async def nh_task():
 					#await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
 					await channel.send(content=url)
 					releaselinks.append(url)
-		await asyncio.sleep(20)
+		await asyncio.sleep(10)
 
 @bot.event
 async def on_command_error(ctx, error):
