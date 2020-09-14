@@ -689,9 +689,9 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 	f.close()
 	orititle = soup.find(id='info').h1.get_text()
 	text = f'''MS#{queuetag} **{orititle}** --> {entitle}
-	NH link: <{nhlink}>
-	raw source: {raws}
-	TL link: {doclink}'''
+NH link: <{nhlink}>
+raw source: {raws}
+TL link: {doclink}'''
 	await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
 
 @bot.command()
@@ -700,7 +700,10 @@ async def raw(ctx, id_, url):
 	messages = await bot.get_channel(queuechan).history().flatten()
 	for message in messages:
 		if f'MS#{id_}' in message.content:
-			newcontent = message.content.replace('source: None', f'source: {url}')
+			oldcontent = message.content.split('\n')
+			for line in oldcontent:
+				if 'raw' in line:
+					newcontent = message.content.replace(line, f'raw source: {url}')
 			await message.edit(content=newcontent)
 
 @bot.command()
@@ -709,7 +712,10 @@ async def doc(ctx, id_, url):
 	messages = await bot.get_channel(queuechan).history().flatten()
 	for message in messages:
 		if f'MS#{id_}' in message.content:
-			newcontent = message.content.replace('TL link: None', f'TL link: {url}')
+			oldcontent = message.content.split('\n')
+			for line in oldcontent:
+				if 'TL link' in line:
+					newcontent = message.content.replace(line, f'TL link: {url}')
 			await message.edit(content=newcontent)
 
 @bot.command(help=hell['ping'])
