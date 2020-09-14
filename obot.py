@@ -694,8 +694,8 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 	orititle = soup.find(id='info').h1.get_text()
 	text = f'''MS#{queuetag} **{orititle}** --> {entitle}
 NH link: <{nhlink}>
-raw source: {raws}
-TL link: {doclink}'''
+raw source: <{raws}>
+TL link: <{doclink}>'''
 	await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
 
 @is_owner()
@@ -733,7 +733,7 @@ async def title(ctx, id_, title):
 		if f'MS#{id_}' in message.content:
 			oldcontent = message.content.split('\n')[0]
 			oldline = oldcontent.split(' --> ')
-			newline = oldline[0] + title
+			newline = oldline[0] + ' --> ' + title
 			newcontent = message.content.replace(oldcontent, newline)
 			await message.edit(content=newcontent)
 
@@ -744,6 +744,12 @@ async def cancel(ctx, id_):
 	messages = await bot.get_channel(queuechan).history().flatten()
 	for message in messages:
 		if f'MS#{id_}' in message.content:
+			if message.content.endswith('~~'):
+				await ctx.send(content='Doujin already cancelled')
+				return
+			elif message.content.endswith('✅'):
+				await ctx.send(content='Doujin already finished')
+				return
 			await message.edit(content=f'MS#{id_} ~~{message.content[8:]}~~')
 
 @is_owner()
@@ -753,6 +759,11 @@ async def done(ctx, id_):
 	messages = await bot.get_channel(queuechan).history().flatten()
 	for message in messages:
 		if f'MS#{id_}' in message.content:
+			if message.content.endswith('~~'):
+				await ctx.send(content='Doujin already cancelled')
+			elif message.content.endswith('✅'):
+				await ctx.send(content='Doujin already finished')
+				return
 			await message.edit(content=f'{message.content} ✅')
 
 @bot.command(help=hell['ping'])
