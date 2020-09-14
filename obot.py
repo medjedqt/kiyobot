@@ -38,7 +38,7 @@ db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 logchan = 693130723015524382
 messagechan = [612306757145853953]
 releasechan = 748084599447355523
-queuechan = 665930845114204215
+queuechan = 743713887123275817
 rpslist = ['rock', 'paper', 'scissors']
 gauth = GoogleAuth()
 gauth.LoadCredentialsFile("auth.json")
@@ -660,11 +660,13 @@ async def funa(ctx):
 
 @is_owner()
 @bot.command()
-async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
+async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None', *en2):
 
-	#if ctx.author.id != 346316432763650060:
-	#	await ctx.send(content='Bot owner only command')
-	#	return
+	if en2 is None:
+		pass
+	else:
+		en2 = ' '.join(en2)
+		entitle = ' '.join((entitle,en2))
 	if nhlink.startswith('https://nh'):
 		pass
 	else:
