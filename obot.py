@@ -2,7 +2,7 @@ import discord
 import asyncio
 from kiyo import burnlist, lines, rpsfunc, nh_check
 from random import choice, randint, uniform
-from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown,Bot
+from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown,Bot,is_owner,NotOwner
 from pybooru import Danbooru
 import requests
 import shutil
@@ -109,6 +109,8 @@ async def on_command_error(ctx, error):
 		return
 	if isinstance(error, CommandOnCooldown):
 		await ctx.send(content="Please wait!")
+	if isinstance(error, NotOwner):
+		await ctx.send(content="Owner only command ❌")
 	channel = bot.get_channel(logchan)
 	await channel.send(content=error)
 	raise error
@@ -656,6 +658,7 @@ async def funa(ctx):
 	#e.set_image(url=c_link)
 	await ctx.send(embed=e)
 
+@is_owner()
 @bot.command()
 async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 
@@ -695,6 +698,7 @@ raw source: {raws}
 TL link: {doclink}'''
 	await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
 
+@is_owner()
 @bot.command()
 async def raw(ctx, id_, url):
 
@@ -707,6 +711,7 @@ async def raw(ctx, id_, url):
 					newcontent = message.content.replace(line, f'raw source: {url}')
 			await message.edit(content=newcontent)
 
+@is_owner()
 @bot.command()
 async def doc(ctx, id_, url):
 
@@ -718,6 +723,35 @@ async def doc(ctx, id_, url):
 				if 'TL link' in line:
 					newcontent = message.content.replace(line, f'TL link: {url}')
 			await message.edit(content=newcontent)
+
+@is_owner()
+@bot.command()
+async def title(ctx, id_, title):
+
+	messages = await bot.get_channel(queuechan).history().flatten()
+	for message in messages:
+		if f'MS#{id_}' in message.content:
+			oldcontent = message.content.split('\n')[0]
+			oldline = oldcontent.split(' --> ')
+			newline = oldline[0] + title
+			newcontent = message.content.replace(oldline, newline)
+			await message.edit(content=newcontent)
+
+@bot.command()
+async def cancel(ctx, id_):
+
+	messages = await bot.get_channel(queuechan).history().flatten()
+	for message in messages:
+		if f'MS#{id_}' in message.content:
+			await message.edit(content=f'MS#{id_} ~~{message.content[8:]}~~')
+
+@bot.command()
+async def done(ctx, id_):
+
+	messages = await bot.get_channel(queuechan).history().flatten()
+	for message in messages:
+		if f'MS#{id_}' in message.content:
+			await message.edit(content=f'{message.content} ✅')
 
 @bot.command(help=hell['ping'])
 async def ping(ctx):
