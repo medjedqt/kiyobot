@@ -728,8 +728,9 @@ async def doc(ctx, id_, url):
 
 @is_owner()
 @bot.command()
-async def title(ctx, id_, title):
+async def title(ctx, id_, *title):
 
+	title = ' '.join(title)
 	messages = await bot.get_channel(queuechan).history().flatten()
 	for message in messages:
 		if f'MS#{id_}' in message.content:
