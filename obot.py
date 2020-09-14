@@ -678,7 +678,7 @@ async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None'):
 		queuetag = '0001'
 	else:
 		queuetag = int(prevmessage.content[3:7]) + 1
-		queuetag = f'{1:04d}'
+		queuetag = f'{queuetag:04d}'
 	firstpage = requests.get(nhlink)
 	soup = BeautifulSoup(firstpage.text, 'html.parser')
 	nhimg = requests.get(f'{nhlink}/1')
