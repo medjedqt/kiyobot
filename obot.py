@@ -86,7 +86,7 @@ async def nh_task():
 		html = requests.get('https://nhentai.net')
 		soup = BeautifulSoup(html.text, 'html.parser')
 		kw = 'melty scans'
-		for title in soup.find_all('div', class_="caption")[5:16]:
+		for title in soup.find_all('div', class_="caption")[5:]:
 			if kw in title.string.lower():
 				url = f"https://nhentai.net{title.parent.get('href')}"
 				
@@ -701,6 +701,15 @@ async def raw(ctx, id_, url):
 	for message in messages:
 		if f'MS#{id_}' in message.content:
 			newcontent = message.content.replace('source: None', f'source: {url}')
+			await message.edit(content=newcontent)
+
+@bot.command()
+async def doc(ctx, id_, url):
+
+	messages = await bot.get_channel(queuechan).history().flatten()
+	for message in messages:
+		if f'MS#{id_}' in message.content:
+			newcontent = message.content.replace('TL link: None', f'TL link: {url}')
 			await message.edit(content=newcontent)
 
 @bot.command(help=hell['ping'])
