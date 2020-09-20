@@ -770,8 +770,10 @@ async def done(ctx, id_):
 			await message.edit(content=f'{message.content} ✅')
 
 @bot.command(help=hell['ping'])
-async def ping(ctx):
+async def ping(ctx, arg1 = None):
 
+	if arg1 is not None:
+		await ctx.send(content=f'{bot.latency} seconds')
 	await ctx.send(content=":ping_pong: Pong!")
 
 bot.run(token)
