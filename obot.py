@@ -616,7 +616,10 @@ async def ytdl(ctx, link):
 async def ud(ctx, *words):
 
 	words = ' '.join(words)
-	udthing = uclient.get_definition(words)[0]
+	try:
+		udthing = uclient.get_definition(words)[0]
+	except IndexError:
+		await ctx.send(content="Word doesn't exist.")
 	e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
 	await ctx.send(embed=e)
 
