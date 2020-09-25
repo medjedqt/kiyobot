@@ -27,6 +27,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
 from googletrans import Translator
 from udpy import UrbanClient
+from http.client import HTTPException
 
 
 bot = Bot(command_prefix='?',case_insensitive=True,help_command=None)
@@ -620,6 +621,10 @@ async def ud(ctx, *words):
 		udthing = uclient.get_definition(words)[0]
 	except IndexError:
 		await ctx.send(content="Word doesn't exist.")
+		return
+	except HTTPException:
+		await ctx.send(content='The definition is a fucking essay.')
+		return
 	e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
 	await ctx.send(embed=e)
 
