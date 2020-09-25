@@ -13,7 +13,6 @@ from googlesearch import search
 import aiohttp
 import io
 import math
-#from mathe import calculate
 import pydrive2
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
@@ -27,6 +26,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
 from googletrans import Translator
+from udpy import UrbanClient
 
 
 bot = Bot(command_prefix='?',case_insensitive=True,help_command=None)
@@ -51,6 +51,7 @@ funabrowse = webdriver.Chrome(ChromeDriverManager().install())
 browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 trans = Translator()
+uclient = UrbanClient()
 releasehistory = []
 
 @bot.event
@@ -611,22 +612,13 @@ async def ytdl(ctx, link):
 		await ctx.send(file=discord.File(f'vid{format}'))
 		os.remove(f'vid{format}')
 
-@bot.command(aliases=['dictionary'])
-async def dic(ctx, *words):
+@bot.command(aliases=['urbandictionary', 'urban'])
+async def ud(ctx, *words):
 
-	words = '%20'.join(words)
-	async with ctx.channel.typing():
-		async with aiohttp.ClientSession() as session:
-			async with session.get(f'https://www.dictionary.com/browse/{words}') as resp:
-				soup = BeautifulSoup(await resp.text(), 'html.parser')
-				try:
-					subject = soup.h1.string
-				except AttributeError:
-					await ctx.send("Cant find word")
-					return
-				meaning = soup.find_all('span', class_='one-click-content css-1p89gle e1q3nk1v4')[0].get_text()	
-				e = discord.Embed(title=subject, description=meaning, color=0x441400)
-				await ctx.send(embed=e)
+	words = ' '.join(words)
+	udthing = uclient.get_definition(words)
+	e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
+	await ctx.send(embed=e)
 
 @bot.command()
 async def nh(ctx, kw):
