@@ -616,7 +616,7 @@ async def ytdl(ctx, link):
 async def ud(ctx, *words):
 
 	words = ' '.join(words)
-	udthing = uclient.get_definition(words)
+	udthing = uclient.get_definition(words)[0]
 	e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
 	await ctx.send(embed=e)
 
