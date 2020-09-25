@@ -26,7 +26,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
-import math
 from googletrans import Translator
 
 
@@ -355,7 +354,7 @@ async def trash(ctx, filename):
 async def connect(ctx):
 
 	voice = ctx.author.voice
-	if voice == None:
+	if voice is None:
 		await ctx.send(content='Join a voice channel first')
 	else:
 		await voice.channel.connect()
@@ -426,10 +425,7 @@ async def rps(ctx, userid, move):
 		await ctx.send(content='You have to use this command in my DM')
 	
 	def check(victim):
-		if victim.author.name == target.name and isinstance(victim.channel, discord.DMChannel):
-			return True
-		else:
-			return False
+		return bool(victim.author.name == target.name and isinstance(victim.channel, discord.DMChannel))
 	
 	msg = await bot.wait_for('message', check=check)
 	xmove = msg.content
@@ -750,7 +746,7 @@ async def cancel(ctx, id_):
 			if message.content.endswith('~~'):
 				await ctx.send(content='Doujin already cancelled')
 				return
-			elif message.content.endswith('✅'):
+			if message.content.endswith('✅'):
 				await ctx.send(content='Doujin already finished')
 				return
 			await message.edit(content=f'MS#{id_} ~~{message.content[8:]}~~')
