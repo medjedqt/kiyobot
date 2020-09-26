@@ -763,9 +763,13 @@ async def done(ctx, id_):
 			await message.edit(content=f'{message.content} ✅')
 
 @bot.command()
-async def kwargtest(ctx, **kwarg):
+async def kwargtest(ctx, *kwarg):
 
-	await ctx.send(kwarg)
+	finaldict = dict()
+	for thing in kwarg:
+		splitted = thing.split('=',1)
+		finaldict[splitted[0]] = splitted[1]
+	await ctx.send(finaldict)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
