@@ -65,17 +65,3 @@ def rpsfunc(p1,p2):
         if p2 == 'rock':
             return 'p1loss'
         return 'p1win'
-            
-async def nh_check(bot, releasechan):
-	channel = bot.get_channel(releasechan)
-	html = requests.get('https://nhentai.net')
-	soup = BeautifulSoup(html.text, 'html.parser')
-	kw = 'english'
-	for title in soup.find_all('div', class_="caption")[5:]:
-		if kw in title.string.lower():
-			halfurl = title.parent.get('href')
-			async for message in channel.history():
-				if halfurl in message.content:
-					return
-				await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
-				await channel.send(content=f'https://nhentai.net{halfurl}')

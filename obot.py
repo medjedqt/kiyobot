@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from kiyo import burnlist, lines, rpsfunc, nh_check
+from kiyo import burnlist, lines, rpsfunc, kwargconstructor
 from random import choice, randint, uniform
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown,Bot,is_owner,NotOwner
 from pybooru import Danbooru
@@ -761,15 +761,6 @@ async def done(ctx, id_):
 				await ctx.send(content='Doujin already finished')
 				return
 			await message.edit(content=f'{message.content} ✅')
-
-@bot.command()
-async def kwargtest(ctx, *kwarg):
-
-	finaldict = dict()
-	for thing in kwarg:
-		splitted = thing.split('=',1)
-		finaldict[splitted[0]] = splitted[1]
-	await ctx.send(finaldict)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
