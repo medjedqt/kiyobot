@@ -618,14 +618,12 @@ async def ud(ctx, *words):
 	words = ' '.join(words)
 	try:
 		udthing = uclient.get_definition(words)[0]
+		e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
+		await ctx.send(embed=e)
 	except IndexError:
 		await ctx.send(content="Word doesn't exist.")
-		return
 	except discord.HTTPException:
 		await ctx.send(content='The definition is a fucking essay.')
-		return
-	e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
-	await ctx.send(embed=e)
 
 @bot.command()
 async def nh(ctx, kw):
@@ -767,8 +765,7 @@ async def done(ctx, id_):
 @bot.command()
 async def kwargtest(ctx, **kwarg):
 
-	if kwarg.get('listen') == True:
-		await ctx.send('instructions get!')
+	await ctx.send(kwarg)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
