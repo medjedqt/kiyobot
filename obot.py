@@ -764,6 +764,12 @@ async def done(ctx, id_):
 				return
 			await message.edit(content=f'{message.content} ✅')
 
+@bot.command()
+async def kwargtest(ctx, **kwarg):
+
+	if kwarg.get('listen') == True:
+		await ctx.send('instructions get!')
+
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
 
