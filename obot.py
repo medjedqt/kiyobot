@@ -666,6 +666,11 @@ async def done(ctx, id_):
 				return
 			await message.edit(content=f'{message.content} ✅')
 
+@bot.command()
+async def pick(ctx, *arg):
+
+	await ctx.send(content=choice(arg))
+
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
 
