@@ -619,6 +619,7 @@ async def ud(ctx, *words):
 	try:
 		udthing = uclient.get_definition(words)[0]
 		e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
+		e.add_field(name='Example:', value=udthing.example)
 		await ctx.send(embed=e)
 	except IndexError:
 		await ctx.send(content="Word doesn't exist.")
