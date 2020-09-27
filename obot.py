@@ -205,9 +205,8 @@ async def nwordcount(ctx):
 @bot.command(hell['dm'])
 async def dm(ctx,user: discord.User, msg):
 	
-	target = bot.get_user(user.id)
 	await ctx.message.delete()
-	await target.send(content=msg)
+	await user.send(content=msg)
 
 @bot.command(aliases=['k','kiyohime'], help=hell['kiyo'])
 async def kiyo(ctx):
@@ -414,38 +413,6 @@ async def calc(ctx, *inp):
 	await ctx.send(content=result)
 
 @bot.command()
-async def rps(ctx, userid, move):
-
-	if isinstance(ctx.channel,discord.DMChannel) and move in rpslist:
-		target = bot.get_user(int(userid))
-		await ctx.send(content=f"Challenged {target.name}")
-		await target.send(content=f'{ctx.author.name} challenged you to a rock paper scissors! Reply with your move (Rock/Paper/Scissors)')
-	elif isinstance(ctx.channel,discord.DMChannel) and move not in rpslist:
-		await ctx.send(content='Not a valid move')
-	else:
-		await ctx.send(content='You have to use this command in my DM')
-	
-	def check(victim):
-		return bool(victim.author.name == target.name and isinstance(victim.channel, discord.DMChannel))
-	
-	msg = await bot.wait_for('message', check=check)
-	xmove = msg.content
-	if xmove in rpslist:
-		result = rpsfunc(move, xmove)
-		if result == 'tie':
-			await ctx.send(content="It's a tie!")
-			await target.send(content="It's a tie!")
-		elif result == 'p1loss':
-			await ctx.send(content="You've lost!")
-			await target.send(content="You've won!")
-		elif result == 'p1win':
-			await ctx.send(content="You've won!")
-			await target.send(content="You've lost!")
-	else:
-		await target.send(content='Invalid move! Game cancelled')
-		await ctx.send(content='Opponent made an invalid move. Game is cancelled')
-
-@bot.command()
 async def word(ctx):
 
 	r = requests.get('https://www.thisworddoesnotexist.com/')
@@ -461,38 +428,6 @@ async def word(ctx):
 	e.add_field(name=defdesc, value=defex)
 	e.set_footer(text='Powered by This Word Does Not Exist',icon_url='https://www.thisworddoesnotexist.com/favicon-32x32.png')
 	await ctx.send(embed=e)
-
-@bot.command()
-async def sing(ctx, link):
-
-	if bot.voice_clients == []:
-		voice = ctx.author.voice
-		await voice.channel.connect()
-	song_there = os.path.isfile("song.mp3")
-	try:
-		if song_there:
-			os.remove("song.mp3")
-	except PermissionError:
-		await ctx.send("Wait for the current playing music end or use the 'stop' command")
-		return
-	await ctx.send("Getting everything ready, playing audio soon")
-	voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-	ydl_opts = {
-		'format': 'bestaudio/best',
-		'postprocessors': [{
-			'key': 'FFmpegExtractAudio',
-			'preferredcodec': 'mp3',
-			'preferredquality': '192',
-		}],
-	}
-	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-		ydl.download([link])
-	for file in os.listdir("./"):
-		if file.endswith(".mp3"):
-			os.rename(file, 'song.mp3')
-	voice.play(discord.FFmpegPCMAudio("song.mp3"))
-	voice.volume = 100
-	voice.is_playing()
 
 @bot.command()
 async def wordcloud(ctx, chanlimit=100, max=100):
@@ -565,14 +500,8 @@ async def poll(ctx, question, *choices):
 		await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
 
 @bot.command()
-async def clone(ctx, userid, *message):
+async def clone(ctx, user: discord.Member, *message):
 
-	try:
-		userid = int(userid)
-		user = ctx.guild.get_member(userid)
-	except ValueError:
-		await ctx.send(content='Specify target id')
-		return
 	message = ' '.join(message)
 	hook = await ctx.guild.webhooks()
 	hook = hook[0]
@@ -625,32 +554,6 @@ async def ud(ctx, *words):
 		await ctx.send(content="Word doesn't exist.")
 	except discord.HTTPException:
 		await ctx.send(content='The definition is a fucking essay.')
-
-@bot.command()
-async def nh(ctx, kw):
-
-	html = requests.get('https://nhentai.net')
-	soup = BeautifulSoup(html.text, 'html.parser')
-	for title in soup.find_all('div', class_="caption")[5:]:
-		if kw in title.string.lower():
-			halfurl = title.parent.get('href')
-			await ctx.send(content=f'https://nhentai.net{halfurl}')
-			
-@bot.command()
-async def funa(ctx):
-	
-	funachar = str(randint(1, 400)).zfill(4)
-	funabrowse.get(f'http://funamusea.com/character/{funachar}.html')
-	soup = BeautifulSoup(funabrowse.page_source, 'html.parser')
-	try:
-		cname_en = soup.find('div', class_='c_name2').string
-		cname_jp = soup.find('div', class_='c_name').string
-	except AttributeError:
-		await ctx.send("Your roll failed, roll again")
-		return
-	e = discord.Embed(color=0xfcba03, title=cname_en, description=cname_jp)
-	#e.set_image(url=c_link)
-	await ctx.send(embed=e)
 
 @is_owner()
 @bot.command()
