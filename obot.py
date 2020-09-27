@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from kiyo import burnlist, lines, rpsfunc
+from kiyo import burnlist, lines
 from random import choice, randint, uniform
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown,Bot,is_owner,NotOwner
 from pybooru import Danbooru
