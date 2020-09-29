@@ -29,7 +29,7 @@ from googletrans import Translator
 from udpy import UrbanClient
 from gtts import gTTS
 
-intents = discord.Intents()
+intents = discord.Intents.default()
 intents.members = True
 bot = Bot(command_prefix='?',case_insensitive=True,help_command=None,intents=intents)
 token = os.environ['BOT_TOKEN']
