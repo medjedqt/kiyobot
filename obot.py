@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from kiyo import burnlist, lines
+from kiyo import burnlist, lines, lang
 from random import choice, randint, uniform
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown,Bot,is_owner,NotOwner
 from pybooru import Danbooru
@@ -674,10 +674,13 @@ async def pick(ctx, *arg):
 	await ctx.send(content=choice(arg))
 
 @bot.command()
-async def mp3(ctx, *words):
+async def mp3(ctx, langu, *words):
 
 	words = ' '.join(words)
-	tts = gTTS(words)
+	if langu not in lang:
+		words = langu + ' ' + words
+		langu = 'en'
+	tts = gTTS(words, lang=langu)
 	tts.save('kiyo.mp3')
 	await ctx.send(file=discord.File('kiyo.mp3'))
 

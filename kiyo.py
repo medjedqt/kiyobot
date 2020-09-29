@@ -46,3 +46,26 @@ Transforming, Flame-Emitting Meditation! https://vsbattles.fandom.com/wiki/Berse
 "I may be trapped in this server, but my love transcends the screen",
 "Please stop pinging me, It's getting tiring."
 ]
+
+lang = [
+    'en',
+    'en-US',
+    'en-GB',
+    'fr',
+    'de',
+    'pl',
+    'nl',
+    'fi',
+    'sv',
+    'it',
+    'es',
+    'he',
+    'pt',
+    'ru',
+    'pt-BR',
+    'es-MX',
+    'zh-CN',
+    'zh-TW',
+    'ja',
+    'ko'
+]
