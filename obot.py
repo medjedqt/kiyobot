@@ -27,9 +27,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
 from googletrans import Translator
 from udpy import UrbanClient
+from gtts import gTTS
 
-
-bot = Bot(command_prefix='?',case_insensitive=True,help_command=None)
+intents = discord.Intents()
+intents.members = True
+bot = Bot(command_prefix='?',case_insensitive=True,help_command=None,intents=intents)
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
@@ -670,6 +672,14 @@ async def done(ctx, id_):
 async def pick(ctx, *arg):
 
 	await ctx.send(content=choice(arg))
+
+@bot.command()
+async def mp3(ctx, *words):
+
+	words = ' '.join(words)
+	tts = gTTS(words)
+	tts.save('kiyo.mp3')
+	await ctx.send(file=discord.File('kiyo.mp3'))
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
