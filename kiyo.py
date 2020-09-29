@@ -67,5 +67,6 @@ lang = [
     'zh-CN',
     'zh-TW',
     'ja',
-    'ko'
+    'ko',
+    'ar'
 ]
