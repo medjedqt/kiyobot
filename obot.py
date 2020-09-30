@@ -28,6 +28,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from googletrans import Translator
 from udpy import UrbanClient
 from gtts import gTTS
+from pyyoutube import Api as ytapi
 
 intents = discord.Intents.default()
 intents.members = True
@@ -54,6 +55,7 @@ browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 trans = Translator()
 uclient = UrbanClient()
+ytclient = ytapi(api_key=os.environ['YT_API'])
 releasehistory = []
 
 @bot.event
@@ -683,6 +685,12 @@ async def mp3(ctx, langu, *words):
 	tts = gTTS(words, lang=langu)
 	tts.save('kiyo.mp3')
 	await ctx.send(file=discord.File('kiyo.mp3'))
+
+@bot.command(aliases=['yt'])
+async def youtube(ctx, *words):
+
+	words = ' '.join(words)
+	results = ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
