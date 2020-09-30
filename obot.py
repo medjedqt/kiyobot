@@ -694,9 +694,10 @@ async def youtube(ctx, *words):
 	await ctx.send(content=f'https://youtu.be/{results.items[0].id.videoId}')
 
 @bot.command()
-async def yeet(ctx, emote: discord.PartialEmoji):
+async def yeet(ctx, *emotes: discord.PartialEmoji):
 
-	await ctx.send(content=emote.url)
+	for emote in emotes:
+		await ctx.send(content=emote.url)
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
