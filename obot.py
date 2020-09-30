@@ -691,6 +691,7 @@ async def youtube(ctx, *words):
 
 	words = ' '.join(words)
 	results = ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
+	await ctx.send(content=f'https://youtu.be/{results.items[0].id.videoId}')
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
