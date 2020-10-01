@@ -4,8 +4,7 @@ from discord.ext import commands
 from discord.ext.commands import CommandNotFound,MissingRequiredArgument
 import os
 
-
-bot = commands.Bot(command_prefix='?',case_insensitive=True)
+bot = commands.Bot(command_prefix='?',case_insensitive=True,intents=discord.Intents.all())
 bot.remove_command('help')
 token = ''
 
