@@ -3,6 +3,7 @@ from discord.ext import commands
 from random import randint, choice
 import os
 from pybooru import Danbooru
+from helpy import hell
 
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']

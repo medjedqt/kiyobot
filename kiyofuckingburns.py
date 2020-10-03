@@ -4,6 +4,7 @@ from random import randint, choice
 from kiyo import burnlist
 from pybooru import Danbooru
 import os
+from helpy import hell
 
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']

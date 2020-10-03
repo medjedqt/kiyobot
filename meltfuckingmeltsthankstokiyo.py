@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import requests
 from bs4 import BeautifulSoup
+from helpy import hell
 
 queuechan = 743713887123275817
 

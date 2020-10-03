@@ -6,6 +6,7 @@ from pydrive2.drive import GoogleDrive
 import discord
 from discord.ext import commands
 import tension
+from helpy import hell
 
 gauth = GoogleAuth()
 gauth.LoadCredentialsFile("auth.json")
