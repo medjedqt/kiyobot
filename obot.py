@@ -1,8 +1,8 @@
 import discord
+from discord.ext import commands
 import asyncio
 from kiyo import burnlist, lines, lang
 from random import choice, randint, uniform
-from discord.ext.commands import CommandNotFound,MissingRequiredArgument,CommandOnCooldown,cooldown,Bot,is_owner,NotOwner
 from pybooru import Danbooru
 import requests
 import shutil
@@ -33,7 +33,7 @@ from pyyoutube import Api as ytapi
 intents = discord.Intents.default()
 intents.members = True
 helpcmd = discord.ext.commands.MinimalHelpCommand(dm_help=True)
-bot = Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd,intents=intents)
+bot = commands.Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd,intents=intents)
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
@@ -107,14 +107,14 @@ async def nh_task():
 @bot.event
 async def on_command_error(ctx, error):
 
-	if isinstance(error, CommandNotFound):
+	if isinstance(error, commands.CommandNotFound):
 		return
-	if isinstance(error, MissingRequiredArgument):
+	if isinstance(error, commands.MissingRequiredArgument):
 		await ctx.send(content="Missing arguments!")
 		return
-	if isinstance(error, CommandOnCooldown):
+	if isinstance(error, commands.CommandOnCooldown):
 		await ctx.send(content="Please wait!")
-	if isinstance(error, NotOwner):
+	if isinstance(error, commands.NotOwner):
 		await ctx.send(content="Owner only command ❌")
 	channel = bot.get_channel(logchan)
 	await channel.send(content=error)
@@ -561,7 +561,7 @@ async def ud(ctx, *words):
 	except discord.HTTPException:
 		await ctx.send(content='The definition is a fucking essay.')
 
-@is_owner()
+@commands.is_owner()
 @bot.command()
 async def queue(ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None', *en2):
 
@@ -603,7 +603,7 @@ raw source: <{raws}>
 TL link: <{doclink}>'''
 	await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
 
-@is_owner()
+@commands.is_owner()
 @bot.command()
 async def raw(ctx, id_, url):
 
@@ -616,7 +616,7 @@ async def raw(ctx, id_, url):
 					newcontent = message.content.replace(line, f'raw source: <{url}>')
 			await message.edit(content=newcontent)
 
-@is_owner()
+@commands.is_owner()
 @bot.command()
 async def doc(ctx, id_, url):
 
@@ -629,7 +629,7 @@ async def doc(ctx, id_, url):
 					newcontent = message.content.replace(line, f'TL link: <{url}>')
 			await message.edit(content=newcontent)
 
-@is_owner()
+@commands.is_owner()
 @bot.command()
 async def title(ctx, id_, *title):
 
@@ -643,7 +643,7 @@ async def title(ctx, id_, *title):
 			newcontent = message.content.replace(oldcontent, newline)
 			await message.edit(content=newcontent)
 
-@is_owner()
+@commands.is_owner()
 @bot.command()
 async def cancel(ctx, id_):
 
@@ -658,7 +658,7 @@ async def cancel(ctx, id_):
 				return
 			await message.edit(content=f'MS#{id_} ~~{message.content[8:]}~~')
 
-@is_owner()
+@commands.is_owner()
 @bot.command()
 async def done(ctx, id_):
 
@@ -700,6 +700,20 @@ async def yeet(ctx, *emotes: discord.PartialEmoji):
 
 	for emote in emotes:
 		await ctx.send(content=emote.url)
+
+class MeltyScans(commands.Cog):
+	def __init__(self, bot):
+		self.bot = bot
+		self._last_member = None
+
+	@commands.command()
+	async def sicknewcommand(self, ctx):
+		await ctx.send(f'yes it works {ctx.author.name}')
+
+	@commands.is_owner()
+	@commands.command()
+	async def ownershiptest(self, ctx):
+		await ctx.send('what')
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
