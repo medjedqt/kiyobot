@@ -29,28 +29,17 @@ from googletrans import Translator
 from udpy import UrbanClient
 from gtts import gTTS
 from pyyoutube import Api as ytapi
-import algorithmgodbeblessed
+import algorithmgodbeblessed, cloudsavedtheworld, kiyofuckingburns, dumbooruamirite, meltfuckingmeltsthankstokiyo
 
 intents = discord.Intents.default()
 intents.members = True
 helpcmd = discord.ext.commands.MinimalHelpCommand()
 bot = commands.Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd,intents=intents)
 token = os.environ['BOT_TOKEN']
-dbkey = os.environ['DAN_KEY']
-dbname = os.environ['DAN_NAME']
-db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 logchan = 693130723015524382
 messagechan = [612306757145853953]
 releasechan = 748084599447355523
-queuechan = 743713887123275817
 rpslist = ['rock', 'paper', 'scissors']
-gauth = GoogleAuth()
-gauth.LoadCredentialsFile("auth.json")
-if gauth.access_token_expired:
-	gauth.Refresh()
-else:
-	gauth.Authorize()
-drive = GoogleDrive(gauth)
 trans = Translator()
 uclient = UrbanClient()
 ytclient = ytapi(api_key=os.environ['YT_API'])
@@ -182,227 +171,6 @@ async def disconnect(ctx):
 	else:
 		await ctx.voice_client.disconnect()
 		await ctx.send("bye...")
-
-class MeltyScans(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
-	
-	@commands.command()
-	async def test(self, ctx):
-		await ctx.send('still works baby')
-
-	@commands.is_owner()
-	@commands.command()
-	async def betaqueue(self, ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None', *en2):
-
-		if en2 is None:
-			pass
-		else:
-			en2 = ' '.join(en2)
-			entitle = ' '.join((entitle,en2))
-		if nhlink.startswith('https://nh'):
-			pass
-		else:
-			try:
-				nhcode = int(nhlink)
-			except ValueError:
-				await ctx.send(content='Error: Check your input')
-				return
-			nhlink = f'https://nhentai.net/g/{nhcode}'
-		queuechannel = bot.get_channel(queuechan)
-		pastqueue = await queuechannel.history(limit=1).flatten()
-		prevmessage = pastqueue[0]
-		if 'MS#' not in prevmessage.content:
-			queuetag = '0001'
-		else:
-			queuetag = int(prevmessage.content[3:7]) + 1
-			queuetag = f'{queuetag:04d}'
-		firstpage = requests.get(nhlink)
-		soup = BeautifulSoup(firstpage.text, 'html.parser')
-		nhimg = requests.get(f'{nhlink}/1')
-		imgsoup = BeautifulSoup(nhimg.text, 'html.parser')
-		nhimglink = imgsoup.find('section', id='image-container').a.img['src']
-		imgresp = requests.get(nhimglink)
-		f = open("nhimage.jpg", "wb")
-		f.write(imgresp.content)
-		f.close()
-		orititle = soup.find(id='info').h1.get_text()
-		text = f'''MS#{queuetag} **{orititle}** --> {entitle}
-NH link: <{nhlink}>
-raw source: <{raws}>
-TL link: <{doclink}>'''
-		await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
-
-	@commands.is_owner()
-	@commands.command()
-	async def raw(self, ctx, id_, url):
-
-		messages = await bot.get_channel(queuechan).history().flatten()
-		for message in messages:
-			if f'MS#{id_}' in message.content:
-				oldcontent = message.content.split('\n')
-				for line in oldcontent:
-					if 'raw' in line:
-						newcontent = message.content.replace(line, f'raw source: <{url}>')
-				await message.edit(content=newcontent)
-
-	@commands.is_owner()
-	@commands.command()
-	async def doc(self, ctx, id_, url):
-
-		messages = await bot.get_channel(queuechan).history().flatten()
-		for message in messages:
-			if f'MS#{id_}' in message.content:
-				oldcontent = message.content.split('\n')
-				for line in oldcontent:
-					if 'TL link' in line:
-						newcontent = message.content.replace(line, f'TL link: <{url}>')
-				await message.edit(content=newcontent)
-
-	@commands.is_owner()
-	@commands.command()
-	async def title(self, ctx, id_, *title):
-
-		title = ' '.join(title)
-		messages = await bot.get_channel(queuechan).history().flatten()
-		for message in messages:
-			if f'MS#{id_}' in message.content:
-				oldcontent = message.content.split('\n')[0]
-				oldline = oldcontent.split(' --> ')
-				newline = oldline[0] + ' --> ' + title
-				newcontent = message.content.replace(oldcontent, newline)
-				await message.edit(content=newcontent)
-	
-	@commands.is_owner()
-	@commands.command()
-	async def cancel(self, ctx, id_):
-
-		messages = await bot.get_channel(queuechan).history().flatten()
-		for message in messages:
-			if f'MS#{id_}' in message.content:
-				if message.content.endswith('~~'):
-					await ctx.send(content='Doujin already cancelled')
-					return
-				if message.content.endswith('✅'):
-					await ctx.send(content='Doujin already finished')
-					return
-				await message.edit(content=f'MS#{id_} ~~{message.content[8:]}~~')
-	
-	@commands.is_owner()
-	@commands.command()
-	async def done(self, ctx, id_):
-
-		messages = await bot.get_channel(queuechan).history().flatten()
-		for message in messages:
-			if f'MS#{id_}' in message.content:
-				if message.content.endswith('~~'):
-					await ctx.send(content='Doujin already cancelled')
-				elif message.content.endswith('✅'):
-					await ctx.send(content='Doujin already finished')
-					return
-				await message.edit(content=f'{message.content} ✅')
-
-	@commands.is_owner()
-	@commands.command()
-	async def ownershiptest(self, ctx):
-		await ctx.send('what')
-	
-class Kiyohime(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
-	
-	@commands.command(help=hell['burn'])
-	async def burn(self, ctx):
-
-		e=discord.Embed(color=0xff0000)
-		e.set_image(url=choice(burnlist))
-		await ctx.send(embed=e)
-
-	@commands.command(help=hell['step'])
-	async def step(self, ctx):
-
-		e=discord.Embed(color=0xffff00)
-		e.set_image(url="https://cdn.discordapp.com/attachments/611844054669328394/635200592364699649/IMG_20191020_024438.JPG")
-		await ctx.send(embed=e)
-	
-	@commands.command(aliases=['k','kiyohime'], help=hell['kiyo'])
-	async def kiyo(self, ctx):
-
-		x = []
-		page = randint(1,15)
-		posts = db.post_list(tags='kiyohime_(fate/grand_order)',page=page,limit=100)
-		for post in posts:
-			try:
-				fileurl = post['file_url']
-			except:
-				fileurl = 'https://danbooru.donmai.us' + post['source']
-			x.append(fileurl)
-		e = discord.Embed(color=0x00ff00)
-		e.set_image(url=choice(x))
-		await ctx.send(embed=e)
-	
-class Danboorushit(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
-	
-	@commands.command(help=hell['latest'])
-	async def latest(self, ctx, key=None, *tag):
-
-		if key is None:
-			tag="kiyohime_(fate/grand_order)"
-		else:
-			tag = '_'.join(tag)
-			tag = key + '_' + tag
-		posts = db.post_list(tags=tag, page=1, limit=1)
-		for post in posts:
-			try:
-				fileurl = post['file_url']
-			except:
-				fileurl = 'https://danbooru.donmai.us' + post['source']
-		e = discord.Embed(title="Latest", color=0x00FF00)
-		e.set_image(url=fileurl)
-		await ctx.send(embed=e)
-	
-	@commands.command(aliases=['danbooru','d'],help=hell['danbooru'])
-	async def dan(self, ctx, *tag):
-
-		x = []
-		newtag = '_'.join(tag)
-		page = randint(1,5)
-		try:
-			posts = db.post_list(tags=newtag,page=page,limit=5)
-			for post in posts:
-				try:
-					fileurl = post['file_url']
-				except:
-					fileurl = 'https://danbooru.donmai.us' + post['source']
-				x.append(fileurl)
-			e = discord.Embed(color=0x0000ff)
-			e.set_image(url=choice(x))
-			await ctx.send(embed=e)
-		except:
-			await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
-
-	@commands.command(help=hell['multi'])
-	async def multi(self, ctx, *tag):
-
-		x=[]
-		tag = ' '.join(tag)
-		page = randint(1,5)
-		try:
-			posts = db.post_list(tags=tag,page=page,limit=5)
-			for post in posts:
-				try:
-					fileurl = post['file_url']
-				except:
-					fileurl = 'https://danbooru.donmai.us' + post['source']
-				x.append(fileurl)
-			e = discord.Embed(color=0x00FFBE)
-			for poop in x:
-				e.set_image(url=poop)
-				await ctx.send(embed=e)
-		except:
-			await ctx.send(content="Some shit broke. Also firara is gay")
 
 class Utilities(commands.Cog):
 	def __init__(self, bot):
@@ -581,84 +349,12 @@ class Utilities(commands.Cog):
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
 
-class Cloudshit(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
-	
-	@commands.command(aliases=['u','up'],help=hell['upload'])
-	async def upload(self, ctx,title=None):
-
-		try:
-			attachment =ctx.message.attachments[0]
-			fileurl=attachment.url
-			if fileurl.find('/'):
-				name=fileurl.rsplit('/',1)[1]
-				exname, ext = os.path.splitext(name)
-			r=requests.get(fileurl,stream=True)
-			if title is None:
-				newname = exname+ext
-			else:
-				newname = title+ext
-			if r.status_code==200:
-				with open(newname,'wb') as f:
-					r.raw.decode_content=True
-					shutil.copyfileobj(r.raw,f)
-		except:
-			await ctx.send(content="Attach a file!")
-			return
-		file1 = drive.CreateFile()
-		file1.SetContentFile(newname)
-		file1.Upload()
-		await ctx.send(content="Uploaded as {0}".format(newname))
-		os.remove(newname)
-
-	@commands.command(aliases=['dl','down'], help=hell['download'])
-	async def download(self, ctx,file):
-
-		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
-		for file2 in file_list:
-			title = file2['title']
-			name, _ = os.path.splitext(title)
-			file_notthere = True
-			if file in name:
-				file1 = drive.CreateFile({'id':file2['id']})
-				file1.GetContentFile(title)
-				await ctx.send(file=discord.File(title))
-				os.remove(title)
-				file_notthere = False
-				break
-		if file_notthere:
-			await ctx.send("Can't find file :c")
-
-	@commands.command(aliases=['ls'], help=hell['list'])
-	async def list(self, ctx):
-
-		e = discord.Embed(title='Cloud Files',color=0x00ffff)
-		file_list = drive.ListFile({'q': "'root' in parents and trashed = false"}).GetList()
-		for file1 in file_list:
-			_, ext = os.path.splitext(file1['title'])
-			next = tension.Ext(ext)
-			e.add_field(name=file1['title'],value=next,inline=False)
-		await ctx.send(embed=e)
-
-	@commands.command(help=hell['trash'])
-	async def trash(self, ctx, filename):
-
-		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
-		for file in file_list:
-			title = file['title']
-			name, _ = os.path.splitext(title)
-			if filename in name:
-				actual_file = drive.CreateFile({'id':file['id']})
-				actual_file.Trash()
-				await ctx.send(content='Binned {0}'.format(file['title']))
-
 bot.add_cog(algorithmgodbeblessed.MachineLearningShit(bot))
-bot.add_cog(Cloudshit(bot))
+bot.add_cog(cloudsavedtheworld.Cloudshit(bot))
 bot.add_cog(Utilities(bot))
-bot.add_cog(Danboorushit(bot))
-bot.add_cog(Kiyohime(bot))
-bot.add_cog(MeltyScans(bot))
+bot.add_cog(dumbooruamirite.Danboorushit(bot))
+bot.add_cog(kiyofuckingburns.Kiyohime(bot))
+bot.add_cog(meltfuckingmeltsthankstokiyo.MeltyScans(bot))
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):

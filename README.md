@@ -5,7 +5,9 @@
 
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+~~To get a local copy up and running follow these simple example steps.~~
+
+**Warning: The code is now a bit too complicated to customize, please use the  `template`  branch instead to set up your own bot.**
 
 ### Prerequisites
 

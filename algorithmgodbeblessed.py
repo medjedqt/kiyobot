@@ -14,7 +14,7 @@ browser = webdriver.Chrome(ChromeDriverManager().install())
 browser.get('https://www.cleverbot.com')
 browser.execute_script('noteok()')
 
-class MachineLearningShit(commands.Cog):
+class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot):
 		self.bot = bot
 		
