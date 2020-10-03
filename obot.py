@@ -32,7 +32,8 @@ from pyyoutube import Api as ytapi
 
 intents = discord.Intents.default()
 intents.members = True
-bot = Bot(command_prefix='?',case_insensitive=True,help_command=None,intents=intents)
+helpcmd = discord.ext.commands.MinimalHelpCommand(dm_help=True)
+bot = Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd,intents=intents)
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
@@ -307,6 +308,7 @@ async def upload(ctx,title=None):
 				shutil.copyfileobj(r.raw,f)
 	except:
 		await ctx.send(content="Attach a file!")
+		return
 	file1 = drive.CreateFile()
 	file1.SetContentFile(newname)
 	file1.Upload()
