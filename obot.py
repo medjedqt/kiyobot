@@ -729,6 +729,7 @@ class MachineLearningShit(commands.Cog):
 			response = browser.find_element_by_xpath("//p[@id='line1']/span")
 			await ctx.send(content=response.text)
 
+bot.add_cog(MachineLearningShit(bot))
 bot.add_cog(Cloudshit(bot))
 bot.add_cog(Utilities(bot))
 bot.add_cog(Danboorushit(bot))
