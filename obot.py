@@ -29,7 +29,7 @@ from googletrans import Translator
 from udpy import UrbanClient
 from gtts import gTTS
 from pyyoutube import Api as ytapi
-import algorithmgodbeblessed, cloudsavedtheworld, kiyofuckingburns, dumbooruamirite, meltfuckingmeltsthankstokiyo
+from epicmodules import algorithmgodbeblessed, cloudsavedtheworld, kiyofuckingburns, dumbooruamirite, meltfuckingmeltsthankstokiyo
 
 intents = discord.Intents.default()
 intents.members = True
@@ -39,7 +39,6 @@ token = os.environ['BOT_TOKEN']
 logchan = 693130723015524382
 messagechan = [612306757145853953]
 releasechan = 748084599447355523
-rpslist = ['rock', 'paper', 'scissors']
 trans = Translator()
 uclient = UrbanClient()
 ytclient = ytapi(api_key=os.environ['YT_API'])
@@ -112,7 +111,7 @@ async def on_message(message):
 	message_text = message.content.upper()
 	luck = uniform(0, 1.0)
 	e = discord.Embed(color=0xffff00)
-	if message.author.bot or message_text.startswith('?') or message.content in rpslist:
+	if message.author.bot or message_text.startswith('?'):
 		pass
 	elif 'CHEATING' in message_text:
 		await message.channel.trigger_typing()
