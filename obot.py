@@ -29,6 +29,7 @@ from googletrans import Translator
 from udpy import UrbanClient
 from gtts import gTTS
 from pyyoutube import Api as ytapi
+import algorithmgodbeblessed
 
 intents = discord.Intents.default()
 intents.members = True
@@ -50,10 +51,6 @@ if gauth.access_token_expired:
 else:
 	gauth.Authorize()
 drive = GoogleDrive(gauth)
-browser = webdriver.Chrome(ChromeDriverManager().install())
-funabrowse = webdriver.Chrome(ChromeDriverManager().install())
-browser.get('https://www.cleverbot.com')
-browser.execute_script('noteok()')
 trans = Translator()
 uclient = UrbanClient()
 ytclient = ytapi(api_key=os.environ['YT_API'])
@@ -656,80 +653,7 @@ class Cloudshit(commands.Cog):
 				actual_file.Trash()
 				await ctx.send(content='Binned {0}'.format(file['title']))
 
-class MachineLearningShit(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
-		
-	@commands.command()
-	async def word(self, ctx):
-
-		r = requests.get('https://www.thisworddoesnotexist.com/')
-		soup = BeautifulSoup(r.text, 'html.parser')
-		defword = soup.find(id='definition-word').string
-		deflink = soup.find(id='link-button-a')['href']
-		defgrammar = soup.find(id='definition-pos').string
-		defgrammar = defgrammar.replace('"','').strip()
-		defex = soup.find(id='definition-example').string
-		defdef = soup.find(id='definition-definition').string
-		defdesc = defgrammar + ' ' + defdef
-		e = discord.Embed(title=defword, url=deflink,color=0x002258)
-		e.add_field(name=defdesc, value=defex)
-		e.set_footer(text='Powered by This Word Does Not Exist',icon_url='https://www.thisworddoesnotexist.com/favicon-32x32.png')
-		await ctx.send(embed=e)
-
-	@commands.command()
-	async def wordcloud(self, ctx, chanlimit=100, max=100):
-
-		def getFrequencyDictForText(sentence):
-			fullTermsDict = multidict.MultiDict()
-			tmpDict = {}
-
-			for text in sentence.split(" "):
-				if text.startswith(('.','f.','!','<','-','?','$','_',':')):
-					continue
-				if re.match("a|the|an|the|to|in|for|of|or|by|with|is|on|that|be", text):
-					continue
-				val = tmpDict.get(text, 0)
-				tmpDict[text.lower()] = val + 1
-			for key in tmpDict:
-				fullTermsDict.add(key, tmpDict[key])
-			return fullTermsDict
-
-		messages = []
-		for channel in ctx.guild.channels:
-			if isinstance(channel, discord.TextChannel) and channel.permissions_for(ctx.guild.me).read_messages:
-				async for stuff in channel.history(limit=chanlimit):
-					messages.append(stuff.content)
-		text = ' '.join(messages)
-		wordcloud = WordCloud(max_words=max,width=1920, height=1080, min_word_length=2).generate_from_frequencies(getFrequencyDictForText(text))
-		wordcloud.to_file('wc.png')
-		await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
-
-	@commands.command()
-	async def chat(self, ctx, *question: str):
-
-		async with ctx.channel.typing():
-			q = []
-			for word in question:
-				if word.startswith('<@'):
-					word = re.sub('[^0-9]', '', word)
-					word = bot.get_user(int(word)).name
-				if word.startswith('<#'):
-					word = re.sub('[^0-9]', '', word)
-					word = bot.get_channel(int(word)).name
-				if word.startswith('<:') or word.startswith('<a:') or word.startswith(':'):
-					continue
-				q.append(word)
-			q = ' '.join(q)
-			inputbox = browser.find_element_by_name('stimulus')
-			inputbox.clear()
-			inputbox.send_keys(q)
-			inputbox.send_keys(Keys.RETURN)
-			await asyncio.sleep(5)
-			response = browser.find_element_by_xpath("//p[@id='line1']/span")
-			await ctx.send(content=response.text)
-
-bot.add_cog(MachineLearningShit(bot))
+bot.add_cog(algorithmgodbeblessed.MachineLearningShit(bot))
 bot.add_cog(Cloudshit(bot))
 bot.add_cog(Utilities(bot))
 bot.add_cog(Danboorushit(bot))
