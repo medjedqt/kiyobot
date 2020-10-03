@@ -705,10 +705,52 @@ class MeltyScans(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self._last_member = None
-
+	
 	@commands.command()
-	async def sicknewcommand(self, ctx):
-		await ctx.send(f'yes it works {ctx.author.name}')
+	async def test(self, ctx):
+		await ctx.send('still works baby')
+
+	#@commands.is_owner()
+	@commands.command()
+	async def betaqueue(self, ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None', *en2):
+
+		if en2 is None:
+			pass
+		else:
+			en2 = ' '.join(en2)
+			entitle = ' '.join((entitle,en2))
+		if nhlink.startswith('https://nh'):
+			pass
+		else:
+			try:
+				nhcode = int(nhlink)
+			except ValueError:
+				await ctx.send(content='Error: Check your input')
+				return
+			nhlink = f'https://nhentai.net/g/{nhcode}'
+		queuechannel = bot.get_channel(665930845114204215)
+		pastqueue = await queuechannel.history(limit=1).flatten()
+		prevmessage = pastqueue[0]
+		if 'MS#' not in prevmessage.content:
+			queuetag = '0001'
+		else:
+			queuetag = int(prevmessage.content[3:7]) + 1
+			queuetag = f'{queuetag:04d}'
+		firstpage = requests.get(nhlink)
+		soup = BeautifulSoup(firstpage.text, 'html.parser')
+		nhimg = requests.get(f'{nhlink}/1')
+		imgsoup = BeautifulSoup(nhimg.text, 'html.parser')
+		nhimglink = imgsoup.find('section', id='image-container').a.img['src']
+		imgresp = requests.get(nhimglink)
+		f = open("nhimage.jpg", "wb")
+		f.write(imgresp.content)
+		f.close()
+		orititle = soup.find(id='info').h1.get_text()
+		text = f'''MS#{queuetag} **{orititle}** --> {entitle}
+NH link: <{nhlink}>
+raw source: <{raws}>
+TL link: <{doclink}>'''
+		await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
 
 	@commands.is_owner()
 	@commands.command()
