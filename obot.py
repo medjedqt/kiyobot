@@ -202,7 +202,7 @@ class Utilities(commands.Cog):
 		await mes.edit(content='Done!')
 		await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
 
-	@commands.command(hell['dm'])
+	@commands.command(help=hell['dm'])
 	async def dm(self, ctx,user: discord.User, msg):
 	
 		await ctx.message.delete()
