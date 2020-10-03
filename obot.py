@@ -32,7 +32,7 @@ from pyyoutube import Api as ytapi
 
 intents = discord.Intents.default()
 intents.members = True
-helpcmd = discord.ext.commands.MinimalHelpCommand(dm_help=True)
+helpcmd = discord.ext.commands.MinimalHelpCommand()
 bot = commands.Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd,intents=intents)
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
