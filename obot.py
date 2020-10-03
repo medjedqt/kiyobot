@@ -715,6 +715,8 @@ class MeltyScans(commands.Cog):
 	async def ownershiptest(self, ctx):
 		await ctx.send('what')
 
+bot.add_cog(MeltyScans(bot))
+
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
 
