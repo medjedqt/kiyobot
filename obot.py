@@ -143,7 +143,7 @@ async def disconnect(ctx):
 
 bot.add_cog(algorithmgodbeblessed.MachineLearningShit(bot))
 bot.add_cog(cloudsavedtheworld.Cloudshit(bot))
-bot.add_cog(utilititties.Utilities(bot, logchan))
+bot.add_cog(utilititties.Utilities(bot, ytclient, logchan))
 bot.add_cog(dumbooruamirite.Danboorushit(bot, db))
 bot.add_cog(kiyofuckingburns.Kiyohime(bot, db))
 bot.add_cog(meltfuckingmeltsthankstokiyo.MeltyScans(bot, queuechan))
