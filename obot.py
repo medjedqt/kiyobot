@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import asyncio
 from kiyo import lines
+from helpy import hell
 from random import choice, randint, uniform
 from pybooru import Danbooru
 import requests
