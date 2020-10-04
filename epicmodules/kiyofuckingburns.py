@@ -9,7 +9,7 @@ from helpy import hell
 class Kiyohime(commands.Cog):
 	def __init__(self, bot, db):
 		self.bot = bot
-		self.beans = db
+		self.db = db
 	
 	@commands.Cog.listener()
 	async def on_message(self, message):
@@ -31,7 +31,6 @@ class Kiyohime(commands.Cog):
 				await message.channel.send(embed=e)
 			else:
 				await message.channel.send(choice(lines))
-		await self.bot.process_commands(message)
 
 	@commands.command(help=hell['burn'])
 	async def burn(self, ctx):
