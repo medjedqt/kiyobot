@@ -2,16 +2,12 @@ import discord
 from discord.ext import commands
 from random import randint, choice
 import os
-from pybooru import Danbooru
 from helpy import hell
 
-dbkey = os.environ['DAN_KEY']
-dbname = os.environ['DAN_NAME']
-db = Danbooru('danbooru',username=dbname,api_key=dbkey)
-
 class Danboorushit(commands.Cog, name='Danbooru'):
-	def __init__(self, bot):
+	def __init__(self, bot, db):
 		self.bot = bot
+		self.db = db
 	
 	@commands.command(help=hell['latest'])
 	async def latest(self, ctx, key=None, *tag):
@@ -21,7 +17,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		else:
 			tag = '_'.join(tag)
 			tag = key + '_' + tag
-		posts = db.post_list(tags=tag, page=1, limit=1)
+		posts = self.db.post_list(tags=tag, page=1, limit=1)
 		for post in posts:
 			try:
 				fileurl = post['file_url']
@@ -38,7 +34,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		newtag = '_'.join(tag)
 		page = randint(1,5)
 		try:
-			posts = db.post_list(tags=newtag,page=page,limit=5)
+			posts = self.db.post_list(tags=newtag,page=page,limit=5)
 			for post in posts:
 				try:
 					fileurl = post['file_url']
@@ -58,7 +54,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		tag = ' '.join(tag)
 		page = randint(1,5)
 		try:
-			posts = db.post_list(tags=tag,page=page,limit=5)
+			posts = self.db.post_list(tags=tag,page=page,limit=5)
 			for post in posts:
 				try:
 					fileurl = post['file_url']

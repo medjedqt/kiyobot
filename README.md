@@ -5,15 +5,14 @@
 
 ## Getting Started
 
-~~To get a local copy up and running follow these simple example steps.~~
-
-**Warning: The code is now a bit too complicated to customize, please use the  `template`  branch instead to set up your own bot.**
+To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
 * [Python 3](python.org)
 * [Discord bot token](https://discordapp.com/developers/applications)
 * [Danbooru account and API key](https://danbooru.donmai.us/profile)
+* [Youtube API key](https://cloud.google.com/)
 
 ### Installation
 
@@ -30,6 +29,7 @@ pip install -r requirements.txt
 token = 'ENTER YOUR TOKEN'
 dbkey = 'YOUR DANBOORU KEY'
 dbname = 'YOUR DANBOORU USERNAME'
+ytclient = ytapi(api_key='YOUR YOUTUBE API KEY')
 ```
 
 
