@@ -73,7 +73,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		for file1 in file_list:
 			_, ext = os.path.splitext(file1['title'])
 			next = tension.Ext(ext)
-			e.add_field(name=file1['title'],value=next,inline=False)
+			e.add_field(name=file1['title'],value=next)
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['trash'])
