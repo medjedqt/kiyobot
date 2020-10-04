@@ -93,7 +93,7 @@ async def on_command_error(ctx, error):
 async def on_message(message):
 
 	e = discord.Embed(color=0xffff00)
-	if message.author.bot or message.startswith('?'):
+	if message.author.bot or message.content.startswith('?'):
 		pass
 	elif isinstance(message.channel,discord.DMChannel):
 		channel = bot.get_channel(logchan)
