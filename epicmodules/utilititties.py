@@ -8,7 +8,8 @@ from gtts import gTTS
 from googletrans import Translator
 from udpy import UrbanClient
 import youtube_dl
-from kiyo import lang, hell
+from kiyo import lang
+from helpy import hell
 
 trans = Translator()
 uclient = UrbanClient()
