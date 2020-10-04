@@ -11,7 +11,7 @@ class MeltyScans(commands.Cog, name='Melty Scans'):
 
 	@commands.is_owner()
 	@commands.command()
-	async def betaqueue(self, ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None', *en2):
+	async def queue(self, ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None', *en2):
 
 		if en2 is None:
 			pass
@@ -27,7 +27,7 @@ class MeltyScans(commands.Cog, name='Melty Scans'):
 				await ctx.send(content='Error: Check your input')
 				return
 			nhlink = f'https://nhentai.net/g/{nhcode}'
-		queuechannel = bot.get_channel(self.queuechan)
+		queuechannel = self.bot.get_channel(self.queuechan)
 		pastqueue = await queuechannel.history(limit=1).flatten()
 		prevmessage = pastqueue[0]
 		if 'MS#' not in prevmessage.content:
@@ -55,7 +55,7 @@ TL link: <{doclink}>'''
 	@commands.command()
 	async def raw(self, ctx, id_, url):
 
-		messages = await bot.get_channel(self.queuechan).history().flatten()
+		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
 			if f'MS#{id_}' in message.content:
 				oldcontent = message.content.split('\n')
@@ -68,7 +68,7 @@ TL link: <{doclink}>'''
 	@commands.command()
 	async def doc(self, ctx, id_, url):
 
-		messages = await bot.get_channel(self.queuechan).history().flatten()
+		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
 			if f'MS#{id_}' in message.content:
 				oldcontent = message.content.split('\n')
@@ -82,7 +82,7 @@ TL link: <{doclink}>'''
 	async def title(self, ctx, id_, *title):
 
 		title = ' '.join(title)
-		messages = await bot.get_channel(self.queuechan).history().flatten()
+		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
 			if f'MS#{id_}' in message.content:
 				oldcontent = message.content.split('\n')[0]
@@ -95,7 +95,7 @@ TL link: <{doclink}>'''
 	@commands.command()
 	async def cancel(self, ctx, id_):
 
-		messages = await bot.get_channel(self.queuechan).history().flatten()
+		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
 			if f'MS#{id_}' in message.content:
 				if message.content.endswith('~~'):
@@ -110,7 +110,7 @@ TL link: <{doclink}>'''
 	@commands.command()
 	async def done(self, ctx, id_):
 
-		messages = await bot.get_channel(self.queuechan).history().flatten()
+		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
 			if f'MS#{id_}' in message.content:
 				if message.content.endswith('~~'):

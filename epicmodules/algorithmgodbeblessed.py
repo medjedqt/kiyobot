@@ -71,10 +71,10 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			for word in question:
 				if word.startswith('<@'):
 					word = re.sub('[^0-9]', '', word)
-					word = bot.get_user(int(word)).name
+					word = self.bot.get_user(int(word)).name
 				if word.startswith('<#'):
 					word = re.sub('[^0-9]', '', word)
-					word = bot.get_channel(int(word)).name
+					word = self.bot.get_channel(int(word)).name
 				if word.startswith('<:') or word.startswith('<a:') or word.startswith(':'):
 					continue
 				q.append(word)

@@ -24,7 +24,7 @@ class Utilities(commands.Cog):
 	async def on_message_edit(self, before, after):
 		if before.author.bot or before.content == after.content or before.guild.id != 569845300244774922:
 			return
-		channel = bot.get_channel(self.logchan)
+		channel = self.bot.get_channel(self.logchan)
 		e = discord.Embed(title=before.author.name, color=0xff0000)
 		e.add_field(name="Edited", value=f'"{before.content}" to "{after.content}"')
 		await channel.send(embed=e)
