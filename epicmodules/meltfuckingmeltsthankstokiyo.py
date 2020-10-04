@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import requests
 from bs4 import BeautifulSoup
-from helpy import hell
 
 class MeltyScans(commands.Cog, name='Melty Scans'):
 	def __init__(self, bot, queuechan):

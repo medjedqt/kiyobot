@@ -99,25 +99,25 @@ class Utilities(commands.Cog):
 		result = eval(inp)
 		await ctx.send(content=result)
 	
-	@commands.command(aliases=['yt'])
+	@commands.command(aliases=['yt'], help=hell['youtube'])
 	async def youtube(self, ctx, *words):
 
 		words = ' '.join(words)
 		results = self.ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
 		await ctx.send(content=f'https://youtu.be/{results.items[0].id.videoId}')
 
-	@commands.command()
+	@commands.command(help=hell['yeet'])
 	async def yeet(self, ctx, *emotes: discord.PartialEmoji):
 
 		for emote in emotes:
 			await ctx.send(content=emote.url)
 	
-	@commands.command()
+	@commands.command(help=hell['pick'])
 	async def pick(self, ctx, *arg):
 
 		await ctx.send(content=choice(arg))
 
-	@commands.command()
+	@commands.command(help=hell['mp3'])
 	async def mp3(self, ctx, langu, *words):
 
 		words = ' '.join(words)
@@ -128,7 +128,7 @@ class Utilities(commands.Cog):
 		tts.save('kiyo.mp3')
 		await ctx.send(file=discord.File('kiyo.mp3'))
 	
-	@commands.command(aliases=['urbandictionary', 'urban'])
+	@commands.command(aliases=['urbandictionary', 'urban'],help=hell['ud'])
 	async def ud(self, ctx, *words):
 
 		words = ' '.join(words)
@@ -142,7 +142,7 @@ class Utilities(commands.Cog):
 		except discord.HTTPException:
 			await ctx.send(content='The definition is a fucking essay.')
 	
-	@commands.command(aliases=['trans'])
+	@commands.command(aliases=['trans'],help=hell['translate'])
 	async def translate(self, ctx, words, target='en', source='auto'):
 
 		try:
@@ -154,7 +154,7 @@ class Utilities(commands.Cog):
 		e.add_field(name='Translated from {}'.format(neword.src), value=neword.text)
 		await ctx.send(embed=e)
 
-	@commands.command()
+	@commands.command(help=hell['ytdl'])
 	async def ytdl(self, ctx, link):
 
 		format = ''
@@ -168,7 +168,7 @@ class Utilities(commands.Cog):
 			await ctx.send(file=discord.File(f'vid{format}'))
 			os.remove(f'vid{format}')
 	
-	@commands.command()
+	@commands.command(help=hell['clone'])
 	async def clone(self, ctx, user: discord.Member, *message):
 
 		message = ' '.join(message)
@@ -176,7 +176,7 @@ class Utilities(commands.Cog):
 		hook = hook[0]
 		await hook.send(content=message, username=user.nick, avatar_url=user.avatar_url)
 
-	@commands.command()
+	@commands.command(help=hell['embed'])
 	async def embed(self, ctx, *words):
 
 		words = ' '.join(words)
@@ -184,7 +184,7 @@ class Utilities(commands.Cog):
 		e.set_author(name=ctx.author.nick, icon_url=ctx.author.avatar_url)
 		await ctx.send(embed=e)
 	
-	@commands.command()
+	@commands.command(help=hell['poll'])
 	async def poll(self, ctx, question, *choices):
 
 		if len(choices) > 9:

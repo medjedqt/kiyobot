@@ -9,6 +9,7 @@ from wordcloud import WordCloud
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from helpy import hell
 
 browser = webdriver.Chrome(ChromeDriverManager().install())
 browser.get('https://www.cleverbot.com')
@@ -18,7 +19,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot):
 		self.bot = bot
 		
-	@commands.command()
+	@commands.command(help=hell['word'])
 	async def word(self, ctx):
 
 		r = requests.get('https://www.thisworddoesnotexist.com/')
@@ -35,7 +36,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		e.set_footer(text='Powered by This Word Does Not Exist',icon_url='https://www.thisworddoesnotexist.com/favicon-32x32.png')
 		await ctx.send(embed=e)
 
-	@commands.command()
+	@commands.command(help=hell['wordcloud'])
 	async def wordcloud(self, ctx, chanlimit=100, max=100):
 
 		def getFrequencyDictForText(sentence):
@@ -63,7 +64,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		wordcloud.to_file('wc.png')
 		await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
-	@commands.command()
+	@commands.command(help=hell['chat'])
 	async def chat(self, ctx, *question: str):
 
 		async with ctx.channel.typing():

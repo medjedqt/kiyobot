@@ -47,7 +47,7 @@ async def status_task():
 		await bot.change_presence(activity=discord.Activity(name="Fira nutting to me", type=discord.ActivityType.watching))
 		await asyncio.sleep(8)
 		await bot.change_presence(activity=discord.Game(name="?help"))
-		await asyncio.sleep(8)		
+		await asyncio.sleep(8)
 
 async def nh_task():
 
@@ -64,7 +64,6 @@ async def nh_task():
 		for title in soup.find_all('div', class_="caption")[5:]:
 			if kw in title.string.lower():
 				url = f"https://nhentai.net{title.parent.get('href')}"
-				
 				if url in releaselinks:
 					continue
 				else:
