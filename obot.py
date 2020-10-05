@@ -17,7 +17,7 @@ from epicmodules import algorithmgodbeblessed, cloudsavedtheworld, kiyofuckingbu
 intents = discord.Intents.default()
 intents.members = True
 helpcmd = discord.ext.commands.MinimalHelpCommand()
-bot = commands.Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd,intents=intents)
+bot = commands.Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd,intents=intents,description=choice(lines))
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
@@ -31,10 +31,8 @@ releasechan = 748084599447355523
 async def on_ready():
 
 	print(f'We have logged in as {bot.user}')
-	bot.loop.create_task(nh_task())
 	channel = bot.get_channel(logchan)
 	await channel.send(content='Restarted')
-	bot.releasehistory = await bot.get_channel(releasechan).history().flatten()
 
 async def status_task():
 
@@ -49,9 +47,9 @@ async def status_task():
 
 async def nh_task():
 
-	await asyncio.sleep(10)
-	releaselinks = []
-	for things in bot.releasehistory:
+	await bot.wait_until_ready
+	releaselinks = list()
+	async for things in bot.get_channel(releasechan).history():
 		releaselinks.append(things.content)
 
 	while True:
@@ -62,10 +60,7 @@ async def nh_task():
 		for title in soup.find_all('div', class_="caption")[5:]:
 			if kw in title.string.lower():
 				url = f"https://nhentai.net{title.parent.get('href')}"
-				if url in releaselinks:
-					continue
-				else:
-					#await channel.send(content='Melty Scans has a new release uploaded on NHentai!')
+				if url not in releaselinks:
 					await channel.send(content=url)
 					releaselinks.append(url)
 		await asyncio.sleep(10)
@@ -82,8 +77,7 @@ async def on_command_error(ctx, error):
 		await ctx.send(content="Please wait!")
 	if isinstance(error, commands.NotOwner):
 		await ctx.send(content="Owner only command ❌")
-	channel = bot.get_channel(logchan)
-	await channel.send(content=error)
+	await bot.get_channel(logchan).send(content=error)
 	raise error
 
 @bot.event
@@ -135,6 +129,7 @@ bot.add_cog(dumbooruamirite.Danboorushit(bot, db))
 bot.add_cog(kiyofuckingburns.Kiyohime(bot, db))
 bot.add_cog(meltfuckingmeltsthankstokiyo.MeltyScans(bot, queuechan))
 bot.loop.create_task(status_task())
+bot.loop.create_task(nh_task())
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
