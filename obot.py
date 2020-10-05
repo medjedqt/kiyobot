@@ -38,6 +38,7 @@ async def on_ready():
 
 async def status_task():
 
+	await bot.wait_until_ready()
 	while True:
 		await bot.change_presence(activity=discord.Game(name="with Fira's pussy"))
 		await asyncio.sleep(8)
