@@ -151,22 +151,22 @@ class Utilities(commands.Cog):
 			await ctx.send(content="Usage: `.translate 'words' destination(optional) source(optional)`")
 			return
 		e = discord.Embed(color=0x000055, title='Translator')
-		e.add_field(name='Translated from {}'.format(neword.src), value=neword.text)
+		e.add_field(name=f'Translated from {neword.src}', value=neword.text)
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['ytdl'])
 	async def ytdl(self, ctx, link):
 
-		format = ''
+		fformat = ''
 		async with ctx.channel.typing():
 			with youtube_dl.YoutubeDL({}) as ydl:
 				ydl.download([link])
 			for file in os.listdir("./"):
 				if file.endswith((".mp4", ".3gp", ".avi", ".flv", ".m4v", ".mkv", ".mov", ".wmv")):
-					_, format = os.path.splitext(file)
-					os.rename(file, f'vid{format}')
-			await ctx.send(file=discord.File(f'vid{format}'))
-			os.remove(f'vid{format}')
+					_, fformat = os.path.splitext(file)
+					os.rename(file, f'vid{fformat}')
+			await ctx.send(file=discord.File(f'vid{fformat}'))
+			os.remove(f'vid{fformat}')
 	
 	@commands.command(help=hell['clone'])
 	async def clone(self, ctx, user: discord.Member, *message):

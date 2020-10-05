@@ -26,18 +26,15 @@ db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 queuechan = 743713887123275817
 logchan = 693130723015524382
 releasechan = 748084599447355523
-releasehistory = []
 
 @bot.event
 async def on_ready():
 
 	print(f'We have logged in as {bot.user}')
-	bot.loop.create_task(status_task())
 	bot.loop.create_task(nh_task())
 	channel = bot.get_channel(logchan)
 	await channel.send(content='Restarted')
-	global releasehistory
-	releasehistory = await bot.get_channel(releasechan).history().flatten()
+	bot.releasehistory = await bot.get_channel(releasechan).history().flatten()
 
 async def status_task():
 
@@ -53,7 +50,7 @@ async def nh_task():
 
 	await asyncio.sleep(10)
 	releaselinks = []
-	for things in releasehistory:
+	for things in bot.releasehistory:
 		releaselinks.append(things.content)
 
 	while True:
@@ -136,6 +133,7 @@ bot.add_cog(utilititties.Utilities(bot, ytclient, logchan))
 bot.add_cog(dumbooruamirite.Danboorushit(bot, db))
 bot.add_cog(kiyofuckingburns.Kiyohime(bot, db))
 bot.add_cog(meltfuckingmeltsthankstokiyo.MeltyScans(bot, queuechan))
+bot.loop.create_task(status_task())
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):

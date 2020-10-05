@@ -72,8 +72,8 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		file_list = drive.ListFile({'q': "'root' in parents and trashed = false"}).GetList()
 		for file1 in file_list:
 			_, ext = os.path.splitext(file1['title'])
-			next = tension.Ext(ext)
-			e.add_field(name=file1['title'],value=next)
+			nexte = tension.Ext(ext)
+			e.add_field(name=file1['title'],value=nexte)
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['trash'])

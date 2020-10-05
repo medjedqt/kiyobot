@@ -30,19 +30,17 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	@commands.command(aliases=['danbooru','d'],help=hell['danbooru'])
 	async def dan(self, ctx, *tag):
 
-		x = []
 		newtag = '_'.join(tag)
 		page = randint(1,5)
 		try:
 			posts = self.db.post_list(tags=newtag,page=page,limit=5)
-			for post in posts:
-				try:
-					fileurl = post['file_url']
-				except:
-					fileurl = 'https://danbooru.donmai.us' + post['source']
-				x.append(fileurl)
+			post = choice(posts)
+			try:
+				fileurl = post['file_url']
+			except KeyError:
+				fileurl = 'https://danbooru.donmai.us' + post['source']
 			e = discord.Embed(color=0x0000ff)
-			e.set_image(url=choice(x))
+			e.set_image(url=fileurl)
 			await ctx.send(embed=e)
 		except:
 			await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
@@ -50,20 +48,17 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	@commands.command(help=hell['multi'])
 	async def multi(self, ctx, *tag):
 
-		x=[]
 		tag = ' '.join(tag)
 		page = randint(1,5)
+		e = discord.Embed(color=0x00FFBE)
 		try:
 			posts = self.db.post_list(tags=tag,page=page,limit=5)
 			for post in posts:
 				try:
 					fileurl = post['file_url']
-				except:
+				except KeyError:
 					fileurl = 'https://danbooru.donmai.us' + post['source']
-				x.append(fileurl)
-			e = discord.Embed(color=0x00FFBE)
-			for poop in x:
-				e.set_image(url=poop)
+				e.set_image(url=fileurl)
 				await ctx.send(embed=e)
 		except:
 			await ctx.send(content="Some shit broke. Also firara is gay")

@@ -37,7 +37,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['wordcloud'])
-	async def wordcloud(self, ctx, chanlimit=100, max=100):
+	async def wordcloud(self, ctx, chanlimit=100, maxim=100):
 
 		def getFrequencyDictForText(sentence):
 			fullTermsDict = multidict.MultiDict()
@@ -60,7 +60,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 				async for stuff in channel.history(limit=chanlimit):
 					messages.append(stuff.content)
 		text = ' '.join(messages)
-		wordcloud = WordCloud(max_words=max,width=1920, height=1080, min_word_length=2).generate_from_frequencies(getFrequencyDictForText(text))
+		wordcloud = WordCloud(max_words=maxim,width=1920, height=1080, min_word_length=2).generate_from_frequencies(getFrequencyDictForText(text))
 		wordcloud.to_file('wc.png')
 		await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
