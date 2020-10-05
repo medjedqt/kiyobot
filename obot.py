@@ -111,16 +111,6 @@ async def on_message(message):
 		await channel.send(embed=e)
 	await bot.process_commands(message)
 
-@bot.event
-async def on_message_edit(before, after):
-
-	if before.author.bot or before.content == after.content or before.guild.id != 569845300244774922:
-		return
-	channel = bot.get_channel(logchan)
-	e = discord.Embed(title=before.author.name, color=0xff0000)
-	e.add_field(name="Edited", value=f'"{before.content}" to "{after.content}"')
-	await channel.send(embed=e)
-
 @bot.command(help=hell['connect'])
 async def connect(ctx):
 
