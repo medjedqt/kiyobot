@@ -22,7 +22,8 @@ git clone https://github.com/medjedqt/kiyobot.git
 ```sh
 pip install -r requirements.txt
 ```
-3. Enter your bot token and danbooru key in `obot.py`
+3. Enter your bot token and preferred prefix in `obot.py`
 ```PY
+prefix = '?'
 token = 'ENTER YOUR TOKEN'
 ```
