@@ -47,7 +47,7 @@ async def status_task():
 
 async def nh_task():
 
-	await bot.wait_until_ready
+	await bot.wait_until_ready()
 	releaselinks = list()
 	async for things in bot.get_channel(releasechan).history():
 		releaselinks.append(things.content)
