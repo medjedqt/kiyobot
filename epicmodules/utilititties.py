@@ -8,6 +8,7 @@ from gtts import gTTS
 from googletrans import Translator
 from udpy import UrbanClient
 import youtube_dl
+from sauce_finder import sauce_finder
 from kiyo import lang
 from helpy import hell
 
@@ -201,3 +202,14 @@ class Utilities(commands.Cog):
 		for choice in choices:
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
+
+	@commands.command()
+	async def sauce(self, ctx):
+		url = ctx.message.attachments[0].url
+		result = sauce_finder.get_match(url)
+		embed = discord.Embed(title=result['type'],color=0xefa395)
+		if result['type'] == 'possible':
+			embed.set_image(url=result['found'][0]['link'])
+		else:
+			embed.set_image(url=result['found']['link'])
+		await ctx.send(embed=embed)
