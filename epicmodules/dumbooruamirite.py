@@ -3,6 +3,7 @@ from discord.ext import commands
 from random import randint, choice
 import os
 from helpy import hell
+from sauce_finder import sauce_finder
 
 class Danboorushit(commands.Cog, name='Danbooru'):
 	def __init__(self, bot, db):
@@ -62,3 +63,13 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 				await ctx.send(embed=e)
 		except:
 			await ctx.send(content="Some shit broke. Also firara is gay")
+	
+	@commands.command()
+	async def sauce(self, ctx):
+		url = ctx.message.attachments[0].url
+		result = sauce_finder.get_match(url)
+		if result['type'] == 'possible':
+			thing = result['found'][0]['link']
+		else:
+			thing = result['found']['link']
+		await ctx.send(content=f"{result['type']} result: {thing}")
