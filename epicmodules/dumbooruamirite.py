@@ -65,8 +65,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			await ctx.send(content="Some shit broke. Also firara is gay")
 	
 	@commands.command()
-	async def sauce(self, ctx):
-		url = ctx.message.attachments[0].url
+	async def sauce(self, ctx, url=None):
+		if url is None:
+			url = ctx.message.attachments[0].url
 		result = sauce_finder.get_match(url)
 		if result['type'] == 'possible':
 			thing = result['found'][0]['link']
