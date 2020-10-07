@@ -88,7 +88,7 @@ class Utilities(commands.Cog):
 	@commands.command(help=hell['google'])
 	async def google(self, ctx,*query):
 
-		query = ''.join(query)
+		query = ' '.join(query)
 		for result in search(query, tld='com', num=1, stop=1, pause=2):
 			await ctx.send(result)
 	

@@ -11,14 +11,13 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from helpy import hell
 
-browser = webdriver.Chrome(ChromeDriverManager().install())
-browser.get('https://www.cleverbot.com')
-browser.execute_script('noteok()')
-
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot):
 		self.bot = bot
-		
+		self.bot.browser = webdriver.Chrome(ChromeDriverManager().install())
+		self.bot.browser.get('https://www.cleverbot.com')
+		self.bot.browser.execute_script('noteok()')
+
 	@commands.command(help=hell['word'])
 	async def word(self, ctx):
 
@@ -80,10 +79,14 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 					continue
 				q.append(word)
 			q = ' '.join(q)
-			inputbox = browser.find_element_by_name('stimulus')
+			inputbox = self.bot.browser.find_element_by_name('stimulus')
 			inputbox.clear()
 			inputbox.send_keys(q)
 			inputbox.send_keys(Keys.RETURN)
 			await asyncio.sleep(5)
-			response = browser.find_element_by_xpath("//p[@id='line1']/span")
+			response = self.bot.browser.find_element_by_xpath("//p[@id='line1']/span")
 			await ctx.send(content=response.text)
+	@commands.command()
+	async def reloadchat(self, ctx):
+		
+		pass
