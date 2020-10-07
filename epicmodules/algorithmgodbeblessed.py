@@ -89,4 +89,9 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	@commands.command()
 	async def reloadchat(self, ctx):
 		
-		pass
+		message = await ctx.send(content='Reloading..')
+		self.bot.browser.quit()
+		self.bot.browser = webdriver.Chrome(ChromeDriverManager().install())
+		self.bot.browser.get('https://www.cleverbot.com')
+		self.bot.browser.execute_script('noteok()')
+		await message.edit(content='Reloaded!')
