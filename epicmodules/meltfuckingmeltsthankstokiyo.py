@@ -49,6 +49,7 @@ NH link: <{nhlink}>
 raw source: <{raws}>
 TL link: <{doclink}>'''
 		await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
+		await ctx.message.add_reaction('👌')
 
 	@commands.is_owner()
 	@commands.command()
@@ -62,6 +63,7 @@ TL link: <{doclink}>'''
 					if 'raw' in line:
 						newcontent = message.content.replace(line, f'raw source: <{url}>')
 				await message.edit(content=newcontent)
+				await ctx.message.add_reaction('👌')
 
 	@commands.is_owner()
 	@commands.command()
@@ -75,6 +77,7 @@ TL link: <{doclink}>'''
 					if 'TL link' in line:
 						newcontent = message.content.replace(line, f'TL link: <{url}>')
 				await message.edit(content=newcontent)
+				await ctx.message.add_reaction('👌')
 
 	@commands.is_owner()
 	@commands.command()
@@ -89,6 +92,7 @@ TL link: <{doclink}>'''
 				newline = oldline[0] + ' --> ' + title
 				newcontent = message.content.replace(oldcontent, newline)
 				await message.edit(content=newcontent)
+				await ctx.message.add_reaction('👌')
 	
 	@commands.is_owner()
 	@commands.command()
@@ -104,6 +108,7 @@ TL link: <{doclink}>'''
 					await ctx.send(content='Doujin already finished')
 					return
 				await message.edit(content=f'MS#{id_} ~~{message.content[8:]}~~')
+				await ctx.message.add_reaction('👌')
 	
 	@commands.is_owner()
 	@commands.command()
@@ -118,3 +123,4 @@ TL link: <{doclink}>'''
 					await ctx.send(content='Doujin already finished')
 					return
 				await message.edit(content=f'{message.content} ✅')
+				await ctx.message.add_reaction('👌')

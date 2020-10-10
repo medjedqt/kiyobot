@@ -86,6 +86,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			await asyncio.sleep(5)
 			response = self.bot.browser.find_element_by_xpath("//p[@id='line1']/span")
 			await ctx.send(content=response.text)
+
 	@commands.command()
 	async def reloadchat(self, ctx):
 		
