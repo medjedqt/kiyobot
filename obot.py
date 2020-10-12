@@ -21,17 +21,25 @@ bot = commands.Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
-ytclient = ytapi(api_key=os.environ['YT_API'])
-db = Danbooru('danbooru',username=dbname,api_key=dbkey)
-queuechan = 743713887123275817
-logchan = 693130723015524382
+bot.ytclient = ytapi(api_key=os.environ['YT_API'])
+bot.db = Danbooru('danbooru',username=dbname,api_key=dbkey)
+bot.logchan = 693130723015524382
 releasechan = 748084599447355523
+
+extendong = (
+	'epicmodules.algorithmsavedtheworld',
+	'epicmodules.cloudsavedtheworld',
+	'epicmodules.dumbooru',
+	'epicmodules.kiyofuckingburns',
+	'epicmodules.meltfuckingmeltsthankstokiyo',
+	'epicmodules.utilititties'
+)
 
 @bot.event
 async def on_ready():
 
 	print(f'We have logged in as {bot.user}')
-	channel = bot.get_channel(logchan)
+	channel = bot.get_channel(bot.logchan)
 	await channel.send(content='Restarted')
 
 async def status_task():
@@ -77,7 +85,7 @@ async def on_command_error(ctx, error):
 		await ctx.send(content="Please wait!")
 	if isinstance(error, commands.NotOwner):
 		await ctx.send(content="Owner only command ❌")
-	await bot.get_channel(logchan).send(content=error)
+	await bot.get_channel(bot.logchan).send(content=error)
 	raise error
 
 @bot.event
@@ -87,7 +95,7 @@ async def on_message(message):
 	if message.author.bot or message.content.startswith('?'):
 		pass
 	elif isinstance(message.channel,discord.DMChannel):
-		channel = bot.get_channel(logchan)
+		channel = bot.get_channel(bot.logchan)
 		sender = message.author.name + " said"
 		if message.attachments != []:
 			attachment = message.attachments[0]
@@ -122,12 +130,8 @@ async def disconnect(ctx):
 		await ctx.voice_client.disconnect()
 		await ctx.send("bye...")
 
-bot.add_cog(algorithmgodbeblessed.MachineLearningShit(bot))
-bot.add_cog(cloudsavedtheworld.Cloudshit(bot))
-bot.add_cog(utilititties.Utilities(bot, ytclient, logchan))
-bot.add_cog(dumbooruamirite.Danboorushit(bot, db))
-bot.add_cog(kiyofuckingburns.Kiyohime(bot, db))
-bot.add_cog(meltfuckingmeltsthankstokiyo.MeltyScans(bot, queuechan))
+for extension in extendong:
+	bot.load_extension(extension)
 bot.loop.create_task(status_task())
 bot.loop.create_task(nh_task())
 

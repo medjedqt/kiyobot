@@ -4,9 +4,9 @@ import requests
 from bs4 import BeautifulSoup
 
 class MeltyScans(commands.Cog, name='Melty Scans'):
-	def __init__(self, bot, queuechan):
+	def __init__(self, bot):
 		self.bot = bot
-		self.queuechan = queuechan
+		self.queuechan = 743713887123275817
 
 	@commands.is_owner()
 	@commands.command()
@@ -49,7 +49,7 @@ NH link: <{nhlink}>
 raw source: <{raws}>
 TL link: <{doclink}>'''
 		await queuechannel.send(content=text, file=discord.File('nhimage.jpg'))
-		await ctx.message.add_reaction('👌')
+		await ctx.send(f'Queued as MS#{queuetag}')
 
 	@commands.is_owner()
 	@commands.command()
@@ -124,3 +124,6 @@ TL link: <{doclink}>'''
 					return
 				await message.edit(content=f'{message.content} ✅')
 				await ctx.message.add_reaction('👌')
+
+def setup(bot):
+	bot.add_cog(MeltyScans(bot))

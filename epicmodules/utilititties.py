@@ -15,10 +15,10 @@ trans = Translator()
 uclient = UrbanClient()
 
 class Utilities(commands.Cog):
-	def __init__(self, bot, ytclient, logchan):
+	def __init__(self, bot):
 		self.bot = bot
-		self.ytclient = ytclient
-		self.logchan = logchan
+		self.ytclient = bot.ytclient
+		self.logchan = bot.logchan
 
 	@commands.Cog.listener()
 	async def on_message_edit(self, before, after):
@@ -201,3 +201,6 @@ class Utilities(commands.Cog):
 		for choice in choices:
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
+
+def setup(bot):
+	bot.add_cog(Utilities(bot))

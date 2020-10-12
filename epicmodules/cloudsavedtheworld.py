@@ -87,3 +87,6 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 				actual_file = drive.CreateFile({'id':file['id']})
 				actual_file.Trash()
 				await ctx.send(content='Binned {0}'.format(file['title']))
+
+def setup(bot):
+	bot.add_cog(Cloudshit(bot))

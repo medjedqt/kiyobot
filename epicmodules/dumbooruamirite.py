@@ -6,9 +6,9 @@ from helpy import hell
 from sauce_finder import sauce_finder
 
 class Danboorushit(commands.Cog, name='Danbooru'):
-	def __init__(self, bot, db):
+	def __init__(self, bot):
 		self.bot = bot
-		self.db = db
+		self.db = bot.db
 	
 	@commands.command(help=hell['latest'])
 	async def latest(self, ctx, key=None, *tag):
@@ -74,3 +74,6 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		else:
 			thing = result['found']['link']
 		await ctx.send(content=f"{result['type']} result: {thing}")
+
+def setup(bot):
+	bot.add_cog(Danboorushit(bot))

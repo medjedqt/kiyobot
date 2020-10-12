@@ -7,9 +7,9 @@ import os
 from helpy import hell
 
 class Kiyohime(commands.Cog):
-	def __init__(self, bot, db):
+	def __init__(self, bot):
 		self.bot = bot
-		self.db = db
+		self.db = bot.db
 	
 	@commands.Cog.listener()
 	async def on_message(self, message):
@@ -61,3 +61,6 @@ class Kiyohime(commands.Cog):
 		e = discord.Embed(color=0x00ff00)
 		e.set_image(url=choice(x))
 		await ctx.send(embed=e)
+
+def setup(bot):
+	bot.add_cog(Kiyohime(bot))
