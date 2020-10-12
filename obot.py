@@ -27,7 +27,7 @@ bot.logchan = 693130723015524382
 releasechan = 748084599447355523
 
 extendong = (
-	'epicmodules.algorithmsavedtheworld',
+	'epicmodules.algorithmgodbeblessed',
 	'epicmodules.cloudsavedtheworld',
 	'epicmodules.dumbooru',
 	'epicmodules.kiyofuckingburns',
