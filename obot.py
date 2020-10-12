@@ -29,7 +29,7 @@ releasechan = 748084599447355523
 extendong = (
 	'epicmodules.algorithmgodbeblessed',
 	'epicmodules.cloudsavedtheworld',
-	'epicmodules.dumbooru',
+	'epicmodules.dumbooruamirite',
 	'epicmodules.kiyofuckingburns',
 	'epicmodules.meltfuckingmeltsthankstokiyo',
 	'epicmodules.utilititties'
