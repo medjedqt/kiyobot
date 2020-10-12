@@ -26,15 +26,6 @@ bot.db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 bot.logchan = 693130723015524382
 releasechan = 748084599447355523
 
-extendong = (
-	'epicmodules.algorithmgodbeblessed',
-	'epicmodules.cloudsavedtheworld',
-	'epicmodules.dumbooruamirite',
-	'epicmodules.kiyofuckingburns',
-	'epicmodules.meltfuckingmeltsthankstokiyo',
-	'epicmodules.utilititties'
-)
-
 @bot.event
 async def on_ready():
 
@@ -130,8 +121,10 @@ async def disconnect(ctx):
 		await ctx.voice_client.disconnect()
 		await ctx.send("bye...")
 
-for extension in extendong:
-	bot.load_extension(extension)
+for filer in os.listdir('epicmodules'):
+	if filer.endswith('.py'):
+		bot.load_extension(f'epicmodules.{filer[:-3]}')
+
 bot.loop.create_task(status_task())
 bot.loop.create_task(nh_task())
 
