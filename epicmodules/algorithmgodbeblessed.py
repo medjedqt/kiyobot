@@ -5,6 +5,7 @@ import asyncio
 from bs4 import BeautifulSoup
 import multidict
 import re
+import inspirobot
 from wordcloud import WordCloud
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
@@ -96,6 +97,12 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		self.bot.browser.get('https://www.cleverbot.com')
 		self.bot.browser.execute_script('noteok()')
 		await message.edit(content='Reloaded!')
+	
+	@commands.command()
+	async def inspire(self, ctx):
+		
+		quote = inspirobot.generate()
+		await ctx.send(content=quote.url)
 
 def setup(bot):
 	bot.add_cog(MachineLearningShit(bot))

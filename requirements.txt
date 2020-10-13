@@ -12,6 +12,7 @@ google==2.0.3
 googletrans==2.4.0
 gtts==2.1.1
 idna==2.8
+insprio==0.0.1
 jsonschema==3.2.0
 multidict==4.6.1
 opuslib==3.0.1
