@@ -12,6 +12,7 @@ import io
 import math
 from bs4 import BeautifulSoup
 from pyyoutube import Api as ytapi
+from chemspipy import ChemSpider
 from epicmodules import algorithmgodbeblessed, cloudsavedtheworld, kiyofuckingburns, dumbooruamirite, meltfuckingmeltsthankstokiyo, utilititties
 
 intents = discord.Intents.default()
