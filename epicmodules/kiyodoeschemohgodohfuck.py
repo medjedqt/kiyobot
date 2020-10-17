@@ -17,7 +17,7 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 		searchlist = list()
 		for result in cs.search(compound):
 			searchlist.append(result)
- 		retop = searchlist[0]
+		retop = searchlist[0]
 		c_id = retop.record_id
 		c_name = retop.common_name
 		c_image = retop.image_url
