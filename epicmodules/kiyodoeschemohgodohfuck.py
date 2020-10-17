@@ -29,6 +29,7 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 		e.add_field(name="ID:", value=c_id)
 		e.add_field(name="Molecular Formula:", value=c_formula)
 		e.add_field(name="Average Mass:", value=c_mass)
+		await ctx.send(embed=e)
 
 def setup(bot):
 	bot.add_cog(Chemshit(bot))
