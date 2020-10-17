@@ -32,5 +32,6 @@ hell = {'kiyo' : 'poops out kiyo pics',
 'youtube' : 'Searches youtube vids',
 'ytdl' : 'ytdl, kinda broken',
 'SearchCompound' : 'search chemistry compounds',
-'CompoundId' : 'get compound by id'
+'CompoundId' : 'get compound by id',
+'RandomCompound' : 'get a random compound'
 }
