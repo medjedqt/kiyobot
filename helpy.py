@@ -30,6 +30,6 @@ hell = {'kiyo' : 'poops out kiyo pics',
 'ud' : 'searches the urbandictionary',
 'yeet' : 'Posts the link to a custom emote',
 'youtube' : 'Searches youtube vids',
-'ytdl' : 'ytdl, kinda broken'
+'ytdl' : 'ytdl, kinda broken',
 'SearchCompound' : 'search chemistry compounds'
 }
