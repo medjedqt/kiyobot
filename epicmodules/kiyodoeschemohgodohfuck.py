@@ -10,13 +10,13 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 		self.bot = bot
 		self.cs = bot.cs
 
-    @commands.command(aliases=['searchcomp','sc'],help=hell['SearchCompound'])
-    async def SearchCompound(self,ctx, compound):
+	@commands.command(aliases=['searchcomp','sc'],help=hell['SearchCompound'])
+	async def SearchCompound(self,ctx, compound):
 
-        comp = compound
-        searchlist = list()
-        for result in cs.search(compound):
-            searchlist.append(result)
+	comp = compound
+	searchlist = list()
+	for result in cs.search(compound):
+		searchlist.append(result)
  	retop = searchlist[0]
 	c_id = retop.record_id
 	c_name = retop.common_name
