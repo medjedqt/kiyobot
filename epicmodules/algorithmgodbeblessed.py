@@ -64,6 +64,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		wordcloud.to_file('wc.png')
 		await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
+	@commands.max_concurrency(1, wait=True)
 	@commands.command(help=hell['chat'])
 	async def chat(self, ctx, *question: str):
 
