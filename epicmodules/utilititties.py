@@ -205,10 +205,11 @@ class Utilities(commands.Cog):
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
 
 	@commands.dm_only()
-	@commands.group(invoke_without_subcommand=True)
+	@commands.group()
 	async def test(self, ctx):
 
-		await ctx.send('tested')
+		if not ctx.invoked_subcommand:
+			await ctx.send('tested')
 	
 	@test.command()
 	async def test2(self, ctx):
