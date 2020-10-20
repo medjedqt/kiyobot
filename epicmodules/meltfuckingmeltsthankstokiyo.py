@@ -24,6 +24,12 @@ class MeltIDConverter(commands.Converter):
 			return argument[3:]
 		elif 'MS#' in argument:
 			return argument.split('MS#')[1][:4]
+		try:
+			intargument = int(argument)
+			argument = str(intargument).zfill(4)
+			await self.convert(ctx, argument)
+		except ValueError:
+			pass
 		raise ConversionError(argument)
 
 class MeltyScans(commands.Cog, name='Melty Scans'):
