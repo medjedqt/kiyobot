@@ -80,7 +80,9 @@ async def on_command_error(ctx, error):
 	if isinstance(error, commands.NotOwner):
 		await ctx.send(content="Owner only command ❌")
 	if isinstance(error, commands.UnexpectedQuoteError):
-		await ctx.send(conten='Clean your inputs from quotes you dirty little dirt baby')
+		await ctx.send(content="Clean your inputs from quotes you dirty little dirt baby")
+	if isinstance(error, commands.MemberNotFound):
+		await ctx.send(content=f"Member {error.argument} not found")
 	await bot.get_channel(bot.logchan).send(content=error)
 	raise error
 
