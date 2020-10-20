@@ -20,9 +20,9 @@ class MeltIDConverter(commands.Converter):
 			argument = argument.content
 		if len(argument) == 4:
 			return argument
-		elif argument.startswith('MS#'):
+		if argument.startswith('MS#'):
 			return argument[3:]
-		elif 'MS#' in argument:
+		if 'MS#' in argument:
 			return argument.split('MS#')[1][:4]
 		try:
 			intargument = int(argument)
