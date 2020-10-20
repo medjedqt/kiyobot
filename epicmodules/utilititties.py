@@ -121,10 +121,10 @@ class Utilities(commands.Cog):
 	async def mp3(self, ctx, langu, *words):
 
 		if langu not in lang:
-			words = ctx.message.content.replace(f'{ctx.prefix}{ctx.invoked_with} ', '', 1)
+			words = discord.utils.escape_markdown(ctx.message.clean_content.replace(f'{ctx.prefix}{ctx.invoked_with} ', '', 1))
 			langu = 'en'
 		else:
-			words = ctx.message.content.replace(f'{ctx.prefix}{ctx.invoked_with} {langu} ', '', 1)
+			words = discord.utils.escape_markdown(ctx.message.clean_content.replace(f'{ctx.prefix}{ctx.invoked_with} {langu} ', '', 1))
 		tts = gTTS(words, lang=langu)
 		tts.save('kiyo.mp3')
 		await ctx.send(file=discord.File('kiyo.mp3'))
@@ -207,7 +207,7 @@ class Utilities(commands.Cog):
 	@commands.command()
 	async def test(self, ctx, *stuff):
 
-		await ctx.send(ctx.message.content)
+		await ctx.send(discord.utils.escape_markdown(ctx.message.clean_content))
 
 def setup(bot):
 	bot.add_cog(Utilities(bot))
