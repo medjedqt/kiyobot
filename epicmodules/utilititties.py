@@ -120,11 +120,10 @@ class Utilities(commands.Cog):
 	@commands.command(help=hell['mp3'])
 	async def mp3(self, ctx, langu, *words):
 
+		words = ' '.join(words)
 		if langu not in lang:
-			words = discord.utils.escape_markdown(ctx.message.clean_content.replace(f'{ctx.prefix}{ctx.invoked_with} ', '', 1))
+			words = langu + ' ' + words
 			langu = 'en'
-		else:
-			words = discord.utils.escape_markdown(ctx.message.clean_content.replace(f'{ctx.prefix}{ctx.invoked_with} {langu} ', '', 1))
 		tts = gTTS(words, lang=langu)
 		tts.save('kiyo.mp3')
 		await ctx.send(file=discord.File('kiyo.mp3'))
@@ -202,12 +201,6 @@ class Utilities(commands.Cog):
 		for choice in choices:
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
-	
-	@commands.dm_only()
-	@commands.command()
-	async def test(self, ctx, *stuff):
-
-		await ctx.send(discord.utils.escape_markdown(ctx.message.clean_content))
 
 def setup(bot):
 	bot.add_cog(Utilities(bot))
