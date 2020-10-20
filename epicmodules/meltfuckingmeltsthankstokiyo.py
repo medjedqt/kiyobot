@@ -11,21 +11,20 @@ class ConversionError(Exception):
 		return f'{type(self.stuff).__name__} object is not convertable'
 
 class MeltIDConverter(commands.Converter):
-	async def meltidconverter(self, ctx, stuff):
-
+	async def convert(self, ctx, argument):
 		try:
-			stuff = commands.MessageConverter().convert(ctx, stuff)
+			argument = commands.MessageConverter().convert(ctx, argument)
 		except commands.MessageNotFound:
 			pass
-		if isinstance(stuff, discord.Message):
-			stuff = stuff.content
-		if len(stuff) == 4:
-			return stuff
-		elif stuff.startswith('MS#'):
-			return stuff[3:]
-		elif 'MS#' in stuff:
-			return stuff.split('MS#')[1][:4]
-		raise ConversionError(stuff)
+		if isinstance(argument, discord.Message):
+			argument = argument.content
+		if len(argument) == 4:
+			return argument
+		elif argument.startswith('MS#'):
+			return argument[3:]
+		elif 'MS#' in argument:
+			return argument.split('MS#')[1][:4]
+		raise ConversionError(argument)
 
 class MeltyScans(commands.Cog, name='Melty Scans'):
 	def __init__(self, bot):
@@ -93,7 +92,7 @@ TL link: <{doclink}>'''
 
 	@commands.is_owner()
 	@commands.command()
-	async def doc(self, ctx, id_: meltidconverter, url):
+	async def doc(self, ctx, id_: MeltIDConverter, url):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
@@ -109,7 +108,7 @@ TL link: <{doclink}>'''
 
 	@commands.is_owner()
 	@commands.command()
-	async def title(self, ctx, id_: meltidconverter, *title):
+	async def title(self, ctx, id_: MeltIDConverter, *title):
 
 		title = ' '.join(title)
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
@@ -126,7 +125,7 @@ TL link: <{doclink}>'''
 	
 	@commands.is_owner()
 	@commands.command()
-	async def cancel(self, ctx, id_: meltidconverter):
+	async def cancel(self, ctx, id_: MeltIDConverter):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
@@ -143,7 +142,7 @@ TL link: <{doclink}>'''
 	
 	@commands.is_owner()
 	@commands.command()
-	async def done(self, ctx, id_: meltidconverter):
+	async def done(self, ctx, id_: MeltIDConverter):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
