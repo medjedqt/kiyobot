@@ -217,7 +217,7 @@ class Utilities(commands.Cog):
 	@commands.command()
 	async def teet(self, ctx):
 
-		await self.test()
+		await self.test(ctx)
 
 def setup(bot):
 	bot.add_cog(Utilities(bot))
