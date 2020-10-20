@@ -27,7 +27,7 @@ class MeltIDConverter(commands.Converter):
 		try:
 			intargument = int(argument)
 			argument = str(intargument).zfill(4)
-			await self.convert(ctx, argument)
+			return await self.convert(ctx, argument)
 		except ValueError:
 			pass
 		raise ConversionError(argument)
