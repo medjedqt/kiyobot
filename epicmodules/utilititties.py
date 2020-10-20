@@ -168,13 +168,15 @@ class Utilities(commands.Cog):
 			await ctx.send(file=discord.File(f'vid{fformat}'))
 			os.remove(f'vid{fformat}')
 	
+	@commands.guild_only()
 	@commands.command(help=hell['clone'])
 	async def clone(self, ctx, user: discord.Member, *message):
 
 		message = ' '.join(message)
-		hook = await ctx.guild.webhooks()
-		hook = hook[0]
+		hook = await ctx.channel.create_webhook(name=user.nick)
 		await hook.send(content=message, username=user.nick, avatar_url=user.avatar_url)
+		await ctx.message.delete()
+		await hook.delete()
 
 	@commands.command(help=hell['embed'])
 	async def embed(self, ctx, *words):
