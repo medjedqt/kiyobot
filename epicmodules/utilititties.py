@@ -173,8 +173,11 @@ class Utilities(commands.Cog):
 	async def clone(self, ctx, user: discord.Member, *message):
 
 		message = ' '.join(message)
-		hook = await ctx.channel.create_webhook(name=user.nick)
-		await hook.send(content=message, username=user.nick, avatar_url=user.avatar_url)
+		name = user.nick
+		if name is None:
+			name = user.name
+		hook = await ctx.channel.create_webhook(name=name)
+		await hook.send(content=message, username=name, avatar_url=user.avatar_url)
 		await ctx.message.delete()
 		await hook.delete()
 
