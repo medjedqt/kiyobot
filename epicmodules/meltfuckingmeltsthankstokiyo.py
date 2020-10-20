@@ -13,8 +13,8 @@ class ConversionError(Exception):
 class MeltIDConverter(commands.Converter):
 	async def convert(self, ctx, argument):
 		try:
-			argument = commands.MessageConverter().convert(ctx, argument)
-		except commands.MessageNotFound:
+			argument = await commands.MessageConverter().convert(ctx, argument)
+		except (commands.MessageNotFound, commands.ChannelNotFound, commands.ChannelNotReadable):
 			pass
 		if isinstance(argument, discord.Message):
 			argument = argument.content
