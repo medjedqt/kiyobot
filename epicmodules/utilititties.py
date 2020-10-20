@@ -120,10 +120,11 @@ class Utilities(commands.Cog):
 	@commands.command(help=hell['mp3'])
 	async def mp3(self, ctx, langu, *words):
 
-		words = ' '.join(words)
 		if langu not in lang:
-			words = langu + ' ' + words
+			words = ctx.message.content.replace(f'{ctx.prefix}{ctx.invoked_with} ', '', 1)
 			langu = 'en'
+		else:
+			words = ctx.message.content.replace(f'{ctx.prefix}{ctx.invoked_with} {langu} ', '', 1)
 		tts = gTTS(words, lang=langu)
 		tts.save('kiyo.mp3')
 		await ctx.send(file=discord.File('kiyo.mp3'))
