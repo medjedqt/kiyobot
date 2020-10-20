@@ -207,17 +207,5 @@ class Utilities(commands.Cog):
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
 
-	@commands.dm_only()
-	@commands.command()
-	async def test(self, ctx):
-
-		await ctx.send('1')
-
-	@commands.dm_only()
-	@commands.command()
-	async def teet(self, ctx):
-
-		await self.test(ctx)
-
 def setup(bot):
 	bot.add_cog(Utilities(bot))

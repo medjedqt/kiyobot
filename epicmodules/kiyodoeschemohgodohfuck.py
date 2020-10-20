@@ -54,19 +54,7 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 	async def RandomCompound(self,ctx):
 		
 		idnum = randint(0, 1000000)
-		comp = self.cs.get_compound(idnum)
-		c_id = comp.record_id
-		c_name = comp.common_name
-		c_image = comp.image_url
-		c_formula = comp.molecular_formula
-		c_mass = comp.average_mass
-		c_link = f"http://www.chemspider.com/Chemical-Structure.{c_id}.html"
-		e = discord.Embed(title=c_name, url=c_link,color=0x5ec0d1)
-		e.set_image(url=c_image)
-		e.add_field(name="ID:", value=c_id)
-		e.add_field(name="Molecular Formula:", value=c_formula)
-		e.add_field(name="Average Mass:", value=c_mass)
-		await ctx.send(embed=e)
+		await self.CompoundId(ctx, idnum)
 		
 
 def setup(bot):
