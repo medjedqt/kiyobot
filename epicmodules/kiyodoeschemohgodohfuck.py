@@ -1,8 +1,5 @@
 import discord
 from discord.ext import commands
-import requests
-import asyncio
-from bs4 import BeautifulSoup
 from random import randint
 from helpy import hell
 
@@ -55,7 +52,6 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 		
 		idnum = randint(0, 1000000)
 		await self.CompoundId(ctx, idnum)
-		
 
 def setup(bot):
 	bot.add_cog(Chemshit(bot))

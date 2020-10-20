@@ -5,6 +5,7 @@ bs4==0.0.1
 certifi==2019.11.28
 cffi==1.13.2
 chardet==3.0.4
+chemspipy==2.0.0
 cryptography==2.8
 discord.py==1.5.0
 future==0.18.2
@@ -34,4 +35,3 @@ webdriver-manager==3.2.2
 wordcloud==1.7.0
 yarl==1.4.2
 youtube-dl==2020.5.8
-chemspipy==2.0.0
