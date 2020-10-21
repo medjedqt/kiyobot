@@ -21,7 +21,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		self.bot = bot
 	
 	@commands.command(aliases=['u','up'],help=hell['upload'])
-	async def upload(self, ctx,title=None):
+	async def upload(self, ctx, title=None):
 
 		try:
 			attachment =ctx.message.attachments[0]
@@ -48,7 +48,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		os.remove(newname)
 
 	@commands.command(aliases=['dl','down'], help=hell['download'])
-	async def download(self, ctx,file):
+	async def download(self, ctx, file: str):
 
 		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 		for file2 in file_list:
@@ -77,7 +77,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['trash'])
-	async def trash(self, ctx, filename):
+	async def trash(self, ctx, filename: str):
 
 		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 		for file in file_list:

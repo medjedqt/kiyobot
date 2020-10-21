@@ -56,8 +56,9 @@ class Utilities(commands.Cog):
 		await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
 
 	@commands.command(help=hell['dm'])
-	async def dm(self, ctx,user: discord.User, msg):
-	
+	async def dm(self, ctx,user: discord.User, *msg):
+
+		msg = ' '.join(msg)
 		await ctx.message.delete()
 		await user.send(content=msg)
 	
@@ -86,7 +87,7 @@ class Utilities(commands.Cog):
 		await ctx.message.delete()
 	
 	@commands.command(help=hell['google'])
-	async def google(self, ctx,*query):
+	async def google(self, ctx, *query):
 
 		query = ' '.join(query)
 		for result in search(query, tld='com', num=1, stop=1, pause=2):
@@ -118,7 +119,7 @@ class Utilities(commands.Cog):
 		await ctx.send(content=choice(arg))
 
 	@commands.command(help=hell['mp3'])
-	async def mp3(self, ctx, langu, *words):
+	async def mp3(self, ctx, langu: str, *words):
 
 		words = ' '.join(words)
 		if langu not in lang:
@@ -143,7 +144,7 @@ class Utilities(commands.Cog):
 			await ctx.send(content='The definition is a fucking essay.')
 	
 	@commands.command(aliases=['trans'],help=hell['translate'])
-	async def translate(self, ctx, words, target='en', source='auto'):
+	async def translate(self, ctx, words: str, target='en', source='auto'):
 
 		try:
 			neword = trans.translate(words, dest=target, src=source)
@@ -155,7 +156,7 @@ class Utilities(commands.Cog):
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['ytdl'])
-	async def ytdl(self, ctx, link):
+	async def ytdl(self, ctx, link: str):
 
 		fformat = ''
 		async with ctx.channel.typing():
@@ -190,14 +191,14 @@ class Utilities(commands.Cog):
 		await ctx.send(embed=e)
 	
 	@commands.command(help=hell['poll'])
-	async def poll(self, ctx, question, *choices):
+	async def poll(self, ctx, question: str, *choices):
 
 		if len(choices) > 9:
 			await ctx.send(content="Choices can't be more than 9")
 			return
 		x = 0
 		e = discord.Embed(title=question, color=0x2f3136)
-		e.set_author(name=f'asked by {ctx.author.nick}', icon_url=ctx.author.avatar_url)
+		e.set_author(name=f'asked by {ctx.author.display_name}', icon_url=ctx.author.avatar_url)
 		for choice in choices:
 			x = x + 1
 			e.add_field(name='Choice {}\N{variation selector-16}\N{combining enclosing keycap}'.format(x), value=choice)

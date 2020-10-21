@@ -101,9 +101,10 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	
 	@commands.command()
 	async def inspire(self, ctx):
-		
+
 		quote = inspirobot.generate()
 		await ctx.send(content=quote.url)
+
 
 def setup(bot):
 	bot.add_cog(MachineLearningShit(bot))

@@ -32,7 +32,7 @@ class MeltyScans(commands.Cog, name='Melty Scans'):
 
 	@commands.is_owner()
 	@commands.command()
-	async def queue(self, ctx, nhlink, raws = 'None', doclink = 'None', entitle = 'None', *en2):
+	async def queue(self, ctx, nhlink: str, raws = 'None', doclink = 'None', entitle = 'None', *en2):
 
 		if en2 is None:
 			pass
@@ -75,7 +75,7 @@ TL link: <{doclink}>'''
 
 	@commands.is_owner()
 	@commands.command()
-	async def raw(self, ctx, id_, url):
+	async def raw(self, ctx, id_: MeltIDConverter, url: str):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
@@ -91,7 +91,7 @@ TL link: <{doclink}>'''
 
 	@commands.is_owner()
 	@commands.command()
-	async def doc(self, ctx, id_: MeltIDConverter, url):
+	async def doc(self, ctx, id_: MeltIDConverter, url: str):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:

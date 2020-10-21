@@ -9,14 +9,14 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 		self.cs = bot.cs
 
 	@commands.command(aliases=['searchcomp','sc'],help=hell['SearchCompound'])
-	async def SearchCompound(self,ctx, compound):
+	async def SearchCompound(self, ctx, compound: str):
 
 		retop = self.cs.search(compound)[0]
 		c_id = retop.record_id
 		await self.CompoundId(ctx, c_id)
 		
 	@commands.command(aliases=['compid','cid'],help=hell['CompoundId'])
-	async def CompoundId(self,ctx, idnumber):
+	async def CompoundId(self, ctx, idnumber: int):
 		
 		comp = self.cs.get_compound(idnumber)
 		c_id = comp.record_id
