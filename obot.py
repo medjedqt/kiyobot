@@ -13,7 +13,7 @@ import math
 from bs4 import BeautifulSoup
 from pyyoutube import Api as ytapi
 from chemspipy import ChemSpider
-from epicmodules.meltfuckingmeltsthankstokiyo import ConversionError
+
 intents = discord.Intents.default()
 intents.members = True
 helpcmd = discord.ext.commands.MinimalHelpCommand()
@@ -86,8 +86,6 @@ async def on_command_error(ctx, error):
 	if isinstance(error, commands.MemberNotFound):
 		await ctx.send(content=f"Member {error.argument} not found")
 		return
-	if isinstance(error, ConversionError):
-		await ctx.send(content=error.__str__())
 	await bot.get_channel(bot.logchan).send(content=error)
 	raise error
 

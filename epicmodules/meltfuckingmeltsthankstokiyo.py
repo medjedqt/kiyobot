@@ -3,13 +3,6 @@ from discord.ext import commands
 import requests
 from bs4 import BeautifulSoup
 
-class ConversionError(Exception):
-	def __init__(self, stuff):
-		self.note = stuff
-
-	def __str__(self):
-		return f'{type(self.stuff).__name__} object is not convertable'
-
 class MeltIDConverter(commands.Converter):
 	async def convert(self, ctx, argument):
 		try:
@@ -30,7 +23,7 @@ class MeltIDConverter(commands.Converter):
 			return await self.convert(ctx, argument)
 		except ValueError:
 			pass
-		raise ConversionError(argument)
+		raise commands.CommandError(message=f'{type(argument).__name__} object is not convertable')
 
 class MeltyScans(commands.Cog, name='Melty Scans'):
 	def __init__(self, bot):

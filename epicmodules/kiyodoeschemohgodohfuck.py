@@ -11,33 +11,18 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 	@commands.command(aliases=['searchcomp','sc'],help=hell['SearchCompound'])
 	async def SearchCompound(self,ctx, compound):
 
-		comp = compound
-		searchlist = list()
-		for result in self.cs.search(comp):
-			searchlist.append(result)
-		retop = searchlist[0]
+		retop = self.cs.search(compound)[0]
 		c_id = retop.record_id
-		c_name = retop.common_name
-		c_image = retop.image_url
-		c_formula = retop.molecular_formula
-		c_mass = retop.average_mass
-		c_link = f"http://www.chemspider.com/Chemical-Structure.{c_id}.html"
-		e = discord.Embed(title=c_name, url=c_link,color=0x5ec0d1)
-		e.set_image(url=c_image)
-		e.add_field(name="ID:", value=c_id)
-		e.add_field(name="Molecular Formula:", value=c_formula)
-		e.add_field(name="Average Mass:", value=c_mass)
-		await ctx.send(embed=e)
+		await self.CompoundId(ctx, c_id)
 		
 	@commands.command(aliases=['compid','cid'],help=hell['CompoundId'])
 	async def CompoundId(self,ctx, idnumber):
 		
-		idnum = idnumber
-		comp = self.cs.get_compound(idnum)
+		comp = self.cs.get_compound(idnumber)
 		c_id = comp.record_id
 		c_name = comp.common_name
 		c_image = comp.image_url
-		c_formula = comp.molecular_formula
+		c_formula = discord.utils.escape_markdown(comp.molecular_formula)
 		c_mass = comp.average_mass
 		c_link = f"http://www.chemspider.com/Chemical-Structure.{c_id}.html"
 		e = discord.Embed(title=c_name, url=c_link,color=0x5ec0d1)
