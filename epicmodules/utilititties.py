@@ -196,7 +196,7 @@ class Utilities(commands.Cog):
 			await ctx.send(content="Choices can't be more than 9")
 			return
 		x = 0
-		e = discord.Embed(title=question, color=0x019901)
+		e = discord.Embed(title=question, color=0x2f3136)
 		e.set_author(name=f'asked by {ctx.author.nick}', icon_url=ctx.author.avatar_url)
 		for choice in choices:
 			x = x + 1
