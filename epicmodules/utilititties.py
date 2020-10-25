@@ -56,9 +56,8 @@ class Utilities(commands.Cog):
 		await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
 
 	@commands.command(help=hell['dm'])
-	async def dm(self, ctx,user: discord.User, *msg):
+	async def dm(self, ctx,user: discord.User, *, msg):
 
-		msg = ' '.join(msg)
 		await ctx.message.delete()
 		await user.send(content=msg)
 	
@@ -79,24 +78,21 @@ class Utilities(commands.Cog):
 				break
 	
 	@commands.command(help=hell['tts'])
-	async def tts(self, ctx, *msg):
+	async def tts(self, ctx, *, msg):
 
-		msg = ' '.join(msg)
 		msga = await ctx.send(content=msg, tts=True)
 		await msga.delete()
 		await ctx.message.delete()
 	
 	@commands.command(help=hell['google'])
-	async def google(self, ctx, *query):
+	async def google(self, ctx, *, query):
 
-		query = ' '.join(query)
 		for result in search(query, tld='com', num=1, stop=1, pause=2):
 			await ctx.send(result)
 	
 	@commands.command(help=hell['calc'])
-	async def calc(self, ctx, *inp):
+	async def calc(self, ctx, *, inp):
 
-		inp = ' '.join(inp)
 		result = eval(inp)
 		await ctx.send(content=result)
 	
@@ -119,9 +115,8 @@ class Utilities(commands.Cog):
 		await ctx.send(content=choice(arg))
 
 	@commands.command(help=hell['mp3'])
-	async def mp3(self, ctx, langu: str, *words):
+	async def mp3(self, ctx, langu: str, *, words):
 
-		words = ' '.join(words)
 		if langu not in lang:
 			words = langu + ' ' + words
 			langu = 'en'

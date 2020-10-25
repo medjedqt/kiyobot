@@ -9,7 +9,7 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 		self.cs = bot.cs
 
 	@commands.command(aliases=['searchcomp','sc'],help=hell['SearchCompound'])
-	async def SearchCompound(self, ctx, compound: str):
+	async def SearchCompound(self, ctx, *, compound: str):
 
 		retop = self.cs.search(compound)[0]
 		c_id = retop.record_id
@@ -33,7 +33,7 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 		await ctx.send(embed=e)
 		
 	@commands.command(aliases=['rancomp','rc'],help=hell['RandomCompound'])
-	async def RandomCompound(self,ctx):
+	async def RandomCompound(self, ctx):
 		
 		idnum = randint(0, 1000000)
 		await self.CompoundId(ctx, idnum)

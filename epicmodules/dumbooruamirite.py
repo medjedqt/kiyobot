@@ -47,9 +47,8 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
 
 	@commands.command(help=hell['multi'])
-	async def multi(self, ctx, *tag):
+	async def multi(self, ctx, *, tag):
 
-		tag = ' '.join(tag)
 		page = randint(1,5)
 		e = discord.Embed(color=0x00FFBE)
 		try:
