@@ -130,9 +130,8 @@ class Utilities(commands.Cog):
 		await ctx.send(file=discord.File('kiyo.mp3'))
 	
 	@commands.command(aliases=['urbandictionary', 'urban'],help=hell['ud'])
-	async def ud(self, ctx, *words):
+	async def ud(self, ctx, *, words):
 
-		words = ' '.join(words)
 		try:
 			udthing = uclient.get_definition(words)[0]
 			e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
