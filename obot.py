@@ -66,11 +66,15 @@ async def nh_task():
 				if url not in releaselinks:
 					await channel.send(content=url)
 					releaselinks.append(url)
-					#queue = await bot.getchannel(bot.get_cog("Melty Scans").queuechan).history().flatten()
-					#queuecontent = [_.content for _ in queue]
-					#match = auto(title, queuecontent.split(' --> ')[0][7:], 1, 0.7)
-					#if match != []:
-						#await bot.getchannel(bot.logchan).send(match[0])
+					queue = await bot.get_channel(bot.queuechan).history().flatten()
+					queuecontent = [_.content.split(" --> ")[0][7:] for _ in queue]
+					match = auto(title, queuecontent, 1, 0.7)
+					if match != []:
+						for item in queue:
+							if match[0] in item.content:
+								await bot.get_cog("Melty Scans").done(id_=item.content[3:7])
+								return
+					await bot.get_channel(bot.logchan).send("A release has been detected but no match has been found in queue.\nPlease use `?done` where appropriate.")
 		await asyncio.sleep(10)
 
 @bot.event
@@ -154,9 +158,9 @@ async def test(ctx, *, title: str):
 	if match != []:
 		for item in queue:
 			if match[0] in item.content:
-				await ctx.send(item.content[:7])
+				await ctx.send(item.content[3:7])
 				return
-		await ctx.send("Can't find")
+	await ctx.send("Can't find")
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):

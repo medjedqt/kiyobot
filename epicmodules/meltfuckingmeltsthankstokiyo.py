@@ -141,20 +141,22 @@ TL link: <{doclink}>'''
 	
 	@commands.is_owner()
 	@commands.command()
-	async def done(self, ctx, id_: MeltIDConverter):
+	async def done(self, ctx = None, id_: MeltIDConverter = None):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
 			if f'MS#{id_}' in message.content:
-				if message.content.endswith('~~'):
+				if message.content.endswith('~~') and ctx is not None:
 					resp = await ctx.send(content='Doujin already cancelled')
-				elif message.content.endswith('✅'):
+				elif message.content.endswith('✅' and ctx is not None):
 					resp = await ctx.send(content='Doujin already finished')
 				else:
 					await message.edit(content=f'{message.content} ✅')
-					resp = await ctx.send(content=f'Finished MS#{id_}')
-				await ctx.message.delete()
-				await resp.delete(delay=5)
+					if ctx is not None:
+						resp = await ctx.send(content=f'Finished MS#{id_}')
+				if ctx is not None:
+					await ctx.message.delete()
+					await resp.delete(delay=5)
 
 def setup(bot):
 	bot.add_cog(MeltyScans(bot))
