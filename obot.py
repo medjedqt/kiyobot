@@ -154,7 +154,7 @@ async def test(ctx, *, title: str):
 	if match != []:
 		for item in queue:
 			if match[0] in item.content:
-				await ctx.send(item.content[:6])
+				await ctx.send(item.content[:7])
 				return
 		await ctx.send("Can't find")
 
