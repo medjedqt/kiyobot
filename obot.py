@@ -13,6 +13,7 @@ import math
 from bs4 import BeautifulSoup
 from pyyoutube import Api as ytapi
 from chemspipy import ChemSpider
+from difflib import get_close_matches as auto
 
 intents = discord.Intents.default()
 intents.members = True
@@ -26,6 +27,7 @@ bot.ytclient = ytapi(api_key=os.environ['YT_API'])
 bot.db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 bot.cs = ChemSpider(cskey)
 bot.logchan = 693130723015524382
+bot.queuechan = 743713887123275817
 releasechan = 748084599447355523
 
 @bot.event
@@ -64,6 +66,11 @@ async def nh_task():
 				if url not in releaselinks:
 					await channel.send(content=url)
 					releaselinks.append(url)
+					#queue = await bot.getchannel(bot.get_cog("Melty Scans").queuechan).history().flatten()
+					#queuecontent = [_.content for _ in queue]
+					#match = auto(title, queuecontent.split(' --> ')[0][7:], 1, 0.7)
+					#if match != []:
+						#await bot.getchannel(bot.logchan).send(match[0])
 		await asyncio.sleep(10)
 
 @bot.event
@@ -137,6 +144,19 @@ for filer in os.listdir('epicmodules'):
 
 bot.loop.create_task(status_task())
 bot.loop.create_task(nh_task())
+
+@bot.command()
+async def test(ctx, *, title: str):
+
+	queue = await bot.get_channel(bot.queuechan).history().flatten()
+	queuecontent = [_.content.split(" --> ")[0][7:] for _ in queue]
+	match = auto(title, queuecontent, 1, 0.7)
+	if match != []:
+		for item in queue:
+			if match[0] in item.content:
+				await ctx.send(item.content[:6])
+				return
+		await ctx.send("Can't find")
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):

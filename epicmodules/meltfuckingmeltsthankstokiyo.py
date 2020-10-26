@@ -28,7 +28,7 @@ class MeltIDConverter(commands.Converter):
 class MeltyScans(commands.Cog, name='Melty Scans'):
 	def __init__(self, bot):
 		self.bot = bot
-		self.queuechan = 743713887123275817
+		self.queuechan = bot.queuechan
 
 	@commands.is_owner()
 	@commands.command()
