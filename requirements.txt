@@ -18,6 +18,7 @@ insprio==0.0.1
 jsonschema==3.2.0
 multidict==4.6.1
 opuslib==3.0.1
+psycopg2-binary==2.8.6
 Pybooru==4.2.0
 pycparser==2.19
 pydrive2==1.4.10
