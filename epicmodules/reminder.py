@@ -44,6 +44,10 @@ class Reminder(commands.Cog):
 		cursor.close()
 		conn.commit()
 		conn.close()
+	
+	@commands.command()
+	async def initremind(self, ctx):
+		self.next_item()
 
 	@commands.command()
 	async def remind(self, ctx, *, time):
@@ -59,7 +63,7 @@ class Reminder(commands.Cog):
 
 	@tasks.loop(seconds=30)
 	async def reminder_check(self):
-		if pytz.utc.localize(self.time) <= datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))):
+		if self.time.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8))) <= datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))):
 			channel = self.bot.get_channel(self.channelid)
 			message = await channel.fetch(self.msgid)
 			await channel.send(f"Reminder: {message.jump_url}")
