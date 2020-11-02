@@ -48,13 +48,12 @@ class Reminder(commands.Cog):
 	async def remind(self, ctx, *, time):
 		if ctx.author.id != 550076298937237544:
 			return
-		date = dateparser.parse(time)
+		date = dateparser.parse(f'{time} UTC+8', languages=['en'])
 		if date is None:
 			await ctx.send("Can't parse time")
 			return
-		actualtime = date + datetime.timedelta(hours=8)
-		self.add_n_refresh(ctx, actualtime)
-		delta = actualtime - datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
+		self.add_n_refresh(ctx, date)
+		delta = date - datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
 		await ctx.send(f"Reminding you in {str(delta)}")
 
 	@tasks.loop(seconds=30)
