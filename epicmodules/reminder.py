@@ -5,6 +5,7 @@ from discord.ext import commands, tasks
 import dateparser
 import datetime
 import psycopg2
+import pytz
 
 class Reminder(commands.Cog):
 	def __init__(self, bot: commands.Bot):
@@ -58,7 +59,7 @@ class Reminder(commands.Cog):
 
 	@tasks.loop(seconds=30)
 	async def reminder_check(self):
-		if self.time <= datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))):
+		if pytz.utc.localize(self.time) <= datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))):
 			channel = self.bot.get_channel(self.channelid)
 			message = await channel.fetch(self.msgid)
 			await channel.send(f"Reminder: {message.jump_url}")
