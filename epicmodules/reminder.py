@@ -13,7 +13,7 @@ class Reminder(commands.Cog):
 		self.dburl = os.environ['DATABASE_URL']
 
 	def next_item(self):
-		self.reminder_check.close()
+		self.reminder_check.cancel()
 		conn = psycopg2.connect(self.dburl)
 		cursor = conn.cursor()
 		cursor.execute("SELECT * FROM reminder ORDER BY time;")
