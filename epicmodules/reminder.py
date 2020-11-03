@@ -21,13 +21,13 @@ class Reminder(commands.Cog):
 		self.reminder_check.cancel()
 		msgid = ctx.message.id
 		channelid = ctx.channel.id
-		time = time.strftime("%Y-%m-%d %H:%M:%S")
+		time = time.strftime("%Y-%m-%d %H:%M:%S") + " MYT"
 		conn = psycopg2.connect(self.dburl)
 		cursor = conn.cursor()
 		cursor.execute("""INSERT INTO reminder (message_id, channel_id, time)
 						VALUES (%s, %s, %s);""", (msgid, channelid, time))
 		self.closeconn(conn, cursor)
-		await self.next_item()
+		self.reminder_check.cancel()
 	
 	def closeconn(self, conn, cursor):
 		cursor.close()
@@ -42,7 +42,7 @@ class Reminder(commands.Cog):
 
 	@commands.command()
 	async def remind(self, ctx, *, time):
-		date = dateparser.parse(f'{time} UTC+8', languages=['en'])
+		date = dateparser.parse(f'{time} MYT', languages=['en'])
 		if date is None:
 			await ctx.send("Can't parse time")
 			return
@@ -61,7 +61,6 @@ class Reminder(commands.Cog):
 	
 	@reminder_check.after_loop
 	async def next_item(self):
-		self.reminder_check.cancel()
 		conn = psycopg2.connect(self.dburl)
 		cursor = conn.cursor()
 		cursor.execute("SELECT * FROM reminder ORDER BY time;")
