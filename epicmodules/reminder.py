@@ -54,7 +54,7 @@ class Reminder(commands.Cog):
 
 	@tasks.loop(seconds=30)
 	async def reminder_check(self):
-		if self.time.astimezone(tz=datetime.timezone(datetime.timedelta(hours=8))) <= datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))):
+		if self.time.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8))) <= datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))):
 			channel = self.bot.get_channel(self.channelid)
 			message = await channel.fetch_message(self.msgid)
 			await channel.send(f"Reminder: {message.jump_url}")
