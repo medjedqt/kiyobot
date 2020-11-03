@@ -48,7 +48,7 @@ class Reminder(commands.Cog):
 		if date is None:
 			await ctx.send("Can't parse time")
 			return
-		self.add_n_refresh(ctx, date)
+		await self.add_n_refresh(ctx, date)
 		delta = date - datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
 		await ctx.send(f"Reminding you in {str(delta)}")
 
