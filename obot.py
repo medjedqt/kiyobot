@@ -149,19 +149,6 @@ for filer in os.listdir('epicmodules'):
 bot.loop.create_task(status_task())
 bot.loop.create_task(nh_task())
 
-@bot.command()
-async def test(ctx, *, title: str):
-
-	queue = await bot.get_channel(bot.queuechan).history().flatten()
-	queuecontent = [_.content.split(" --> ")[0][7:] for _ in queue]
-	match = auto(title, queuecontent, 1, 0.7)
-	if match != []:
-		for item in queue:
-			if match[0] in item.content:
-				await ctx.send(item.content[3:7])
-				return
-	await ctx.send("Can't find")
-
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
 
