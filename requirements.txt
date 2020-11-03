@@ -7,7 +7,6 @@ cffi==1.13.2
 chardet==3.0.4
 chemspipy==2.0.0
 cryptography==3.2
-dateparser==1.0.0
 discord.py==1.5.1
 future==0.18.2
 google==2.0.3
@@ -18,7 +17,6 @@ insprio==0.0.1
 jsonschema==3.2.0
 multidict==4.6.1
 opuslib==3.0.1
-psycopg2-binary==2.8.6
 Pybooru==4.2.0
 pycparser==2.19
 pydrive2==1.4.10
