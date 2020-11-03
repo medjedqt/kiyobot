@@ -21,7 +21,7 @@ class Reminder(commands.Cog):
 	async def add_n_refresh(self, ctx, time):
 		msgid = ctx.message.id
 		channelid = ctx.channel.id
-		time = time.strftime("%Y-%m-%d %H:%M:%S") + " MYT"
+		time = time.strftime("%Y-%m-%d %H:%M:%S")
 		conn = psycopg2.connect(self.dburl)
 		cursor = conn.cursor()
 		cursor.execute("""INSERT INTO reminder (message_id, channel_id, time)
