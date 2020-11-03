@@ -47,8 +47,7 @@ class Reminder(commands.Cog):
 			await ctx.send("Can't parse time")
 			return
 		await self.add_n_refresh(ctx, date)
-		then = date + datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
-		then = then.strftime("%H:%M %d-%m")
+		then = date.strftime("%H:%M %d-%m")
 		await ctx.send(f"Reminding you on {then}")
 
 	@tasks.loop(seconds=30)
