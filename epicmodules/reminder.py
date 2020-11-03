@@ -11,18 +11,6 @@ class Reminder(commands.Cog):
 		self.bot = bot
 		self.dburl = os.environ['DATABASE_URL']
 
-	@reminder_check.after_loop
-	async def next_item(self):
-		self.reminder_check.cancel()
-		conn = psycopg2.connect(self.dburl)
-		cursor = conn.cursor()
-		cursor.execute("SELECT * FROM reminder ORDER BY time;")
-		thing = cursor.fetchone()
-		if thing is not None:
-			self.msgid, self.channelid, self.time = thing
-			self.reminder_check.start()
-		self.closeconn(conn, cursor)
-
 	def delete_item(self, msgid):
 		conn = psycopg2.connect(self.dburl)
 		cursor = conn.cursor()
@@ -72,6 +60,18 @@ class Reminder(commands.Cog):
 			await channel.send(f"Reminder: {message.jump_url}")
 			self.delete_item(self.msgid)
 			self.reminder_check.cancel()
+	
+	@reminder_check.after_loop
+	async def next_item(self):
+		self.reminder_check.cancel()
+		conn = psycopg2.connect(self.dburl)
+		cursor = conn.cursor()
+		cursor.execute("SELECT * FROM reminder ORDER BY time;")
+		thing = cursor.fetchone()
+		if thing is not None:
+			self.msgid, self.channelid, self.time = thing
+			self.reminder_check.start()
+		self.closeconn(conn, cursor)
 
 def setup(bot):
 	bot.add_cog(Reminder(bot))
