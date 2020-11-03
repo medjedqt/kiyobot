@@ -18,7 +18,7 @@ class Reminder(commands.Cog):
 		cursor.execute("DELETE FROM reminder WHERE message_id = %s;", (msgid,))
 		self.closeconn(conn, cursor)
 	
-	async def add_n_refresh(self, ctx, time):
+	def add_n_refresh(self, ctx, time):
 		msgid = ctx.message.id
 		channelid = ctx.channel.id
 		time = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -49,9 +49,15 @@ class Reminder(commands.Cog):
 		if date is None:
 			await ctx.send("Can't parse time")
 			return
-		await self.add_n_refresh(ctx, date)
+		self.add_n_refresh(ctx, date)
 		then = date.strftime("%H:%M %d-%m")
 		await ctx.send(f"Reminding you on {then}")
+
+	@commands.command()
+	async def stop(self, ctx):
+		if ctx.author.id != 550076298937237544:
+			return
+		self.reminder_check.cancel()
 
 	@tasks.loop(seconds=30)
 	async def reminder_check(self):
@@ -60,7 +66,7 @@ class Reminder(commands.Cog):
 			message = await channel.fetch_message(self.msgid)
 			await channel.send(f"{message.author.mention} Reminder: {message.jump_url}")
 			self.delete_item(self.msgid)
-			self.reminder_check.cancel()
+			self.reminder_check.stop()
 	
 	@reminder_check.after_loop
 	async def next_item(self):
