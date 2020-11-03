@@ -70,8 +70,6 @@ class Reminder(commands.Cog):
 		thing = cursor.fetchone()
 		if thing is not None:
 			self.msgid, self.channelid, self.time = thing
-			while self.reminder_check.is_running():
-				await asyncio.sleep(5)
 			self.reminder_check.start()
 		self.closeconn(conn, cursor)
 	
