@@ -13,6 +13,7 @@ class Reminder(commands.Cog):
 		self.dburl = os.environ['DATABASE_URL']
 
 	def next_item(self):
+		self.reminder_check.close()
 		conn = psycopg2.connect(self.dburl)
 		cursor = conn.cursor()
 		cursor.execute("SELECT * FROM reminder ORDER BY time;")
@@ -29,7 +30,7 @@ class Reminder(commands.Cog):
 		self.closeconn(conn, cursor)
 	
 	def add_n_refresh(self, ctx, time):
-		self.reminder_check.stop()
+		self.reminder_check.cancel()
 		msgid = ctx.message.id
 		channelid = ctx.channel.id
 		time = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -47,6 +48,8 @@ class Reminder(commands.Cog):
 	
 	@commands.command()
 	async def initremind(self, ctx):
+		if ctx.author.id != 550076298937237544:
+			return
 		self.next_item()
 
 	@commands.command()
@@ -63,11 +66,10 @@ class Reminder(commands.Cog):
 
 	@tasks.loop(seconds=30)
 	async def reminder_check(self):
-		if self.time.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8))) <= datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))):
+		if self.time.astimezone(tz=datetime.timezone(datetime.timedelta(hours=8))) <= datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))):
 			channel = self.bot.get_channel(self.channelid)
 			message = await channel.fetch_message(self.msgid)
 			await channel.send(f"Reminder: {message.jump_url}")
-			self.reminder_check.stop()
 			self.next_item()
 
 def setup(bot):
