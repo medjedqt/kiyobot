@@ -5,14 +5,14 @@ from discord.ext import commands, tasks
 import dateparser
 import datetime
 import psycopg2
-import pytz
 
 class Reminder(commands.Cog):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.dburl = os.environ['DATABASE_URL']
 
-	def next_item(self):
+	@reminder_check.after_loop
+	async def next_item(self):
 		self.reminder_check.cancel()
 		conn = psycopg2.connect(self.dburl)
 		cursor = conn.cursor()
@@ -29,7 +29,7 @@ class Reminder(commands.Cog):
 		cursor.execute("DELETE FROM reminder WHERE message_id = %s;", (msgid,))
 		self.closeconn(conn, cursor)
 	
-	def add_n_refresh(self, ctx, time):
+	async def add_n_refresh(self, ctx, time):
 		self.reminder_check.cancel()
 		msgid = ctx.message.id
 		channelid = ctx.channel.id
@@ -39,7 +39,7 @@ class Reminder(commands.Cog):
 		cursor.execute("""INSERT INTO reminder (message_id, channel_id, time)
 						VALUES (%s, %s, %s);""", (msgid, channelid, time))
 		self.closeconn(conn, cursor)
-		self.next_item()
+		await self.next_item()
 	
 	def closeconn(self, conn, cursor):
 		cursor.close()
@@ -50,7 +50,7 @@ class Reminder(commands.Cog):
 	async def initremind(self, ctx):
 		if ctx.author.id != 550076298937237544:
 			return
-		self.next_item()
+		await self.next_item()
 
 	@commands.command()
 	async def remind(self, ctx, *, time):
@@ -70,7 +70,8 @@ class Reminder(commands.Cog):
 			channel = self.bot.get_channel(self.channelid)
 			message = await channel.fetch_message(self.msgid)
 			await channel.send(f"Reminder: {message.jump_url}")
-			self.next_item()
+			self.delete_item(self.msgid)
+			self.reminder_check.cancel()
 
 def setup(bot):
 	bot.add_cog(Reminder(bot))
