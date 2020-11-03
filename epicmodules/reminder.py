@@ -27,6 +27,9 @@ class Reminder(commands.Cog):
 		cursor.execute("""INSERT INTO reminder (message_id, channel_id, time)
 						VALUES (%s, %s, %s);""", (msgid, channelid, time))
 		self.closeconn(conn, cursor)
+		if not self.reminder_check.is_running():
+			self.reminder_check.start()
+			return
 		self.reminder_check.cancel()
 	
 	def closeconn(self, conn, cursor):
