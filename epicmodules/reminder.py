@@ -42,8 +42,6 @@ class Reminder(commands.Cog):
 
 	@commands.command()
 	async def remind(self, ctx, *, time):
-		if ctx.author.id != 550076298937237544:
-			return
 		date = dateparser.parse(f'{time} UTC+8', languages=['en'])
 		if date is None:
 			await ctx.send("Can't parse time")
@@ -57,7 +55,7 @@ class Reminder(commands.Cog):
 		if self.time.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=8))) <= datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))):
 			channel = self.bot.get_channel(self.channelid)
 			message = await channel.fetch_message(self.msgid)
-			await channel.send(f"Reminder: {message.jump_url}")
+			await channel.send(f"{message.author.mention} Reminder: {message.jump_url}")
 			self.delete_item(self.msgid)
 			self.reminder_check.cancel()
 	
