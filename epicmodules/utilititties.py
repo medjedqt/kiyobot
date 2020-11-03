@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import asyncio
 from googlesearch import search
 import os
@@ -201,6 +201,25 @@ class Utilities(commands.Cog):
 		for choice in choices:
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
+
+	@commands.command()
+	async def test(self, ctx):
+		if self.testloop.is_running():
+			self.testloop.stop()
+		else:
+			self.testloop.start()
+
+	@tasks.loop(seconds=10)
+	async def testloop(self):
+		pass
+
+	@testloop.after_loop
+	async def testafter(self):
+		if self.testloop.is_running():
+			toot = "yes"
+		else:
+			toot = "no"
+		await self.bot.get_channel(self.logchan).send(toot)
 
 def setup(bot):
 	bot.add_cog(Utilities(bot))
