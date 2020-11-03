@@ -1,5 +1,6 @@
 import os
 
+import asyncio
 import discord
 from discord.ext import commands, tasks
 import dateparser
@@ -18,7 +19,6 @@ class Reminder(commands.Cog):
 		self.closeconn(conn, cursor)
 	
 	async def add_n_refresh(self, ctx, time):
-		self.reminder_check.cancel()
 		msgid = ctx.message.id
 		channelid = ctx.channel.id
 		time = time.strftime("%Y-%m-%d %H:%M:%S") + " MYT"
@@ -68,6 +68,8 @@ class Reminder(commands.Cog):
 		thing = cursor.fetchone()
 		if thing is not None:
 			self.msgid, self.channelid, self.time = thing
+			while self.reminder_check.is_running():
+				await asyncio.sleep(5)
 			self.reminder_check.start()
 		self.closeconn(conn, cursor)
 	
