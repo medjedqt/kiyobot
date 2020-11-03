@@ -47,8 +47,9 @@ class Reminder(commands.Cog):
 			await ctx.send("Can't parse time")
 			return
 		await self.add_n_refresh(ctx, date)
-		delta = date - datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
-		await ctx.send(f"Reminding you in {str(delta)}")
+		then = date + datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8)))
+		then = then.strftime("%H:%M %d-%m")
+		await ctx.send(f"Reminding you on {then}")
 
 	@tasks.loop(seconds=30)
 	async def reminder_check(self):
@@ -69,6 +70,10 @@ class Reminder(commands.Cog):
 			self.msgid, self.channelid, self.time = thing
 			self.reminder_check.start()
 		self.closeconn(conn, cursor)
+	
+	@reminder_check.error
+	async def error(self, error):
+		pass
 
 def setup(bot):
 	bot.add_cog(Reminder(bot))
