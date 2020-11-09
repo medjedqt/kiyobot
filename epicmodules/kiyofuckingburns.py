@@ -23,6 +23,8 @@ class Kiyohime(commands.Cog):
 			await message.channel.trigger_typing()
 			await asyncio.sleep(3)
 			await message.channel.send('Do I smell a liar in here?')
+		elif 'CUNNY' in message_text:
+			await message.channel.send('Ok pedophile')
 		elif message.author.id == 293395455830654977 and luck >= 0.85 and message.guild.id == 569845300244774922:
 			await message.add_reaction('❤️')
 		elif self.bot.user.mentioned_in(message):
