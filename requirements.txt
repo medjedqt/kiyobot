@@ -10,7 +10,7 @@ cryptography==3.2
 discord.py==1.5.1
 future==0.18.2
 google==2.0.3
-googletrans==2.4.0
+googletrans==3.0.0
 gtts==2.1.1
 idna==2.8
 insprio==0.0.1
