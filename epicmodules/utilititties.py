@@ -1,13 +1,13 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 import asyncio
 from googlesearch import search
-import os
+#import os
 from random import choice
 from gtts import gTTS
 from googletrans import Translator
 from udpy import UrbanClient
-import youtube_dl
+#import youtube_dl
 from kiyo import lang
 from helpy import hell
 
@@ -56,7 +56,7 @@ class Utilities(commands.Cog):
 		await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
 
 	@commands.command(help=hell['dm'])
-	async def dm(self, ctx,user: discord.User, *, msg):
+	async def dm(self, ctx, user: discord.User, *, msg):
 
 		await ctx.message.delete()
 		await user.send(content=msg)
@@ -84,7 +84,7 @@ class Utilities(commands.Cog):
 		await msga.delete()
 		await ctx.message.delete()
 	
-	@commands.command(help=hell['google'])
+	@commands.command(aliases=['go'], help=hell['google'])
 	async def google(self, ctx, *, query):
 
 		for result in search(query, tld='com', num=1, stop=1, pause=2):
@@ -97,9 +97,8 @@ class Utilities(commands.Cog):
 		await ctx.send(content=result)
 	
 	@commands.command(aliases=['yt'], help=hell['youtube'])
-	async def youtube(self, ctx, *words):
+	async def youtube(self, ctx, *, words):
 
-		words = ' '.join(words)
 		results = self.ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
 		await ctx.send(content=f'https://youtu.be/{results.items[0].id.videoId}')
 
@@ -152,16 +151,17 @@ class Utilities(commands.Cog):
 	@commands.command(help=hell['ytdl'])
 	async def ytdl(self, ctx, link: str):
 
-		fformat = ''
-		async with ctx.channel.typing():
-			with youtube_dl.YoutubeDL({}) as ydl:
-				ydl.download([link])
-			for file in os.listdir("./"):
-				if file.endswith((".mp4", ".3gp", ".avi", ".flv", ".m4v", ".mkv", ".mov", ".wmv")):
-					_, fformat = os.path.splitext(file)
-					os.rename(file, f'vid{fformat}')
-			await ctx.send(file=discord.File(f'vid{fformat}'))
-			os.remove(f'vid{fformat}')
+		# fformat = ''
+		# async with ctx.channel.typing():
+		# 	with youtube_dl.YoutubeDL({}) as ydl:
+		# 		ydl.download([link])
+		# 	for file in os.listdir("./"):
+		# 		if file.endswith((".mp4", ".3gp", ".avi", ".flv", ".m4v", ".mkv", ".mov", ".wmv")):
+		# 			_, fformat = os.path.splitext(file)
+		# 			os.rename(file, f'vid{fformat}')
+		# 	await ctx.send(file=discord.File(f'vid{fformat}'))
+		# 	os.remove(f'vid{fformat}')
+		await ctx.send("Feature broken for now, will rework later")
 	
 	@commands.guild_only()
 	@commands.command(help=hell['clone'])
@@ -172,7 +172,7 @@ class Utilities(commands.Cog):
 		if name is None:
 			name = user.name
 		hook = await ctx.channel.create_webhook(name=name)
-		await hook.send(content=message, username=name, avatar_url=user.avatar_url)
+		await hook.send(content=message, username=name, avatar_url=user.avatar_url, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
 		await ctx.message.delete()
 		await hook.delete()
 
@@ -181,7 +181,7 @@ class Utilities(commands.Cog):
 
 		words = ' '.join(words)
 		e = discord.Embed(title=ctx.author.name, description=words, color=0x523523)
-		e.set_author(name=ctx.author.nick, icon_url=ctx.author.avatar_url)
+		e.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
 		await ctx.send(embed=e)
 	
 	@commands.command(help=hell['poll'])

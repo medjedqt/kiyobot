@@ -3,7 +3,6 @@ from discord.ext import commands
 import asyncio
 from random import randint, choice, uniform
 from kiyo import burnlist, lines
-import os
 from helpy import hell
 
 class Kiyohime(commands.Cog):
@@ -48,6 +47,7 @@ class Kiyohime(commands.Cog):
 		e.set_image(url="https://cdn.discordapp.com/attachments/611844054669328394/635200592364699649/IMG_20191020_024438.JPG")
 		await ctx.send(embed=e)
 	
+	@commands.is_nsfw()
 	@commands.command(aliases=['k','kiyohime'], help=hell['kiyo'])
 	async def kiyo(self, ctx):
 

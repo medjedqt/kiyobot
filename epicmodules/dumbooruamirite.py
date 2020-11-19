@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from random import randint, choice
-import os
 from helpy import hell
 from sauce_finder import sauce_finder
 
@@ -10,6 +9,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		self.bot = bot
 		self.db = bot.db
 	
+	@commands.is_nsfw()
 	@commands.command(help=hell['latest'])
 	async def latest(self, ctx, key=None, *tag):
 
@@ -28,6 +28,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		e.set_image(url=fileurl)
 		await ctx.send(embed=e)
 	
+	@commands.is_nsfw()
 	@commands.command(aliases=['danbooru','d'],help=hell['danbooru'])
 	async def dan(self, ctx, *tag):
 
@@ -46,6 +47,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		except:
 			await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
 
+	@commands.is_nsfw()
 	@commands.command(help=hell['multi'])
 	async def multi(self, ctx, *, tag):
 

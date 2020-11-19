@@ -51,6 +51,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 	async def download(self, ctx, file: str):
 
 		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
+		file_notthere = True
 		for file2 in file_list:
 			title = file2['title']
 			name, _ = os.path.splitext(title)
@@ -83,7 +84,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		for file in file_list:
 			title = file['title']
 			name, _ = os.path.splitext(title)
-			if filename in name:
+			if filename == name:
 				actual_file = drive.CreateFile({'id':file['id']})
 				actual_file.Trash()
 				await ctx.send(content='Binned {0}'.format(file['title']))
