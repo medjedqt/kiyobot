@@ -161,6 +161,13 @@ async def disconnect(ctx):
 		await ctx.voice_client.disconnect()
 		await ctx.send("bye...")
 
+@bot.command()
+async def updatecomm(ctx):
+
+	if ctx.author.id != 550076298937237544:
+		return
+	await comm_task()
+
 for filer in os.listdir('epicmodules'):
 	if filer.endswith('.py'):
 		bot.load_extension(f'epicmodules.{filer[:-3]}')
