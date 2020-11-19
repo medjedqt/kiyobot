@@ -11,3 +11,6 @@ class InterCom(commands.Cog):
 			return
 		for hook in self.bot.commhooks:
 			await hook.send(content=message.content, username=message.author.display_name, avatar_url=message.author.avatar_url, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
+
+def setup(bot):
+	bot.add_cog(InterCom(bot))
