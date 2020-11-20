@@ -10,7 +10,7 @@ class InterCom(commands.Cog):
 	async def on_message(self, message: discord.Message):
 		if message.author.bot or message.channel.name != "kiyo-intercom" or message.content.startswith("?"):
 			return
-		for hook in self.bot.commhooks:
+		for hook in self.commhooks:
 			files = list()
 			if message.attachments == []:
 				files = None
