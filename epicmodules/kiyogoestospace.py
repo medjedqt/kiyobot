@@ -4,6 +4,7 @@ from discord.ext import commands
 class InterCom(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		bot.loop.create_task(self.init_comm())
 
 	@commands.Cog.listener()
 	async def on_message(self, message: discord.Message):
@@ -39,12 +40,10 @@ class InterCom(commands.Cog):
 		if ctx.author.id != 550076298937237544:
 			return
 		await self.comm_task()
-	
-	@classmethod
+
 	async def init_comm(self):
 		await self.bot.wait_until_ready()
 		await self.comm_task()
 
 def setup(bot):
 	bot.add_cog(InterCom(bot))
-	bot.loop.create_task(InterCom.comm_task())
