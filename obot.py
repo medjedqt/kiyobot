@@ -77,22 +77,6 @@ async def nh_task():
 					await bot.get_channel(bot.logchan).send("A release has been detected but no match has been found in queue.\nPlease use `?done` where appropriate.")
 		await asyncio.sleep(10)
 
-async def comm_task():
-	
-	await bot.wait_until_ready()
-	bot.commhooks = list()
-	for guild in bot.guilds:
-		commchannel = discord.utils.get(guild.text_channels, name="kiyo-intercom")
-		if commchannel is not None:
-			hooks = await commchannel.webhooks()
-			if "KiyoCommSdnBhd" not in [_.name for _ in hooks]:
-				hook = await commchannel.create_webhook(name="KiyoCommSdnBhd")
-				bot.commhooks.append(hook)
-				continue
-			for hook in hooks:
-				if hook.name == "KiyoCommSdnBhd":
-					bot.commhooks.append(hook)
-
 @bot.event
 async def on_command_error(ctx, error):
 
@@ -161,20 +145,12 @@ async def disconnect(ctx):
 		await ctx.voice_client.disconnect()
 		await ctx.send("bye...")
 
-@bot.command()
-async def updatecomm(ctx):
-
-	if ctx.author.id != 550076298937237544:
-		return
-	await comm_task()
-
 for filer in os.listdir('epicmodules'):
 	if filer.endswith('.py'):
 		bot.load_extension(f'epicmodules.{filer[:-3]}')
 
 bot.loop.create_task(status_task())
 bot.loop.create_task(nh_task())
-bot.loop.create_task(comm_task())
 
 @bot.command(help=hell['ping'])
 async def ping(ctx, arg1 = None):
