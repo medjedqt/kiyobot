@@ -105,7 +105,7 @@ class Utilities(commands.Cog):
 		try:
 			await self.ytdl(ctx, link)
 		except discord.HTTPException:
-			await e.edit(content=f"{e.content.strip('>')}")
+			await e.edit(content=f"{e.content.strip('<>')}")
 
 	@commands.command(help=hell['yeet'])
 	async def yeet(self, ctx, *emotes: discord.PartialEmoji):
