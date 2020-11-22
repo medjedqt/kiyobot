@@ -7,6 +7,14 @@
 
 To get a local copy up and running follow these simple example steps.
 
+---
+
+### NOTE
+
+It is highly recommended to instead use the template bot in the [template branch](https://github.com/medjedqt/kiyobot/tree/template)
+
+---
+
 ### Prerequisites
 
 * [Python 3](python.org)
@@ -17,20 +25,22 @@ To get a local copy up and running follow these simple example steps.
 ### Installation
 
 1. Clone the repo
-```sh
-git clone https://github.com/medjedqt/kiyobot.git
-```
+
+    ```sh
+    git clone https://github.com/medjedqt/kiyobot.git
+    ```
+
 2. Install pip modules
-```sh
-pip install -r requirements.txt
-```
+
+    ```sh
+    pip install -r requirements.txt
+    ```
+
 3. Enter your bot token and danbooru key in `obot.py`
-```PY
-token = 'ENTER YOUR TOKEN'
-dbkey = 'YOUR DANBOORU KEY'
-dbname = 'YOUR DANBOORU USERNAME'
-ytclient = ytapi(api_key='YOUR YOUTUBE API KEY')
-```
 
-
-
+    ```py
+    token = 'ENTER YOUR TOKEN'
+    dbkey = 'YOUR DANBOORU KEY'
+    dbname = 'YOUR DANBOORU USERNAME'
+    ytclient = ytapi(api_key='YOUR YOUTUBE API KEY')
+    ```
