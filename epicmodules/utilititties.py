@@ -100,7 +100,9 @@ class Utilities(commands.Cog):
 	async def youtube(self, ctx, *, words):
 
 		results = self.ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
-		await ctx.send(content=f'https://youtu.be/{results.items[0].id.videoId}')
+		link = f'https://youtu.be/{results.items[0].id.videoId}'
+		await ctx.send(content=f'<{link}>')
+		await self.ytdl(ctx, link)
 
 	@commands.command(help=hell['yeet'])
 	async def yeet(self, ctx, *emotes: discord.PartialEmoji):
