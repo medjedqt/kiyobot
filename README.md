@@ -15,15 +15,20 @@ To get a local copy up and running follow these simple example steps.
 ### Installation
 
 1. Clone the repo
-```sh
-git clone https://github.com/medjedqt/kiyobot.git
-```
+
+    ```sh
+    git clone -b template --single-branch https://github.com/medjedqt/kiyobot.git
+    ```
+
 2. Install pip modules
-```sh
-pip install -r requirements.txt
-```
+
+    ```sh
+    pip install -r requirements.txt
+    ```
+
 3. Enter your bot token and preferred prefix in `obot.py`
-```PY
-prefix = '?'
-token = 'ENTER YOUR TOKEN'
-```
+
+    ```py
+    prefix = '?'
+    token = 'ENTER YOUR TOKEN'
+    ```
