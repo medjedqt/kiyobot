@@ -2,12 +2,12 @@ import discord
 from discord.ext import commands
 import asyncio
 from googlesearch import search
-#import os
+import os
 from random import choice
 from gtts import gTTS
 from googletrans import Translator
 from udpy import UrbanClient
-#import youtube_dl
+import youtube_dl
 from kiyo import lang
 from helpy import hell
 
@@ -151,17 +151,17 @@ class Utilities(commands.Cog):
 	@commands.command(help=hell['ytdl'])
 	async def ytdl(self, ctx, link: str):
 
-		# fformat = ''
-		# async with ctx.channel.typing():
-		# 	with youtube_dl.YoutubeDL({}) as ydl:
-		# 		ydl.download([link])
-		# 	for file in os.listdir("./"):
-		# 		if file.endswith((".mp4", ".3gp", ".avi", ".flv", ".m4v", ".mkv", ".mov", ".wmv")):
-		# 			_, fformat = os.path.splitext(file)
-		# 			os.rename(file, f'vid{fformat}')
-		# 	await ctx.send(file=discord.File(f'vid{fformat}'))
-		# 	os.remove(f'vid{fformat}')
-		await ctx.send("Feature broken for now, will rework later")
+		fformat = ''
+		async with ctx.channel.typing():
+			with youtube_dl.YoutubeDL({}) as ydl:
+				ydl.download([link])
+			for file in os.listdir("./"):
+				if file.endswith((".mp4", ".3gp", ".avi", ".flv", ".m4v", ".mkv", ".mov", ".wmv")):
+					_, fformat = os.path.splitext(file)
+					os.rename(file, f'vid{fformat}')
+			await ctx.send(file=discord.File(f'vid{fformat}'))
+			os.remove(f'vid{fformat}')
+		# await ctx.send("Feature broken for now, will rework later")
 	
 	@commands.guild_only()
 	@commands.command(help=hell['clone'])
