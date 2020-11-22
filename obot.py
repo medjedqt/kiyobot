@@ -100,6 +100,8 @@ async def on_command_error(ctx, error):
 	if isinstance(error, commands.NSFWChannelRequired):
 		await ctx.send(content="NSFW channel required.")
 		return
+	if isinstance(error, discord.HTTPException) and error.code == 413:
+		await ctx.semd(content="Request Entity too large")
 	await bot.get_channel(bot.logchan).send(content=error)
 	raise error
 
