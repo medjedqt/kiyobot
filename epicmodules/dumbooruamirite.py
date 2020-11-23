@@ -71,13 +71,13 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			url = ctx.message.attachments[0].url
 		result = sauce_finder.get_match(url)
 		if result['type'] == 'possible':
-			thing = result['found'][0]['link']
+			thing = result['found'][0]
 		else:
-			thing = result['found']['link']
+			thing = result['found']
 		if thing['rating'] == '[Explicit]' and not ctx.channel.is_nsfw():
 			await ctx.send("Explicit result")
 			return
-		await ctx.send(content=f"{result['type']} result: {thing}")
+		await ctx.send(content=f"{result['type']} result: {thing['link']}")
 
 	@commands.command(aliases=['nao'])
 	async def saucenao(self, ctx, url=None):
