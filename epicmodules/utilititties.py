@@ -11,14 +11,13 @@ import youtube_dl
 from kiyo import lang
 from helpy import hell
 
-trans = Translator()
-uclient = UrbanClient()
-
 class Utilities(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self.ytclient = bot.ytclient
 		self.logchan = bot.logchan
+		self.trans = Translator()
+		self.uclient = UrbanClient()
 
 	@commands.Cog.listener()
 	async def on_message_edit(self, before, after):
@@ -132,7 +131,7 @@ class Utilities(commands.Cog):
 	async def ud(self, ctx, *, words):
 
 		try:
-			udthing = uclient.get_definition(words)[0]
+			udthing = self.uclient.get_definition(words)[0]
 			e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
 			e.add_field(name='Example:', value=udthing.example)
 			await ctx.send(embed=e)
@@ -145,7 +144,7 @@ class Utilities(commands.Cog):
 	async def translate(self, ctx, words: str, target='en', source='auto'):
 
 		try:
-			neword = trans.translate(words, dest=target, src=source)
+			neword = self.trans.translate(words, dest=target, src=source)
 		except ValueError:
 			await ctx.send(content="Usage: `.translate 'words' destination(optional) source(optional)`")
 			return

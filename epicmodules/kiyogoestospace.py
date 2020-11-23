@@ -35,7 +35,7 @@ class InterCom(commands.Cog):
 					if hook.name == "KiyoCommSdnBhd":
 						self.commhooks.append(hook)
 	
-	@commands.command()
+	@commands.command(hidden=True)
 	async def update_command(self, ctx):
 		if ctx.author.id != 550076298937237544:
 			return

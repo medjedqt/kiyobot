@@ -11,6 +11,7 @@ import aiohttp
 import io
 import math
 from bs4 import BeautifulSoup
+from pysaucenao import SauceNao
 from pyyoutube import Api as ytapi
 from chemspipy import ChemSpider
 from difflib import get_close_matches as auto
@@ -26,6 +27,7 @@ cskey = os.environ['CHEM_API']
 bot.ytclient = ytapi(api_key=os.environ['YT_API'])
 bot.db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 bot.cs = ChemSpider(cskey)
+bot.sauce = SauceNao()
 bot.logchan = 693130723015524382
 bot.queuechan = 743713887123275817
 releasechan = 748084599447355523

@@ -66,7 +66,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			await ctx.send(content="Some shit broke. Also firara is gay")
 	
 	@commands.command()
-	async def sauce(self, ctx, url=None):
+	async def iqdb(self, ctx, url=None):
 		if url is None:
 			url = ctx.message.attachments[0].url
 		result = sauce_finder.get_match(url)
@@ -74,7 +74,20 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			thing = result['found'][0]['link']
 		else:
 			thing = result['found']['link']
+		if thing['rating'] == '[Explicit]' and not ctx.channel.is_nsfw():
+			await ctx.send("Explicit result")
+			return
 		await ctx.send(content=f"{result['type']} result: {thing}")
+
+	@commands.command(aliases=['nao'])
+	async def saucenao(self, ctx, url=None):
+		if url is None:
+			url = ctx.message.attachments[0].url
+		results = await self.bot.sauce.from_url(url)
+		if len(results) == 0:
+			await ctx.send(content="No results found.")
+			return
+		await ctx.send(content=f'Similarity: {results[0].similarity}\n{results[0].url}')
 
 def setup(bot):
 	bot.add_cog(Danboorushit(bot))
