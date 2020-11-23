@@ -9,6 +9,7 @@ insprio==0.0.1
 multidict==4.6.1
 Pybooru==4.2.0
 pydrive2==1.4.10
+pysaucenao==1.4.0
 python-youtube==0.6.4
 requests==2.23.0
 sauce-finder==2.2.4
