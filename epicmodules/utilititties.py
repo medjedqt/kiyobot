@@ -61,20 +61,10 @@ class Utilities(commands.Cog):
 		await user.send(content=msg)
 	
 	@commands.command(help=hell['say'])
-	async def say(self, ctx, msg: str, time=5, count=1):
+	async def say(self, ctx, msg: str):
 
 		await ctx.message.delete()
-		if (time > 86400 or count > 100):
-			await ctx.send(content="Too long, I might die by then")
-			await ctx.send(content="tl;dr: " + msg)
-			return
-
-		while True:
-			await ctx.send(content=msg)
-			await asyncio.sleep(time)
-			count = count - 1
-			if count == 0:
-				break
+		await ctx.send(content=msg, allowed_mentions=discord.AllowedMentions.none())
 	
 	@commands.command(help=hell['tts'])
 	async def tts(self, ctx, *, msg):
