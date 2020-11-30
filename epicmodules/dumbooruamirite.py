@@ -19,12 +19,11 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		else:
 			tag = '_'.join(tag)
 			tag = key + '_' + tag
-		posts = self.db.post_list(tags=tag, page=1, limit=1)
-		for post in posts:
-			try:
-				fileurl = post['file_url']
-			except:
-				fileurl = 'https://danbooru.donmai.us' + post['source']
+		post = self.db.post_list(tags=tag, page=1, limit=1)[0]
+		try:
+			fileurl = post['file_url']
+		except:
+			fileurl = 'https://danbooru.donmai.us' + post['source']
 		e = discord.Embed(title="Latest", color=0x00FF00)
 		e.set_image(url=fileurl)
 		await ctx.send(embed=e)

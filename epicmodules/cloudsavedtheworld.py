@@ -26,6 +26,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		try:
 			attachment =ctx.message.attachments[0]
 			fileurl=attachment.url
+			exname, ext = 'yes', '.ext'
 			if fileurl.find('/'):
 				name=fileurl.rsplit('/',1)[1]
 				exname, ext = os.path.splitext(name)

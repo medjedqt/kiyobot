@@ -82,9 +82,9 @@ TL link: <{doclink}>'''
 			if f'MS#{id_}' in message.content:
 				oldcontent = message.content.split('\n')
 				for line in oldcontent:
-					if 'raw' in line:
+					if 'raw source:' in line:
 						newcontent = message.content.replace(line, f'raw source: <{url}>')
-				await message.edit(content=newcontent)
+						await message.edit(content=newcontent)
 				await ctx.message.delete()
 				resp = await ctx.send(content=f'Added raw to MS#{id_}')
 				await resp.delete(delay=5)
@@ -100,7 +100,7 @@ TL link: <{doclink}>'''
 				for line in oldcontent:
 					if 'TL link' in line:
 						newcontent = message.content.replace(line, f'TL link: <{url}>')
-				await message.edit(content=newcontent)
+						await message.edit(content=newcontent)
 				await ctx.message.delete()
 				resp = await ctx.send(content=f'Added doc to MS#{id_}')
 				await resp.delete(delay=5)
@@ -153,6 +153,8 @@ TL link: <{doclink}>'''
 					await message.edit(content=f'{message.content} ✅')
 					if ctx is not None:
 						resp = await ctx.send(content=f'Finished MS#{id_}')
+					else:
+						resp = None
 				if ctx is not None:
 					await ctx.message.delete()
 					await resp.delete(delay=5)
