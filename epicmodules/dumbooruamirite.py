@@ -31,12 +31,11 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@commands.is_nsfw()
 	@commands.command(aliases=['danbooru','d'],help=hell['danbooru'])
-	async def dan(self, ctx: commands.Context, *tag: list[str]):
+	async def dan(self, ctx: commands.Context, *tag: list):
 
-		newtag = '_'.join(tag)
 		page = randint(1,5)
 		try:
-			posts = self.db.post_list(tags=newtag,page=page,limit=5)
+			posts = self.db.post_list(tags=tag,page=page,limit=5)
 			post = choice(posts)
 			try:
 				fileurl = post['file_url']
