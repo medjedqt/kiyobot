@@ -36,7 +36,7 @@ class InterCom(commands.Cog):
 						self.commhooks.append(hook)
 	
 	@commands.command(hidden=True)
-	async def update_command(self, ctx):
+	async def update_command(self, ctx: commands.Context):
 		if ctx.author.id != 550076298937237544:
 			return
 		await self.comm_task()
@@ -45,5 +45,5 @@ class InterCom(commands.Cog):
 		await self.bot.wait_until_ready()
 		await self.comm_task()
 
-def setup(bot):
+def setup(bot: commands.Bot):
 	bot.add_cog(InterCom(bot))

@@ -13,14 +13,14 @@ from selenium.webdriver.common.keys import Keys
 from helpy import hell
 
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
-	def __init__(self, bot):
+	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.bot.browser = webdriver.Chrome(ChromeDriverManager().install())
 		self.bot.browser.get('https://www.cleverbot.com')
 		self.bot.browser.execute_script('noteok()')
 
 	@commands.command(help=hell['word'])
-	async def word(self, ctx):
+	async def word(self, ctx: commands.Context):
 
 		r = requests.get('https://www.thisworddoesnotexist.com/')
 		soup = BeautifulSoup(r.text, 'html.parser')
@@ -37,7 +37,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['wordcloud'])
-	async def wordcloud(self, ctx, chanlimit=100, maxim=100):
+	async def wordcloud(self, ctx: commands.Context, chanlimit: int = 100, maxim: int = 100):
 
 		def getFrequencyDictForText(sentence):
 			fullTermsDict = multidict.MultiDict()
@@ -66,7 +66,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 
 	@commands.max_concurrency(1, wait=True)
 	@commands.command(help=hell['chat'])
-	async def chat(self, ctx, *question: str):
+	async def chat(self, ctx: commands.Context, *question: str):
 
 		async with ctx.channel.typing():
 			q = []
@@ -90,7 +90,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			await ctx.send(content=response.text)
 
 	@commands.command()
-	async def reloadchat(self, ctx):
+	async def reloadchat(self, ctx: commands.Context):
 		
 		message = await ctx.send(content='Reloading..')
 		self.bot.browser.quit()
@@ -100,11 +100,11 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		await message.edit(content='Reloaded!')
 	
 	@commands.command()
-	async def inspire(self, ctx):
+	async def inspire(self, ctx: commands.Context):
 
 		quote = inspirobot.generate()
 		await ctx.send(content=quote.url)
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
 	bot.add_cog(MachineLearningShit(bot))

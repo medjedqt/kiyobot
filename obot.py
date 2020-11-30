@@ -80,7 +80,7 @@ async def nh_task():
 		await asyncio.sleep(10)
 
 @bot.event
-async def on_command_error(ctx, error):
+async def on_command_error(ctx: commands.Context, error):
 
 	if isinstance(error, commands.CommandNotFound):
 		return
@@ -103,7 +103,7 @@ async def on_command_error(ctx, error):
 		raise error
 
 @bot.event
-async def on_message(message):
+async def on_message(message: discord.Message):
 
 	e = discord.Embed(color=0xffff00)
 	if message.author.bot or message.content.startswith('?'):
@@ -126,7 +126,7 @@ async def on_message(message):
 	await bot.process_commands(message)
 
 @bot.command(help=hell['connect'])
-async def connect(ctx):
+async def connect(ctx: commands.Context):
 
 	voice = ctx.author.voice
 	if voice is None:
@@ -136,7 +136,7 @@ async def connect(ctx):
 		await ctx.send("*hacker voice* I'M IN")
 
 @bot.command(aliases=['dc'],help=hell['disconnect'])
-async def disconnect(ctx):
+async def disconnect(ctx: commands.Context):
 
 	if bot.voice_clients == []:
 		await ctx.send(content="I'm not in a voice channel")
@@ -144,18 +144,18 @@ async def disconnect(ctx):
 		await ctx.voice_client.disconnect()
 		await ctx.send("bye...")
 
+@bot.command(help=hell['ping'])
+async def ping(ctx: commands.Context, arg1: str = None):
+
+	if arg1 is not None:
+		await ctx.send(content=f'{bot.latency} seconds')
+	await ctx.send(content=":ping_pong: Pong!")
+
 for filer in os.listdir('epicmodules'):
 	if filer.endswith('.py'):
 		bot.load_extension(f'epicmodules.{filer[:-3]}')
 
 bot.loop.create_task(status_task())
 bot.loop.create_task(nh_task())
-
-@bot.command(help=hell['ping'])
-async def ping(ctx, arg1 = None):
-
-	if arg1 is not None:
-		await ctx.send(content=f'{bot.latency} seconds')
-	await ctx.send(content=":ping_pong: Pong!")
 
 bot.run(token)

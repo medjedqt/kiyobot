@@ -11,7 +11,7 @@ class Kiyohime(commands.Cog):
 		self.db = bot.db
 	
 	@commands.Cog.listener()
-	async def on_message(self, message):
+	async def on_message(self, message: discord.Message):
 
 		message_text = message.content.upper()
 		luck = uniform(0, 1.0)
@@ -34,14 +34,14 @@ class Kiyohime(commands.Cog):
 				await message.channel.send(choice(lines))
 
 	@commands.command(help=hell['burn'])
-	async def burn(self, ctx):
+	async def burn(self, ctx: commands.Context):
 
 		e=discord.Embed(color=0xff0000)
 		e.set_image(url=choice(burnlist))
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['step'])
-	async def step(self, ctx):
+	async def step(self, ctx: commands.Context):
 
 		e=discord.Embed(color=0xffff00)
 		e.set_image(url="https://cdn.discordapp.com/attachments/611844054669328394/635200592364699649/IMG_20191020_024438.JPG")
@@ -49,7 +49,7 @@ class Kiyohime(commands.Cog):
 	
 	@commands.is_nsfw()
 	@commands.command(aliases=['k','kiyohime'], help=hell['kiyo'])
-	async def kiyo(self, ctx):
+	async def kiyo(self, ctx: commands.Context):
 
 		x = []
 		page = randint(1,15)
@@ -64,5 +64,5 @@ class Kiyohime(commands.Cog):
 		e.set_image(url=choice(x))
 		await ctx.send(embed=e)
 
-def setup(bot):
+def setup(bot: commands.Context):
 	bot.add_cog(Kiyohime(bot))

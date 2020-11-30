@@ -5,13 +5,13 @@ from helpy import hell
 from sauce_finder import sauce_finder
 
 class Danboorushit(commands.Cog, name='Danbooru'):
-	def __init__(self, bot):
+	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.db = bot.db
 	
 	@commands.is_nsfw()
 	@commands.command(help=hell['latest'])
-	async def latest(self, ctx, key=None, *tag):
+	async def latest(self, ctx: commands.Bot, key: str = None, *tag: list[str]):
 
 		if key is None:
 			tag="kiyohime_(fate/grand_order)"
@@ -30,7 +30,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@commands.is_nsfw()
 	@commands.command(aliases=['danbooru','d'],help=hell['danbooru'])
-	async def dan(self, ctx, *tag):
+	async def dan(self, ctx: commands.Context, *tag: list[str]):
 
 		newtag = '_'.join(tag)
 		page = randint(1,5)
@@ -49,7 +49,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 
 	@commands.is_nsfw()
 	@commands.command(help=hell['multi'])
-	async def multi(self, ctx, *, tag):
+	async def multi(self, ctx: commands.Context, *, tag: str):
 
 		page = randint(1,5)
 		e = discord.Embed(color=0x00FFBE)
@@ -66,7 +66,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			await ctx.send(content="Some shit broke. Also firara is gay")
 	
 	@commands.command()
-	async def iqdb(self, ctx, url=None):
+	async def iqdb(self, ctx: commands.Context, url: str = None):
 		if url is None:
 			url = ctx.message.attachments[0].url
 		result = sauce_finder.get_match(url)
@@ -79,8 +79,8 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			return
 		await ctx.send(content=f"{result['type']} result: {thing['link']}")
 
-	@commands.command(aliases=['nao'])
-	async def saucenao(self, ctx, url=None):
+	@commands.command(aliases=['nao', 'sauce'])
+	async def saucenao(self, ctx: commands.Context, url: str = None):
 		if url is None:
 			url = ctx.message.attachments[0].url
 		results = await self.bot.sauce.from_url(url)
@@ -89,5 +89,5 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			return
 		await ctx.send(content=f'Similarity: {results[0].similarity}\n{results[0].url}')
 
-def setup(bot):
+def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))

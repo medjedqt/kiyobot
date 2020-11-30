@@ -22,7 +22,7 @@ class Utilities(commands.Cog):
 		self.uclient = UrbanClient()
 
 	@commands.Cog.listener()
-	async def on_message_edit(self, before, after):
+	async def on_message_edit(self, before: discord.Message, after: discord.Message):
 		if before.author.bot or before.content == after.content or before.guild.id != 569845300244774922:
 			return
 		channel = self.bot.get_channel(self.logchan)
@@ -31,7 +31,7 @@ class Utilities(commands.Cog):
 		await channel.send(embed=e)
 	
 	@commands.command(aliases=['nword','nw'],help=hell['nwordcount'])
-	async def nwordcount(self, ctx):
+	async def nwordcount(self, ctx: commands.Context):
 
 		i=1
 		n1counter = 0
@@ -57,26 +57,26 @@ class Utilities(commands.Cog):
 		await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
 
 	@commands.command(help=hell['dm'])
-	async def dm(self, ctx, user: discord.User, *, msg):
+	async def dm(self, ctx: commands.Context, user: discord.User, *, msg: str):
 
 		await ctx.message.delete()
 		await user.send(content=msg)
 	
 	@commands.command(help=hell['say'])
-	async def say(self, ctx, msg: str):
+	async def say(self, ctx: commands.Context, *, msg: str):
 
 		await ctx.message.delete()
 		await ctx.send(content=msg, allowed_mentions=discord.AllowedMentions.none())
 	
 	@commands.command(help=hell['tts'])
-	async def tts(self, ctx, *, msg):
+	async def tts(self, ctx: commands.Context, *, msg: str):
 
 		msga = await ctx.send(content=msg, tts=True)
 		await msga.delete()
 		await ctx.message.delete()
 	
 	@commands.command(aliases=['go'], help=hell['google'])
-	async def google(self, ctx, *, query):
+	async def google(self, ctx: commands.Context, *, query: str):
 
 		safe = 'strict'
 		if ctx.channel.is_nsfw():
@@ -90,13 +90,13 @@ class Utilities(commands.Cog):
 				return
 	
 	@commands.command(help=hell['calc'])
-	async def calc(self, ctx, *, inp):
+	async def calc(self, ctx: commands.Context, *, inp: str):
 
 		result = eval(inp)
 		await ctx.send(content=result)
 	
 	@commands.command(aliases=['yt'], help=hell['youtube'])
-	async def youtube(self, ctx, *, words):
+	async def youtube(self, ctx: commands.Context, *, words: str):
 
 		results = self.ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
 		link = f'https://youtu.be/{results.items[0].id.videoId}'
@@ -107,18 +107,18 @@ class Utilities(commands.Cog):
 			await e.edit(content=f"{e.content.strip('<>')}")
 
 	@commands.command(help=hell['yeet'])
-	async def yeet(self, ctx, *emotes: discord.PartialEmoji):
+	async def yeet(self, ctx: commands.Context, *emotes: discord.PartialEmoji):
 
 		for emote in emotes:
 			await ctx.send(content=emote.url)
 	
 	@commands.command(help=hell['pick'])
-	async def pick(self, ctx, *arg):
+	async def pick(self, ctx: commands.Context, *arg: list[str]):
 
 		await ctx.send(content=choice(arg))
 
 	@commands.command(help=hell['mp3'])
-	async def mp3(self, ctx, langu: str, *, words):
+	async def mp3(self, ctx: commands.Context, langu: str, *, words: str):
 
 		if langu not in lang:
 			words = langu + ' ' + words
@@ -128,7 +128,7 @@ class Utilities(commands.Cog):
 		await ctx.send(file=discord.File('kiyo.mp3'))
 	
 	@commands.command(aliases=['urbandictionary', 'urban'],help=hell['ud'])
-	async def ud(self, ctx, *, words):
+	async def ud(self, ctx: commands.Context, *, words: str):
 
 		try:
 			udthing = self.uclient.get_definition(words)[0]
@@ -141,7 +141,7 @@ class Utilities(commands.Cog):
 			await ctx.send(content='The definition is a fucking essay.')
 	
 	@commands.command(aliases=['trans'],help=hell['translate'])
-	async def translate(self, ctx, words: str, target='en', source='auto'):
+	async def translate(self, ctx: commands.Context, words: str, target: str = 'en', source: str = 'auto'):
 
 		try:
 			neword = self.trans.translate(words, dest=target, src=source)
@@ -153,7 +153,7 @@ class Utilities(commands.Cog):
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['ytdl'])
-	async def ytdl(self, ctx, link: str):
+	async def ytdl(self, ctx: commands.Context, link: str):
 
 		fformat = ''
 		async with ctx.channel.typing():
@@ -169,9 +169,8 @@ class Utilities(commands.Cog):
 	
 	@commands.guild_only()
 	@commands.command(help=hell['clone'])
-	async def clone(self, ctx, user: discord.Member, *message):
+	async def clone(self, ctx: commands.Context, user: discord.Member, *, message: str):
 
-		message = ' '.join(message)
 		name = user.nick
 		if name is None:
 			name = user.name
@@ -181,15 +180,14 @@ class Utilities(commands.Cog):
 		await hook.delete()
 
 	@commands.command(help=hell['embed'])
-	async def embed(self, ctx, *words):
+	async def embed(self, ctx: commands.Context, *, words: str):
 
-		words = ' '.join(words)
 		e = discord.Embed(title=ctx.author.name, description=words, color=0x523523)
 		e.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
 		await ctx.send(embed=e)
 	
 	@commands.command(help=hell['poll'])
-	async def poll(self, ctx, question: str, *choices):
+	async def poll(self, ctx: commands.Context, question: str, *choices: list[str]):
 
 		if len(choices) > 9:
 			await ctx.send(content="Choices can't be more than 9")
@@ -206,5 +204,5 @@ class Utilities(commands.Cog):
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
 
-def setup(bot):
+def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))

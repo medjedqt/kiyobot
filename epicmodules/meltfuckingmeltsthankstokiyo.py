@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 class MeltIDConverter(commands.Converter):
-	async def convert(self, ctx, argument):
+	async def convert(self, ctx: commands.Context, argument):
 		try:
 			argument = await commands.MessageConverter().convert(ctx, argument)
 		except (commands.MessageNotFound, commands.ChannelNotFound, commands.ChannelNotReadable):
@@ -26,13 +26,13 @@ class MeltIDConverter(commands.Converter):
 		raise commands.CommandError(message=f'{type(argument).__name__} object is not convertable')
 
 class MeltyScans(commands.Cog, name='Melty Scans'):
-	def __init__(self, bot):
+	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.queuechan = bot.queuechan
 
 	@commands.is_owner()
 	@commands.command()
-	async def queue(self, ctx, nhlink: str, raws = 'None', doclink = 'None', entitle = 'None', *en2):
+	async def queue(self, ctx: commands.Context, nhlink: str, raws: str = 'None', doclink: str = 'None', entitle: str = 'None', *en2: list[str]):
 
 		if en2 is None:
 			pass
@@ -75,7 +75,7 @@ TL link: <{doclink}>'''
 
 	@commands.is_owner()
 	@commands.command()
-	async def raw(self, ctx, id_: MeltIDConverter, url: str):
+	async def raw(self, ctx: commands.Context, id_: MeltIDConverter, url: str):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
@@ -91,7 +91,7 @@ TL link: <{doclink}>'''
 
 	@commands.is_owner()
 	@commands.command()
-	async def doc(self, ctx, id_: MeltIDConverter, url: str):
+	async def doc(self, ctx: commands.Context, id_: MeltIDConverter, url: str):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
@@ -107,9 +107,8 @@ TL link: <{doclink}>'''
 
 	@commands.is_owner()
 	@commands.command()
-	async def title(self, ctx, id_: MeltIDConverter, *title):
+	async def title(self, ctx: commands.Context, id_: MeltIDConverter, *, title: str):
 
-		title = ' '.join(title)
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
 			if f'MS#{id_}' in message.content:
@@ -124,7 +123,7 @@ TL link: <{doclink}>'''
 	
 	@commands.is_owner()
 	@commands.command()
-	async def cancel(self, ctx, id_: MeltIDConverter):
+	async def cancel(self, ctx: commands.Context, id_: MeltIDConverter):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
@@ -141,7 +140,7 @@ TL link: <{doclink}>'''
 	
 	@commands.is_owner()
 	@commands.command()
-	async def done(self, ctx = None, id_: MeltIDConverter = None):
+	async def done(self, ctx: commands.Context = None, id_: MeltIDConverter = None):
 
 		messages = await self.bot.get_channel(self.queuechan).history().flatten()
 		for message in messages:
@@ -158,5 +157,5 @@ TL link: <{doclink}>'''
 					await ctx.message.delete()
 					await resp.delete(delay=5)
 
-def setup(bot):
+def setup(bot: commands.Bot):
 	bot.add_cog(MeltyScans(bot))

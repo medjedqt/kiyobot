@@ -4,19 +4,19 @@ from random import randint
 from helpy import hell
 
 class Chemshit(commands.Cog, name='ChemSpider Database'):
-	def __init__(self, bot):
+	def __init__(self, bot: commands.Context):
 		self.bot = bot
 		self.cs = bot.cs
 
 	@commands.command(aliases=['searchcomp','sc'],help=hell['SearchCompound'])
-	async def SearchCompound(self, ctx, *, compound: str):
+	async def SearchCompound(self, ctx: commands.Context, *, compound: str):
 
 		retop = self.cs.search(compound)[0]
 		c_id = retop.record_id
 		await self.CompoundId(ctx, c_id)
 		
 	@commands.command(aliases=['compid','cid'],help=hell['CompoundId'])
-	async def CompoundId(self, ctx, idnumber: int):
+	async def CompoundId(self, ctx: commands.Context, idnumber: int):
 		
 		comp = self.cs.get_compound(idnumber)
 		c_id = comp.record_id
@@ -33,10 +33,10 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 		await ctx.send(embed=e)
 		
 	@commands.command(aliases=['rancomp','rc'],help=hell['RandomCompound'])
-	async def RandomCompound(self, ctx):
+	async def RandomCompound(self, ctx: commands.Context):
 		
 		idnum = randint(0, 1000000)
 		await self.CompoundId(ctx, idnum)
 
-def setup(bot):
+def setup(bot: commands.Bot):
 	bot.add_cog(Chemshit(bot))

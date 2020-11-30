@@ -17,11 +17,11 @@ else:
 drive = GoogleDrive(gauth)
 
 class Cloudshit(commands.Cog, name='Cloud Transfers'):
-	def __init__(self, bot):
+	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 	
 	@commands.command(aliases=['u','up'],help=hell['upload'])
-	async def upload(self, ctx, title=None):
+	async def upload(self, ctx: commands.Context, title: str = None):
 
 		try:
 			attachment =ctx.message.attachments[0]
@@ -48,7 +48,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		os.remove(newname)
 
 	@commands.command(aliases=['dl','down'], help=hell['download'])
-	async def download(self, ctx, file: str):
+	async def download(self, ctx: commands.Context, file: str):
 
 		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 		file_notthere = True
@@ -67,7 +67,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 			await ctx.send("Can't find file :c")
 
 	@commands.command(aliases=['ls'], help=hell['list'])
-	async def list(self, ctx):
+	async def list(self, ctx: commands.Context):
 
 		e = discord.Embed(title='Cloud Files',color=0x00ffff)
 		file_list = drive.ListFile({'q': "'root' in parents and trashed = false"}).GetList()
@@ -78,7 +78,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		await ctx.send(embed=e)
 
 	@commands.command(help=hell['trash'])
-	async def trash(self, ctx, filename: str):
+	async def trash(self, ctx: commands.Context, filename: str):
 
 		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 		for file in file_list:
@@ -89,5 +89,5 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 				actual_file.Trash()
 				await ctx.send(content='Binned {0}'.format(file['title']))
 
-def setup(bot):
+def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
