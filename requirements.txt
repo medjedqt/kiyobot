@@ -2,7 +2,6 @@ aiohttp==3.6.2
 bs4==0.0.1
 chemspipy==2.0.0
 discord.py==1.5.1
-google==2.0.3
 googletrans==3.0.0
 gtts==2.1.1
 insprio==0.0.1

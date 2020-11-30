@@ -1,11 +1,13 @@
 import discord
 from discord.ext import commands
 import asyncio
-from googlesearch import search
 import os
 from random import choice
 from gtts import gTTS
 from googletrans import Translator
+import requests
+import urllib
+from bs4 import BeautifulSoup as bs
 from udpy import UrbanClient
 import youtube_dl
 from kiyo import lang
@@ -76,8 +78,16 @@ class Utilities(commands.Cog):
 	@commands.command(aliases=['go'], help=hell['google'])
 	async def google(self, ctx, *, query):
 
-		for result in search(query, tld='com', num=1, stop=1, pause=2):
-			await ctx.send(result)
+		safe = 'strict'
+		if ctx.channel.is_nsfw():
+			safe = 'off'
+		header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+		r = requests.get("https://google.com/search?q="+urllib.parse.quote(query)+"&safe="+safe, headers=header)
+		soup = bs(r.text, 'html.parser').find_all("div", class_="kCrYT")
+		for i in soup:
+			if i.a is not None and i.a['href'].startswith("/url"):
+				await ctx.send(urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0])
+				return
 	
 	@commands.command(help=hell['calc'])
 	async def calc(self, ctx, *, inp):
