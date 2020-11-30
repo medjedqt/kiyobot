@@ -3,6 +3,7 @@ from discord.ext import commands
 from random import randint, choice
 from helpy import hell
 from sauce_finder import sauce_finder
+import typing
 
 class Danboorushit(commands.Cog, name='Danbooru'):
 	def __init__(self, bot: commands.Bot):
@@ -11,7 +12,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@commands.is_nsfw()
 	@commands.command(help=hell['latest'])
-	async def latest(self, ctx: commands.Bot, key: str = None, *tag: list[str]):
+	async def latest(self, ctx: commands.Bot, key: str = None, *tag: list):
 
 		if key is None:
 			tag="kiyohime_(fate/grand_order)"

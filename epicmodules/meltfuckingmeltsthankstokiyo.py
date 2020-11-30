@@ -32,7 +32,7 @@ class MeltyScans(commands.Cog, name='Melty Scans'):
 
 	@commands.is_owner()
 	@commands.command()
-	async def queue(self, ctx: commands.Context, nhlink: str, raws: str = 'None', doclink: str = 'None', entitle: str = 'None', *en2: list[str]):
+	async def queue(self, ctx: commands.Context, nhlink: str, raws: str = 'None', doclink: str = 'None', entitle: str = 'None', *en2: list):
 
 		if en2 is None:
 			pass

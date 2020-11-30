@@ -113,7 +113,7 @@ class Utilities(commands.Cog):
 			await ctx.send(content=emote.url)
 	
 	@commands.command(help=hell['pick'])
-	async def pick(self, ctx: commands.Context, *arg: list[str]):
+	async def pick(self, ctx: commands.Context, *arg: list):
 
 		await ctx.send(content=choice(arg))
 
@@ -187,7 +187,7 @@ class Utilities(commands.Cog):
 		await ctx.send(embed=e)
 	
 	@commands.command(help=hell['poll'])
-	async def poll(self, ctx: commands.Context, question: str, *choices: list[str]):
+	async def poll(self, ctx: commands.Context, question: str, *choices: list):
 
 		if len(choices) > 9:
 			await ctx.send(content="Choices can't be more than 9")
