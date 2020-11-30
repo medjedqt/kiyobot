@@ -86,26 +86,21 @@ async def on_command_error(ctx, error):
 		return
 	if isinstance(error, commands.MissingRequiredArgument):
 		await ctx.send(content="Missing arguments!")
-		return
-	if isinstance(error, commands.CommandOnCooldown):
+	elif isinstance(error, commands.CommandOnCooldown):
 		await ctx.send(content="Please wait!")
-		return
-	if isinstance(error, commands.NotOwner):
+	elif isinstance(error, commands.NotOwner):
 		await ctx.send(content="Owner only command ❌")
-		return
-	if isinstance(error, commands.UnexpectedQuoteError):
+	elif isinstance(error, commands.UnexpectedQuoteError):
 		await ctx.send(content="Clean your inputs from quotes you dirty little dirt baby")
-		return
-	if isinstance(error, commands.MemberNotFound):
+	elif isinstance(error, commands.MemberNotFound):
 		await ctx.send(content=f"Member {error.argument} not found")
-		return
-	if isinstance(error, commands.NSFWChannelRequired):
+	elif isinstance(error, commands.NSFWChannelRequired):
 		await ctx.send(content="NSFW channel required.")
-		return
-	if isinstance(error, discord.HTTPException) and error.code == 413:
-		await ctx.semd(content="Request Entity too large")
-	await bot.get_channel(bot.logchan).send(content=error)
-	raise error
+	elif isinstance(error, discord.HTTPException) and error.code == 413:
+		await ctx.send(content="Request Entity too large")
+	else:
+		await bot.get_channel(bot.logchan).send(content=error)
+		raise error
 
 @bot.event
 async def on_message(message):
