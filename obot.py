@@ -125,9 +125,9 @@ async def on_message(message: discord.Message):
 		await channel.send(embed=e)
 	await bot.process_commands(message)
 
-@bot.command(help=hell['connect'])
+@bot.command()
 async def connect(ctx: commands.Context):
-
+	'''vc'''
 	voice = ctx.author.voice
 	if voice is None:
 		await ctx.send(content='Join a voice channel first')

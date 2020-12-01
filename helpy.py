@@ -4,7 +4,7 @@ hell = {
 	'chat' : "Chat with Kiyohime. Don't die.",
 	'clone' : 'Copies people or sumn idk',
 	'CompoundId' : 'get compound by id',
-	'connect' : 'vc',
+	#'connect' : 'vc',
 	'danbooru' : 'Finds an image on danbooru',
 	'dm' : 'dms a person i guess',
 	'disconnect' : 'disconnects.',
