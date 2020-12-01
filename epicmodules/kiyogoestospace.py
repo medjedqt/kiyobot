@@ -8,7 +8,7 @@ class InterCom(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_message(self, message: discord.Message):
-		if message.author.bot or message.channel.name != "kiyo-intercom" or message.content.startswith("?"):
+		if isinstance(message.channel, discord.DMChannel) or message.author.bot or message.channel.name != "kiyo-intercom" or message.content.startswith("?"):
 			return
 		for hook in self.commhooks:
 			files = list()

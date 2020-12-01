@@ -78,7 +78,7 @@ class Utilities(commands.Cog):
 	async def google(self, ctx: commands.Context, *, query: str):
 		'''google.'''
 		safe = 'strict'
-		if ctx.channel.is_nsfw():
+		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
 			safe = 'off'
 		header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
 		r = requests.get("https://google.com/search?q="+urllib.parse.quote(query)+"&safe="+safe, headers=header)
@@ -148,20 +148,20 @@ class Utilities(commands.Cog):
 		await ctx.send(embed=e)
 
 	@commands.command()
-	async def ytdl(self, ctx: commands.Context, link: str, format_: str = 'best'):
+	async def ytdl(self, ctx: commands.Context, link: str, format_: str = 'mp4'):
 		'''ytdl, but has max limit of 8MB'''
 		ext = ''
 		async with ctx.channel.typing():
-			with youtube_dl.YoutubeDL({'format': format_}) as ydl:
+			with youtube_dl.YoutubeDL({'format': format_, 'outtmpl': 'vid.%(ext)s'}) as ydl:
 				ydl.download([link])
 			for file in os.listdir("./"):
 				if file.endswith((".mp4", ".3gp", ".avi", ".flv", ".m4v", ".mkv", ".mov", ".wmv")):
 					_, ext = os.path.splitext(file)
-					os.rename(file, f'vid{ext}')
+					os.rename(file, f'vid.mp4')
 			try:
 				await ctx.send(file=discord.File(f'vid{ext}'))
 			except discord.HTTPException:
-				await ctx.send(content="File too large, consider tuning the quality.")
+				await ctx.send(content="File too large")
 			os.remove(f'vid{ext}')
 	
 	@commands.guild_only()
