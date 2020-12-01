@@ -12,7 +12,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@commands.is_nsfw()
 	@commands.command(help=hell['latest'])
-	async def latest(self, ctx: commands.Bot, key: str = None, *tag: list):
+	async def latest(self, ctx: commands.Bot, key: str = None, *tag: str):
 
 		if key is None:
 			tag="kiyohime_(fate/grand_order)"
@@ -30,7 +30,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@commands.is_nsfw()
 	@commands.command(aliases=['danbooru','d'],help=hell['danbooru'])
-	async def dan(self, ctx: commands.Context, *tag: list):
+	async def dan(self, ctx: commands.Context, *tag: str):
 
 		page = randint(1,5)
 		try:
