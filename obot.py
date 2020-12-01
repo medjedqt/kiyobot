@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import asyncio
 from kiyo import lines
-from helpy import hell
 from random import choice, randint, uniform
 from pybooru import Danbooru
 import requests
@@ -135,18 +134,18 @@ async def connect(ctx: commands.Context):
 		await voice.channel.connect()
 		await ctx.send("*hacker voice* I'M IN")
 
-@bot.command(aliases=['dc'],help=hell['disconnect'])
+@bot.command(aliases=['dc'])
 async def disconnect(ctx: commands.Context):
-
+	'''disconnects.'''
 	if bot.voice_clients == []:
 		await ctx.send(content="I'm not in a voice channel")
 	else:
 		await ctx.voice_client.disconnect()
 		await ctx.send("bye...")
 
-@bot.command(help=hell['ping'])
+@bot.command()
 async def ping(ctx: commands.Context, arg1: str = None):
-
+	'''pong'''
 	if arg1 is not None:
 		await ctx.send(content=f'{bot.latency} seconds')
 	await ctx.send(content=":ping_pong: Pong!")

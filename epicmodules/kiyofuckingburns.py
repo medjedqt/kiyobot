@@ -3,7 +3,6 @@ from discord.ext import commands
 import asyncio
 from random import randint, choice, uniform
 from kiyo import burnlist, lines
-from helpy import hell
 
 class Kiyohime(commands.Cog):
 	def __init__(self, bot):
@@ -33,24 +32,24 @@ class Kiyohime(commands.Cog):
 			else:
 				await message.channel.send(choice(lines))
 
-	@commands.command(help=hell['burn'])
+	@commands.command()
 	async def burn(self, ctx: commands.Context):
-
+		'''BURN BURN BURN BURN'''
 		e=discord.Embed(color=0xff0000)
 		e.set_image(url=choice(burnlist))
 		await ctx.send(embed=e)
 
-	@commands.command(help=hell['step'])
+	@commands.command()
 	async def step(self, ctx: commands.Context):
-
+		'''NO STEP ON SNEK'''
 		e=discord.Embed(color=0xffff00)
 		e.set_image(url="https://cdn.discordapp.com/attachments/611844054669328394/635200592364699649/IMG_20191020_024438.JPG")
 		await ctx.send(embed=e)
 	
 	@commands.is_nsfw()
-	@commands.command(aliases=['k','kiyohime'], help=hell['kiyo'])
+	@commands.command(aliases=['k','kiyohime'])
 	async def kiyo(self, ctx: commands.Context):
-
+		'''poops out kiyo pics'''
 		x = []
 		page = randint(1,15)
 		posts = self.db.post_list(tags='kiyohime_(fate/grand_order)',page=page,limit=100)

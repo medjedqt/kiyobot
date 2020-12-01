@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from random import randint, choice
-from helpy import hell
 from sauce_finder import sauce_finder
 import typing
 
@@ -11,9 +10,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		self.db = bot.db
 	
 	@commands.is_nsfw()
-	@commands.command(help=hell['latest'])
+	@commands.command()
 	async def latest(self, ctx: commands.Bot, key: str = None, *tag: str):
-
+		'''shits out latest danbooru pic (kiyo by default)'''
 		if key is None:
 			tag="kiyohime_(fate/grand_order)"
 		else:
@@ -29,9 +28,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		await ctx.send(embed=e)
 	
 	@commands.is_nsfw()
-	@commands.command(aliases=['danbooru','d'],help=hell['danbooru'])
-	async def dan(self, ctx: commands.Context, *tag: str):
-
+	@commands.command(aliases=['dan','d'])
+	async def danbooru(self, ctx: commands.Context, *tag: str):
+		'''Finds an image on danbooru'''
 		page = randint(1,5)
 		try:
 			posts = self.db.post_list(tags=tag,page=page,limit=5)
@@ -47,9 +46,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
 
 	@commands.is_nsfw()
-	@commands.command(help=hell['multi'])
+	@commands.command()
 	async def multi(self, ctx: commands.Context, *, tag: str):
-
+		'''Finds multiple images on danbooru'''
 		page = randint(1,5)
 		e = discord.Embed(color=0x00FFBE)
 		try:
@@ -66,6 +65,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@commands.command()
 	async def iqdb(self, ctx: commands.Context, url: str = None):
+		'''finds image sauce on iqdb'''
 		if url is None:
 			url = ctx.message.attachments[0].url
 		result = sauce_finder.get_match(url)
@@ -80,6 +80,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 
 	@commands.command(aliases=['nao', 'sauce'])
 	async def saucenao(self, ctx: commands.Context, url: str = None):
+		'''finds image sauce on saucenao'''
 		if url is None:
 			url = ctx.message.attachments[0].url
 		results = await self.bot.sauce.from_url(url)

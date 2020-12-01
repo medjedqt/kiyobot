@@ -11,7 +11,6 @@ from bs4 import BeautifulSoup as bs
 from udpy import UrbanClient
 import youtube_dl
 from kiyo import lang
-from helpy import hell
 
 class Utilities(commands.Cog):
 	def __init__(self, bot):
@@ -30,9 +29,9 @@ class Utilities(commands.Cog):
 		e.add_field(name="Edited", value=f'"{before.content}" to "{after.content}"')
 		await channel.send(embed=e)
 	
-	@commands.command(aliases=['nword','nw'],help=hell['nwordcount'])
+	@commands.command(aliases=['nword','nw'])
 	async def nwordcount(self, ctx: commands.Context):
-
+		'''counts your racism'''
 		i=1
 		n1counter = 0
 		n2counter = 0
@@ -56,28 +55,28 @@ class Utilities(commands.Cog):
 		await mes.edit(content='Done!')
 		await ctx.send(content='According to my stalking, %s have said the soft n-word %d times and the hard n-word %d times in the last 5000 messages' % (ctx.author.mention, n2counter, n1counter))
 
-	@commands.command(help=hell['dm'])
+	@commands.command()
 	async def dm(self, ctx: commands.Context, user: discord.User, *, msg: str):
-
+		'''dms a person i guess'''
 		await ctx.message.delete()
 		await user.send(content=msg)
 	
-	@commands.command(help=hell['say'])
+	@commands.command()
 	async def say(self, ctx: commands.Context, *, msg: str):
-
+		'''yes'''
 		await ctx.message.delete()
 		await ctx.send(content=msg, allowed_mentions=discord.AllowedMentions.none())
 	
-	@commands.command(help=hell['tts'])
+	@commands.command()
 	async def tts(self, ctx: commands.Context, *, msg: str):
-
+		'''yesser'''
 		msga = await ctx.send(content=msg, tts=True)
 		await msga.delete()
 		await ctx.message.delete()
 	
-	@commands.command(aliases=['go'], help=hell['google'])
+	@commands.command(aliases=['go'])
 	async def google(self, ctx: commands.Context, *, query: str):
-
+		'''google.'''
 		safe = 'strict'
 		if ctx.channel.is_nsfw():
 			safe = 'off'
@@ -89,15 +88,15 @@ class Utilities(commands.Cog):
 				await ctx.send(urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0])
 				return
 	
-	@commands.command(help=hell['calc'])
+	@commands.command()
 	async def calc(self, ctx: commands.Context, *, inp: str):
-
+		'''It's a calculator'''
 		result = eval(inp)
 		await ctx.send(content=result)
 	
-	@commands.command(aliases=['yt'], help=hell['youtube'])
+	@commands.command(aliases=['yt'])
 	async def youtube(self, ctx: commands.Context, *, words: str):
-
+		'''Searches youtube vids'''
 		results = self.ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
 		link = f'https://youtu.be/{results.items[0].id.videoId}'
 		e = await ctx.send(content=f'<{link}>')
@@ -106,20 +105,20 @@ class Utilities(commands.Cog):
 		except discord.HTTPException:
 			await e.edit(content=f"{e.content.strip('<>')}")
 
-	@commands.command(help=hell['yeet'])
+	@commands.command()
 	async def yeet(self, ctx: commands.Context, *emotes: discord.PartialEmoji):
-
+		'''Posts the link to a custom emote'''
 		for emote in emotes:
 			await ctx.send(content=emote.url)
 	
-	@commands.command(help=hell['pick'])
+	@commands.command()
 	async def pick(self, ctx: commands.Context, *arg: str):
-
+		'''Chooses randomly from a list'''
 		await ctx.send(content=choice(arg))
 
-	@commands.command(help=hell['mp3'])
+	@commands.command()
 	async def mp3(self, ctx: commands.Context, langu: str, *, words: str):
-
+		'''Generates an mp3 file of whatever you type'''
 		if langu not in lang:
 			words = langu + ' ' + words
 			langu = 'en'
@@ -127,9 +126,9 @@ class Utilities(commands.Cog):
 		tts.save('kiyo.mp3')
 		await ctx.send(file=discord.File('kiyo.mp3'))
 	
-	@commands.command(aliases=['urbandictionary', 'urban'],help=hell['ud'])
-	async def ud(self, ctx: commands.Context, *, words: str):
-
+	@commands.command(aliases=['urbandictionary', 'ud'])
+	async def urban(self, ctx: commands.Context, *, words: str):
+		'''searches the urbandictionary'''
 		try:
 			udthing = self.uclient.get_definition(words)[0]
 			e = discord.Embed(title=udthing.word, description=udthing.definition, color=0x441400)
@@ -140,21 +139,21 @@ class Utilities(commands.Cog):
 		except discord.HTTPException:
 			await ctx.send(content='The definition is a fucking essay.')
 	
-	@commands.command(aliases=['trans'],help=hell['translate'])
+	@commands.command(aliases=['trans'])
 	async def translate(self, ctx: commands.Context, words: str, target: str = 'en', source: str = 'auto'):
-
+		'''Translates stuff (broken for now)'''
 		try:
 			neword = self.trans.translate(words, dest=target, src=source)
 		except ValueError:
-			await ctx.send(content="Usage: `.translate 'words' destination(optional) source(optional)`")
+			await ctx.send(content="Usage: `?translate 'words' destination(optional) source(optional)`")
 			return
 		e = discord.Embed(color=0x000055, title='Translator')
 		e.add_field(name=f'Translated from {neword.src}', value=neword.text)
 		await ctx.send(embed=e)
 
-	@commands.command(help=hell['ytdl'])
+	@commands.command()
 	async def ytdl(self, ctx: commands.Context, link: str):
-
+		'''ytdl, but has max limit of 8MB'''
 		fformat = ''
 		async with ctx.channel.typing():
 			with youtube_dl.YoutubeDL({}) as ydl:
@@ -165,12 +164,11 @@ class Utilities(commands.Cog):
 					os.rename(file, f'vid{fformat}')
 			await ctx.send(file=discord.File(f'vid{fformat}'))
 			os.remove(f'vid{fformat}')
-		# await ctx.send("Feature broken for now, will rework later")
 	
 	@commands.guild_only()
-	@commands.command(help=hell['clone'])
+	@commands.command()
 	async def clone(self, ctx: commands.Context, user: discord.Member, *, message: str):
-
+		'''Copies people or sumn idk'''
 		name = user.nick
 		if name is None:
 			name = user.name
@@ -179,16 +177,16 @@ class Utilities(commands.Cog):
 		await ctx.message.delete()
 		await hook.delete()
 
-	@commands.command(help=hell['embed'])
+	@commands.command()
 	async def embed(self, ctx: commands.Context, *, words: str):
-
+		'''Embeds whatever you say'''
 		e = discord.Embed(title=ctx.author.name, description=words, color=0x523523)
 		e.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
 		await ctx.send(embed=e)
 	
-	@commands.command(help=hell['poll'])
+	@commands.command()
 	async def poll(self, ctx: commands.Context, question: str, *choices: str):
-
+		'''democracy'''
 		if len(choices) > 9:
 			await ctx.send(content="Choices can't be more than 9")
 			return

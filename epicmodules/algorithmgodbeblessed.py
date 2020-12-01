@@ -10,7 +10,6 @@ from wordcloud import WordCloud
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from helpy import hell
 
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
@@ -19,9 +18,9 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		self.bot.browser.get('https://www.cleverbot.com')
 		self.bot.browser.execute_script('noteok()')
 
-	@commands.command(help=hell['word'])
+	@commands.command()
 	async def word(self, ctx: commands.Context):
-
+		'''Generates a word that doesn't exist'''
 		r = requests.get('https://www.thisworddoesnotexist.com/')
 		soup = BeautifulSoup(r.text, 'html.parser')
 		defword = soup.find(id='definition-word').string
@@ -36,9 +35,9 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		e.set_footer(text='Powered by This Word Does Not Exist',icon_url='https://www.thisworddoesnotexist.com/favicon-32x32.png')
 		await ctx.send(embed=e)
 
-	@commands.command(help=hell['wordcloud'])
+	@commands.command()
 	async def wordcloud(self, ctx: commands.Context, chanlimit: int = 100, maxim: int = 100):
-
+		'''Generates a wordcloud of the server'''
 		def getFrequencyDictForText(sentence):
 			fullTermsDict = multidict.MultiDict()
 			tmpDict = {}
@@ -65,9 +64,9 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 	@commands.max_concurrency(1, wait=True)
-	@commands.command(help=hell['chat'])
+	@commands.command()
 	async def chat(self, ctx: commands.Context, *question: str):
-
+		'''Chat with Kiyohime. Don't die.'''
 		async with ctx.channel.typing():
 			q = []
 			for word in question:
@@ -89,7 +88,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			response = self.bot.browser.find_element_by_xpath("//p[@id='line1']/span")
 			await ctx.send(content=response.text)
 
-	@commands.command()
+	@commands.command(hidden=True)
 	async def reloadchat(self, ctx: commands.Context):
 		
 		message = await ctx.send(content='Reloading..')
@@ -101,7 +100,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	
 	@commands.command()
 	async def inspire(self, ctx: commands.Context):
-
+		'''Generates inspiring (or not) images'''
 		quote = inspirobot.generate()
 		await ctx.send(content=quote.url)
 

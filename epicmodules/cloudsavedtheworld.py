@@ -6,7 +6,6 @@ from pydrive2.drive import GoogleDrive
 import discord
 from discord.ext import commands
 import tension
-from helpy import hell
 
 gauth = GoogleAuth()
 gauth.LoadCredentialsFile("auth.json")
@@ -20,9 +19,9 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 	
-	@commands.command(aliases=['u','up'],help=hell['upload'])
+	@commands.command(aliases=['u','up'])
 	async def upload(self, ctx: commands.Context, title: str = None):
-
+		'''Uploads file to a cloud server'''
 		try:
 			attachment =ctx.message.attachments[0]
 			fileurl=attachment.url
@@ -48,9 +47,9 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		await ctx.send(content="Uploaded as {0}".format(newname))
 		os.remove(newname)
 
-	@commands.command(aliases=['dl','down'], help=hell['download'])
+	@commands.command(aliases=['dl','down'])
 	async def download(self, ctx: commands.Context, file: str):
-
+		'''Downloads file from cloud server'''
 		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 		file_notthere = True
 		for file2 in file_list:
@@ -67,9 +66,9 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		if file_notthere:
 			await ctx.send("Can't find file :c")
 
-	@commands.command(aliases=['ls'], help=hell['list'])
+	@commands.command(aliases=['ls'])
 	async def list(self, ctx: commands.Context):
-
+		'''Lists down every file on the cloud'''
 		e = discord.Embed(title='Cloud Files',color=0x00ffff)
 		file_list = drive.ListFile({'q': "'root' in parents and trashed = false"}).GetList()
 		for file1 in file_list:
@@ -78,9 +77,9 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 			e.add_field(name=file1['title'],value=nexte)
 		await ctx.send(embed=e)
 
-	@commands.command(help=hell['trash'])
+	@commands.command()
 	async def trash(self, ctx: commands.Context, filename: str):
-
+		'''Dumps a cloud file to trash'''
 		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
 		for file in file_list:
 			title = file['title']

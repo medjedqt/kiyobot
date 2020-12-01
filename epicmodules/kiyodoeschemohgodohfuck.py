@@ -1,23 +1,22 @@
 import discord
 from discord.ext import commands
 from random import randint
-from helpy import hell
 
 class Chemshit(commands.Cog, name='ChemSpider Database'):
 	def __init__(self, bot: commands.Context):
 		self.bot = bot
 		self.cs = bot.cs
 
-	@commands.command(aliases=['searchcomp','sc'],help=hell['SearchCompound'])
+	@commands.command(aliases=['searchcomp','sc'])
 	async def SearchCompound(self, ctx: commands.Context, *, compound: str):
-
+		'''search chemistry compounds'''
 		retop = self.cs.search(compound)[0]
 		c_id = retop.record_id
 		await self.CompoundId(ctx, c_id)
 		
-	@commands.command(aliases=['compid','cid'],help=hell['CompoundId'])
+	@commands.command(aliases=['compid','cid'])
 	async def CompoundId(self, ctx: commands.Context, idnumber: int):
-		
+		'''get compound by id'''
 		comp = self.cs.get_compound(idnumber)
 		c_id = comp.record_id
 		c_name = comp.common_name
@@ -32,9 +31,9 @@ class Chemshit(commands.Cog, name='ChemSpider Database'):
 		e.add_field(name="Average Mass:", value=c_mass)
 		await ctx.send(embed=e)
 		
-	@commands.command(aliases=['rancomp','rc'],help=hell['RandomCompound'])
+	@commands.command(aliases=['rancomp','rc'])
 	async def RandomCompound(self, ctx: commands.Context):
-		
+		'''get a random compound'''
 		idnum = randint(0, 1000000)
 		await self.CompoundId(ctx, idnum)
 
