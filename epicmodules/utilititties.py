@@ -99,11 +99,7 @@ class Utilities(commands.Cog):
 		'''Searches youtube vids'''
 		results = self.ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
 		link = f'https://youtu.be/{results.items[0].id.videoId}'
-		e = await ctx.send(content=f'<{link}>')
-		try:
-			await self.ytdl(ctx, link)
-		except discord.HTTPException:
-			await e.edit(content=f"{e.content.strip('<>')}")
+		e = await ctx.send(content=link)
 
 	@commands.command()
 	async def yeet(self, ctx: commands.Context, *emotes: discord.PartialEmoji):

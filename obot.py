@@ -92,11 +92,13 @@ async def on_command_error(ctx: commands.Context, error):
 	elif isinstance(error, commands.UnexpectedQuoteError):
 		await ctx.send(content="Clean your inputs from quotes you dirty little dirt baby")
 	elif isinstance(error, commands.MemberNotFound):
-		await ctx.send(content=f"Member {error.argument} not found")
+		await ctx.send(content=f"Member {error.argument} not found", allowed_mentions=discord.AllowedMentions.none())
 	elif isinstance(error, commands.NSFWChannelRequired):
 		await ctx.send(content="NSFW channel required.")
 	elif isinstance(error, discord.HTTPException) and error.code == 413:
 		await ctx.send(content="Request Entity too large")
+	elif isinstance(error, commands.ConversionError):
+		await ctx.send(content=error, allowed_mentions=discord.AllowedMentions.none())
 	else:
 		await bot.get_channel(bot.logchan).send(content=error)
 		raise error
