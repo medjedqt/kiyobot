@@ -148,21 +148,19 @@ class Utilities(commands.Cog):
 		await ctx.send(embed=e)
 
 	@commands.command()
-	async def ytdl(self, ctx: commands.Context, link: str, format_: str = 'mp4'):
+	async def ytdl(self, ctx: commands.Context, link: str, *, rest: str = None):
 		'''ytdl, but has max limit of 8MB'''
-		ext = ''
+		if rest != None:
+			link = 'ytsearch:' + link + ' ' + rest
 		async with ctx.channel.typing():
-			with youtube_dl.YoutubeDL({'format': format_, 'outtmpl': 'vid.%(ext)s'}) as ydl:
+			with youtube_dl.YoutubeDL({'format': 'mp4', 'outtmpl': 'vid.%(ext)s'}) as ydl:
 				ydl.download([link])
-			for file in os.listdir("./"):
-				if file.endswith((".mp4", ".3gp", ".avi", ".flv", ".m4v", ".mkv", ".mov", ".wmv")):
-					_, ext = os.path.splitext(file)
-					os.rename(file, f'vid.mp4')
 			try:
-				await ctx.send(file=discord.File(f'vid{ext}'))
+				await ctx.send(file=discord.File(f'vid.mp4'))
 			except discord.HTTPException:
 				await ctx.send(content="File too large")
-			os.remove(f'vid{ext}')
+			finally:
+				os.remove(f'vid.mp4')
 	
 	@commands.guild_only()
 	@commands.command()
