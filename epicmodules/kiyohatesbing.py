@@ -16,7 +16,7 @@ class Googlereq(commands.Cog):
 		self.req = requests.get(self.url, headers=self.header)
 		self.soup = bs(self.req.text, 'html.parser')
 
-	@commands.group(aliases=['go'], invoke_without_command=True)
+	@commands.group(aliases=['go'])
 	async def google(self, ctx: commands.Context, *, query: str):
 		'''google.'''
 		if ctx.invoked_subcommand is not None:
