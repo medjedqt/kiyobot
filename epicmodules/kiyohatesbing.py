@@ -70,3 +70,6 @@ class Googlereq(commands.Cog):
 {self.meaning}
 '''.strip()
 		await ctx.send(self.resp)
+
+def setup(bot: commands.Bot):
+	Googlereq(bot)
