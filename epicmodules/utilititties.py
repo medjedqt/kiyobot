@@ -74,20 +74,6 @@ class Utilities(commands.Cog):
 		await msga.delete()
 		await ctx.message.delete()
 	
-	@commands.command(aliases=['go'])
-	async def google(self, ctx: commands.Context, *, query: str):
-		'''google.'''
-		safe = 'strict'
-		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
-			safe = 'off'
-		header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-		r = requests.get("https://google.com/search?q="+urllib.parse.quote(query)+"&safe="+safe, headers=header)
-		soup = bs(r.text, 'html.parser').find_all("div", class_="kCrYT")
-		for i in soup:
-			if i.a is not None and i.a['href'].startswith("/url"):
-				await ctx.send(urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0])
-				return
-	
 	@commands.command()
 	async def calc(self, ctx: commands.Context, *, inp: str):
 		'''It's a calculator'''
