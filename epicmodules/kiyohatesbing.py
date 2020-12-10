@@ -5,7 +5,7 @@ import requests
 import urllib
 from bs4 import BeautifulSoup as bs
 
-class Googlereq(commands.Cog):
+class Google(commands.Cog):
 	'''Main google request'''
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
@@ -33,7 +33,7 @@ class Googlereq(commands.Cog):
 
 	@google.command()
 	async def answer(self, ctx: commands.Context, *, query: str):
-		'''scrapes random answers on google'''
+		'''scrapes random answers on google (Not entirely polished)'''
 		self.request(query)
 		h = self.soup.find('div', class_="BNeawe s3v9rd AP7Wnd")
 		self.resp = h.text
@@ -72,4 +72,4 @@ class Googlereq(commands.Cog):
 		await ctx.send(self.resp)
 
 def setup(bot: commands.Bot):
-	bot.add_cog(Googlereq(bot))
+	bot.add_cog(Google(bot))
