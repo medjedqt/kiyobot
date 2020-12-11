@@ -6,6 +6,7 @@ googletrans==3.0.0
 gtts==2.1.1
 insprio==0.0.1
 multidict==4.6.1
+nhentai.py==2.2.1
 Pybooru==4.2.0
 pydrive2==1.4.10
 pysaucenao==1.4.0

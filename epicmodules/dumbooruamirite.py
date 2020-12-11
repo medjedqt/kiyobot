@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from random import randint, choice
 from sauce_finder import sauce_finder
-import typing
+import nhentai as nh
 
 class Danboorushit(commands.Cog, name='Danbooru'):
 	def __init__(self, bot: commands.Bot):
@@ -88,6 +88,21 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			await ctx.send(content="No results found.")
 			return
 		await ctx.send(content=f'Similarity: {results[0].similarity}\n{results[0].url}')
+	
+	@commands.group(aliases=['nh'], invoke_without_command=True)
+	async def nhentai(self, ctx: commands.Context, djid: int):
+		'''finds doujins on nhentai by id'''
+		if ctx.invoked_subcommand is not None:
+			return
+		result = nh.get_doujin(djid)
+		e = discord.Embed(title=result.titles['pretty'], description=result.id, url=result.url, color=0x177013)
+		e.set_image(result.cover)
+		await ctx.send(embed=e)
+
+	@nhentai.command()
+	async def random(self, ctx: commands.Context):
+		'''finds random doujin'''
+		self.nhentai(ctx, nh.get_random_id())
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))

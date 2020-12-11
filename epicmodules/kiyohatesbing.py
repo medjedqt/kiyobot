@@ -71,5 +71,11 @@ class Google(commands.Cog):
 '''.strip()
 		await ctx.send(self.resp)
 
+	@google.command()
+	async def translate(self, ctx: commands.Context, lang1: str, lang2: str, *, words: str):
+		'''translate stuff on google'''
+		self.request(f'translate {words} from {lang1} to {lang2}')
+		print(self.soup.find_all('div', class_="BNeawe iBp4i AP7Wnd"))
+
 def setup(bot: commands.Bot):
 	bot.add_cog(Google(bot))
