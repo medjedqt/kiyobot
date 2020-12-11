@@ -103,6 +103,12 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	async def random(self, ctx: commands.Context):
 		'''finds random doujin'''
 		await self.nhentai(ctx, nh.get_random_id())
+	
+	@nhentai.command()
+	async def search(self, ctx: commands.Context, *, tags: str):
+		'''finds doujins by tags'''
+		djid = choice(nh.search(tags)).id
+		await self.nhentai(ctx, djid)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
