@@ -101,11 +101,13 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		e.set_image(url=result.cover)
 		await ctx.send(embed=e)
 
+	@is_nsfw()
 	@nhentai.command()
 	async def random(self, ctx: commands.Context):
 		'''finds random doujin'''
 		await self.nhentai(ctx, nh.get_random_id())
 	
+	@is_nsfw()
 	@nhentai.command()
 	async def search(self, ctx: commands.Context, *, tags: str):
 		'''finds doujins by tags'''
