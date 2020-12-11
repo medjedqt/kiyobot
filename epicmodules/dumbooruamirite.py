@@ -97,8 +97,10 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		if ctx.invoked_subcommand is not None:
 			return
 		result = nh.get_doujin(djid)
-		e = discord.Embed(title=result.titles['pretty'], description=result.id, url=result.url, color=0x177013)
+		tags = [_.name for _ in result.tags]
+		e = discord.Embed(title=result.titles['pretty'], description=f'#{result.id}', url=result.url, color=0x177013)
 		e.set_image(url=result.cover)
+		e.add_field(name="Tags", value=', '.join(tags))
 		await ctx.send(embed=e)
 
 	@is_nsfw()
