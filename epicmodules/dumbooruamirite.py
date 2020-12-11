@@ -96,13 +96,13 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			return
 		result = nh.get_doujin(djid)
 		e = discord.Embed(title=result.titles['pretty'], description=result.id, url=result.url, color=0x177013)
-		e.set_image(result.cover)
+		#e.set_image(result.cover)
 		await ctx.send(embed=e)
 
 	@nhentai.command()
 	async def random(self, ctx: commands.Context):
 		'''finds random doujin'''
-		self.nhentai(ctx, nh.get_random_id())
+		await self.nhentai(ctx, nh.get_random_id())
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
