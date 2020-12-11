@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from random import randint, choice
+from discord.ext.commands.core import is_nsfw
 from sauce_finder import sauce_finder
 import nhentai as nh
 
@@ -89,6 +90,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			return
 		await ctx.send(content=f'Similarity: {results[0].similarity}\n{results[0].url}')
 	
+	@is_nsfw()
 	@commands.group(aliases=['nh'], invoke_without_command=True)
 	async def nhentai(self, ctx: commands.Context, djid: int):
 		'''finds doujins on nhentai by id'''
@@ -96,7 +98,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			return
 		result = nh.get_doujin(djid)
 		e = discord.Embed(title=result.titles['pretty'], description=result.id, url=result.url, color=0x177013)
-		#e.set_image(result.cover)
+		e.set_image(result.cover)
 		await ctx.send(embed=e)
 
 	@nhentai.command()
