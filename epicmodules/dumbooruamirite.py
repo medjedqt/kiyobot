@@ -104,9 +104,8 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@nhentai.error
 	async def nh_error(self, ctx: commands.Context, error):
-		if isinstance(error, commands.ConversionError):
-			rep = ctx.message.content.replace(f'{ctx.prefix}{ctx.invoked_with}', f'{ctx.prefix}{ctx.invoked_with} search')
-			await ctx.send(f"Invalid doujin id, did you mean `{rep}`")
+		rep = ctx.message.content.replace(f'{ctx.prefix}{ctx.invoked_with}', f'{ctx.prefix}{ctx.invoked_with} search')
+		await ctx.send(f"Invalid doujin id, did you mean `{rep}`")
 
 	@commands.is_nsfw()
 	@nhentai.command()
@@ -123,8 +122,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 
 	@search.error
 	async def random_error(self, ctx, error):
-		if isinstance(error, IndexError):
-			await ctx.send('No results found!')
+		await ctx.send('No results found!')
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
