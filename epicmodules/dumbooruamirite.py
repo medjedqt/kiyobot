@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from random import randint, choice
-from discord.ext.commands.core import is_nsfw
 from sauce_finder import sauce_finder
 import nhentai as nh
 
@@ -90,7 +89,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			return
 		await ctx.send(content=f'Similarity: {results[0].similarity}\n{results[0].url}')
 	
-	@is_nsfw()
+	@commands.is_nsfw()
 	@commands.group(aliases=['nh'], invoke_without_command=True)
 	async def nhentai(self, ctx: commands.Context, djid: int):
 		'''finds doujins on nhentai by id'''
@@ -102,19 +101,30 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		e.set_image(url=result.cover)
 		e.add_field(name="Tags", value=', '.join(tags))
 		await ctx.send(embed=e)
+	
+	@nhentai.error
+	async def nh_error(self, ctx: commands.Context, error):
+		if isinstance(error, commands.ConversionError):
+			rep = ctx.message.content.replace(f'{ctx.prefix}{ctx.invoked_with}', f'{ctx.prefix}{ctx.invoked_with} search')
+			await ctx.send(f"Invalid doujin id, did you mean `{rep}`")
 
-	@is_nsfw()
+	@commands.is_nsfw()
 	@nhentai.command()
 	async def random(self, ctx: commands.Context):
 		'''finds random doujin'''
 		await self.nhentai(ctx, nh.get_random_id())
-	
-	@is_nsfw()
-	@nhentai.command()
+
+	@commands.is_nsfw()
+	@nhentai.command(aliases=['find'])
 	async def search(self, ctx: commands.Context, *, tags: str):
 		'''finds doujins by tags'''
 		djid = choice(nh.search(tags)).id
 		await self.nhentai(ctx, djid)
+
+	@search.error
+	async def random_error(self, ctx, error):
+		if isinstance(error, IndexError):
+			await ctx.send('No results found!')
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
