@@ -96,7 +96,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		if ctx.invoked_subcommand is not None:
 			return
 		elif ctx.subcommand_passed is None:
-			await ctx.send_help(entity=ctx.command)
+			await ctx.send_help(ctx.command)
 			return
 		result = nh.get_doujin(djid)
 		tags = [_.name for _ in result.tags]
