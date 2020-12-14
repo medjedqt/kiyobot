@@ -91,9 +91,12 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@commands.is_nsfw()
 	@commands.group(aliases=['nh'], invoke_without_command=True)
-	async def nhentai(self, ctx: commands.Context, djid: int):
+	async def nhentai(self, ctx: commands.Context, djid: int = None):
 		'''finds doujins on nhentai by id'''
 		if ctx.invoked_subcommand is not None:
+			return
+		elif ctx.subcommand_passed is None:
+			await ctx.send_help(entity=ctx.command)
 			return
 		result = nh.get_doujin(djid)
 		tags = [_.name for _ in result.tags]
@@ -104,8 +107,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@nhentai.error
 	async def nh_error(self, ctx: commands.Context, error):
-		rep = ctx.message.content.replace(f'{ctx.prefix}{ctx.invoked_with}', f'{ctx.prefix}{ctx.invoked_with} search')
-		await ctx.send(f"Invalid doujin id, did you mean `{rep}`")
+		if isinstance(error, ValueError):
+			rep = ctx.message.content.replace(f'{ctx.prefix}{ctx.invoked_with}', f'{ctx.prefix}{ctx.invoked_with} search')
+			await ctx.send(f"Invalid doujin id, did you mean `{rep}`")
 
 	@commands.is_nsfw()
 	@nhentai.command()
