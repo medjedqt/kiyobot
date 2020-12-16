@@ -95,6 +95,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		'''finds doujins on nhentai by id'''
 		if ctx.invoked_subcommand is not None:
 			return
+		elif djid is None:
+			await ctx.send_help(ctx.command)
+			return
 		result = Hentai(djid)
 		tags = [_.name for _ in result.tag]
 		e = discord.Embed(title=result.title(Format.Pretty), description=f'#{result.id}', url=result.url, color=0x177013)
