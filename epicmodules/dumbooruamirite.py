@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from random import randint, choice
 from sauce_finder import sauce_finder
-import nhentai as nh
+from hentai import Hentai, Format, Utils
 
 class Danboorushit(commands.Cog, name='Danbooru'):
 	def __init__(self, bot: commands.Bot):
@@ -73,7 +73,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			thing = result['found'][0]
 		else:
 			thing = result['found']
-		if thing['rating'] == '[Explicit]' and not ctx.channel.is_nsfw():
+		if thing['rating'] == '[Explicit]' and not (ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel)):
 			await ctx.send("Explicit result")
 			return
 		await ctx.send(content=f"{result['type']} result: {thing['link']}")
@@ -98,10 +98,11 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		elif ctx.subcommand_passed is None:
 			await ctx.send_help(ctx.command)
 			return
-		result = nh.get_doujin(djid)
-		tags = [_.name for _ in result.tags]
-		e = discord.Embed(title=result.titles['pretty'], description=f'#{result.id}', url=result.url, color=0x177013)
+		result = Hentai(djid)
+		tags = [_.name for _ in result.tag]
+		e = discord.Embed(title=result.title(Format.Pretty), description=f'#{result.id}', url=result.url, color=0x177013)
 		e.set_image(url=result.cover)
+		e.set_footer(text=result.upload_date)
 		e.add_field(name="Tags", value=', '.join(tags))
 		await ctx.send(embed=e)
 	
@@ -115,14 +116,14 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	@nhentai.command()
 	async def random(self, ctx: commands.Context):
 		'''finds random doujin'''
-		await self.nhentai(ctx, nh.get_random_id())
+		await self.nhentai(ctx, Utils.get_random_id())
 
 	@commands.is_nsfw()
 	@nhentai.command(aliases=['find'])
 	async def search(self, ctx: commands.Context, *, tags: str):
 		'''finds doujins by tags'''
 		try:
-			djid = choice(nh.search(tags)).id
+			djid = choice(Utils.search_by_query(tags)).id
 			await self.nhentai(ctx, djid)
 		except IndexError:
 			await ctx.send('No results found!')
