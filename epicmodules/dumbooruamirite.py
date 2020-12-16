@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from random import randint, choice
 from sauce_finder import sauce_finder
-from hentai import Hentai, Format, Utils
+from hentai import Hentai, Format, Utils, Sort
 
 class Danboorushit(commands.Cog, name='Danbooru'):
 	def __init__(self, bot: commands.Bot):
@@ -95,9 +95,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		'''finds doujins on nhentai by id'''
 		if ctx.invoked_subcommand is not None:
 			return
-		#elif ctx.subcommand_passed is None:
-		#	await ctx.send_help(ctx.command)
-		#	return
+		elif ctx.subcommand_passed is None and ctx.command == self.nhentai:
+			await ctx.send_help(ctx.command)
+			return
 		result = Hentai(djid)
 		tags = [_.name for _ in result.tag]
 		e = discord.Embed(title=result.title(Format.Pretty), description=f'#{result.id}', url=result.url, color=0x177013)
@@ -123,7 +123,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	async def search(self, ctx: commands.Context, *, tags: str):
 		'''finds doujins by tags'''
 		try:
-			djid = choice(Utils.search_by_query(tags)).id
+			djid = choice(Utils.search_by_query(tags, sort=Sort.PopularToday)).id
 			await self.nhentai(ctx, djid)
 		except IndexError:
 			await ctx.send('No results found!')
