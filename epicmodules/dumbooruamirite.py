@@ -122,10 +122,13 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	@nhentai.command(aliases=['find'])
 	async def search(self, ctx: commands.Context, *, tags: str):
 		'''finds doujins by tags'''
-		try:
-			djid = choice(Utils.search_by_query(tags, sort=Sort.PopularToday)).id
-			await self.nhentai(ctx, djid)
-		except IndexError:
+		res = Utils.search_by_query(tags, sort=Sort.Popular)
+		if res != []:
+			msg = str()
+			for dj in res:
+				msg+=f"#{dj.id}: {dj.title(Format.English)}\n"
+			await ctx.send(content=msg)
+		else:
 			await ctx.send('No results found!')
 
 def setup(bot: commands.Bot):
