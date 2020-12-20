@@ -125,8 +125,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		res = Utils.search_by_query(tags, sort=Sort.Popular)
 		if res != []:
 			msg = str()
-			for dj in res:
-				msg+=f"#{dj.id}: {dj.title(Format.English)}\n"
+			for i, dj in enumerate(res):
+				if i < 5:
+					msg+=f"#{dj.id}: {dj.title(Format.English)}\n"
 			await ctx.send(content=msg)
 		else:
 			await ctx.send('No results found!')
