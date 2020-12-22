@@ -76,9 +76,11 @@ class Google(commands.Cog):
 		'''searches for images on google'''
 		self.request(query, "&tbm=isch")
 		root = self.soup.find('div', class_="RAyV4b")
-		imglink = root.parent['href']
-		link = root.img['src']
-		await ctx.send(content=f"<{link}>\n{imglink}")
+		link = root.parent['href']
+		imglink = root.img['src']
+		e = discord.Embed(title="Jump to result!", url=urllib.parse.unquote(link).split('?q=')[1].split('&sa=')[0])
+		e.set_image(url=imglink)
+		await ctx.send(embed=e)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Google(bot))
