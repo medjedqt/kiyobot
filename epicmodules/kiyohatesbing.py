@@ -75,9 +75,9 @@ class Google(commands.Cog):
 	async def image(self, ctx: commands.Context, *, query: str):
 		'''searches for images on google'''
 		self.request(query, "&tbm=isch")
-		root = self.soup.find('div', class_="lIMUZd").div.table.tbody.tr.td
-		imglink = root.a['href']
-		link = imglink.link.div.img['src']
+		root = self.soup.find('div', class_="RAyV4b")
+		imglink = root.parent['href']
+		link = root.img['src']
 		await ctx.send(content=f"<{link}>\n{imglink}")
 
 def setup(bot: commands.Bot):
