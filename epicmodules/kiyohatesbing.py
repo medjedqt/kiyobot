@@ -11,8 +11,8 @@ class Google(commands.Cog):
 		self.bot = bot
 		self.header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
 
-	def request(self, query: str):
-		self.url = "https://google.com/search?q="+urllib.parse.quote(query)
+	def request(self, query: str, extraparam: str = ""):
+		self.url = "https://google.com/search?q="+urllib.parse.quote(query)+extraparam
 		self.req = requests.get(self.url, headers=self.header)
 		self.soup = bs(self.req.text, 'html.parser')
 
@@ -24,8 +24,8 @@ class Google(commands.Cog):
 		safe = 'strict'
 		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
 			safe = 'off'
-		r = requests.get("https://google.com/search?q="+urllib.parse.quote(query)+"&safe="+safe, headers=self.header)
-		soup = bs(r.text, 'html.parser').find_all("div", class_="kCrYT")
+		self.request(query, "&safe="+safe)
+		soup = self.soup.find_all("div", class_="kCrYT")
 		for i in soup:
 			if i.a is not None and i.a['href'].startswith("/url"):
 				await ctx.send(urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0])
@@ -76,6 +76,10 @@ class Google(commands.Cog):
 		'''translate stuff on google'''
 		self.request(f'translate {words} from {lang1} to {lang2}')
 		print(self.soup.find_all('div', class_="BNeawe iBp4i AP7Wnd"))
+
+	@google.command()
+	async def image(self, ctx: commands.Context, *, query: str):
+		pass
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Google(bot))
