@@ -43,9 +43,10 @@ class Google(commands.Cog):
 	async def calculate(self, ctx: commands.Context, *, query: str):
 		'''calculates stuff on google'''
 		self.request(query)
-		h = self.soup.find('div', class_="BNeawe iBp4i AP7Wnd")
-		self.resp = h.text
-		await ctx.send(self.resp)
+		question = self.soup.fine('span', class_="BNeawe tAd8D AP7Wnd").text
+		ans = self.soup.find('div', class_="BNeawe iBp4i AP7Wnd").text
+		e = discord.Embed(description=f"```\n{question}\n{ans}")
+		await ctx.send(embed=e)
 
 	@google.command()
 	async def weather(self, ctx: commands.Context, *, query: str):
