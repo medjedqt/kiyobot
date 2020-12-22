@@ -31,7 +31,7 @@ class Google(commands.Cog):
 				await ctx.send(urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0])
 				return
 
-	@google.command()
+	@google.command(aliases=['ans'])
 	async def answer(self, ctx: commands.Context, *, query: str):
 		'''scrapes random answers on google (Not entirely polished)'''
 		self.request(query)
@@ -39,7 +39,7 @@ class Google(commands.Cog):
 		self.resp = h.text
 		await ctx.send(self.resp)
 	
-	@google.command()
+	@google.command(aliases=['calc'])
 	async def calculate(self, ctx: commands.Context, *, query: str):
 		'''calculates stuff on google'''
 		self.request(query)
