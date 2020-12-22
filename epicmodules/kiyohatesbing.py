@@ -72,14 +72,13 @@ class Google(commands.Cog):
 		await ctx.send(self.resp)
 
 	@google.command()
-	async def translate(self, ctx: commands.Context, lang1: str, lang2: str, *, words: str):
-		'''translate stuff on google'''
-		self.request(f'translate {words} from {lang1} to {lang2}')
-		print(self.soup.find_all('div', class_="BNeawe iBp4i AP7Wnd"))
-
-	@google.command()
 	async def image(self, ctx: commands.Context, *, query: str):
-		pass
+		'''searches for images on google'''
+		self.request(query, "&tbm=isch")
+		root = self.soup.find('div', class_="lIMUZd").div.table.tbody.tr.td
+		imglink = root.a['href']
+		link = imglink.link.div.img['src']
+		await ctx.send(content=f"<{link}>\n{imglink}")
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Google(bot))
