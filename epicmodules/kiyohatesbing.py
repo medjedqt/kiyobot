@@ -64,12 +64,9 @@ class Google(commands.Cog):
 		self.pronounciation = self.soup.find('div', class_="BNeawe tAd8D AP7Wnd").text
 		self.type = self.soup.find('span', class_="r0bn4c rQMQod").text.strip()
 		self.meaning = self.soup.find('div', class_="v9i61e").text
-		self.resp = f'''
-{self.phrase}
-({self.pronounciation}) {self.type}
-{self.meaning}
-'''.strip()
-		await ctx.send(self.resp)
+		e = discord.Embed(title=self.phrase, description=self.meaning)
+		e.add_field(name=self.type, value=f'({self.pronounciation})')
+		await ctx.send(embed=e)
 
 	@google.command(aliases=['img'])
 	async def image(self, ctx: commands.Context, *, query: str):
