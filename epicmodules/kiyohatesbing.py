@@ -71,14 +71,14 @@ class Google(commands.Cog):
 '''.strip()
 		await ctx.send(self.resp)
 
-	@google.command()
+	@google.command(aliases=['img'])
 	async def image(self, ctx: commands.Context, *, query: str):
 		'''searches for images on google'''
 		self.request(query, "&tbm=isch")
 		root = self.soup.find('div', class_="RAyV4b")
 		link = root.parent['href']
 		imglink = root.img['src']
-		e = discord.Embed(title="Jump to result!", url=urllib.parse.unquote(link).split('?q=')[1].split('&sa=')[0])
+		e = discord.Embed(title="Jump to result!", color=0x2f3136, url=urllib.parse.unquote(link).split('?q=')[1].split('&sa=')[0])
 		e.set_image(url=imglink)
 		await ctx.send(embed=e)
 
