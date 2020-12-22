@@ -43,7 +43,7 @@ class Google(commands.Cog):
 	async def calculate(self, ctx: commands.Context, *, query: str):
 		'''calculates stuff on google'''
 		self.request(query)
-		question = self.soup.fine('span', class_="BNeawe tAd8D AP7Wnd").text
+		question = self.soup.find('span', class_="BNeawe tAd8D AP7Wnd").text
 		ans = self.soup.find('div', class_="BNeawe iBp4i AP7Wnd").text
 		e = discord.Embed(description=f"```\n{question}\n{ans}\n```")
 		await ctx.send(embed=e)
