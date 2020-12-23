@@ -72,7 +72,10 @@ class Google(commands.Cog):
 	@google.command(aliases=['img'])
 	async def image(self, ctx: commands.Context, *, query: str):
 		'''searches for images on google'''
-		self.request(query, "&tbm=isch")
+		safe = 'strict'
+		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
+			safe = 'off'
+		self.request(query, "&tbm=isch&safe="+safe)
 		root = self.soup.find('div', class_="RAyV4b")
 		link = root.parent['href']
 		imglink = root.img['src']
