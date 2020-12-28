@@ -105,7 +105,9 @@ class Google(commands.Cog):
 				link = urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0]
 				break
 		async with ctx.channel.typing():
-			driver = webdriver.Chrome(ChromeDriverManager().install())
+			opts = webdriver.ChromeOptions()
+			opts.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+			driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=opts)
 			driver.get(link)
 			await asyncio.sleep(2)
 			driver.get_screenshot_as_file('gscr.png')
