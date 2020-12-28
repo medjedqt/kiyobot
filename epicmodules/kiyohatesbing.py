@@ -14,11 +14,10 @@ class Google(commands.Cog):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-		opts = webdriver.ChromeOptions()
-		opts.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
-		opts.add_argument('--disable-dev-shm-usage')
-		opts.headless = True
-		self.driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=opts)
+		self.opts = webdriver.ChromeOptions()
+		self.opts.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+		self.opts.add_argument('--disable-dev-shm-usage')
+		self.opts.headless = True
 
 	def request(self, query: str, extraparam: str = ""):
 		self.url = "https://google.com/search?q="+urllib.parse.quote(query)+extraparam
@@ -100,6 +99,7 @@ class Google(commands.Cog):
 	@google.command()
 	async def screen(self, ctx: commands.Context, *, query: str):
 		'''screenshots a webpage'''
+		self.driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=self.opts)
 		link = 'https://google.com/eggatepoo'
 		safe = 'strict'
 		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
@@ -120,6 +120,7 @@ class Google(commands.Cog):
 		try:
 			await screenmsg.add_reaction('🔼')
 			await screenmsg.add_reaction('🔽')
+			await screenmsg.add_reaction('❌')
 			def check(r,u):
 				return r.message == screenmsg and not u.bot
 			reaction, _ = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
@@ -127,12 +128,15 @@ class Google(commands.Cog):
 				body.send_keys(Keys.PAGE_DOWN)
 			elif reaction.emoji == '🔼':
 				body.send_keys(Keys.PAGE_UP)
+			elif reaction.emoji == '❌':
+				raise asyncio.TimeoutError
 			body.screenshot('gscr.png')
 			msg = await ctx.send(file=discord.File('gscr.png'))
 			await screenmsg.delete()
 			await self.screenloop(ctx, msg, body)
 		except asyncio.TimeoutError:
 			await screenmsg.clear_reactions()
+			self.driver.quit()
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Google(bot))
