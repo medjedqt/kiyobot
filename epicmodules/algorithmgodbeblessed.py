@@ -53,15 +53,16 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 				fullTermsDict.add(key, tmpDict[key])
 			return fullTermsDict
 
-		messages = []
-		for channel in ctx.guild.channels:
-			if isinstance(channel, discord.TextChannel) and channel.permissions_for(ctx.guild.me).read_messages:
-				async for stuff in channel.history(limit=chanlimit):
-					messages.append(stuff.content)
-		text = ' '.join(messages)
-		wordcloud = WordCloud(max_words=maxim,width=1920, height=1080, min_word_length=2).generate_from_frequencies(getFrequencyDictForText(text))
-		wordcloud.to_file('wc.png')
-		await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
+		async with ctx.channel.typing():
+			messages = []
+			for channel in ctx.guild.channels:
+				if isinstance(channel, discord.TextChannel) and channel.permissions_for(ctx.guild.me).read_messages:
+					async for stuff in channel.history(limit=chanlimit):
+						messages.append(stuff.content)
+			text = ' '.join(messages)
+			wordcloud = WordCloud(max_words=maxim,width=1920, height=1080, min_word_length=2).generate_from_frequencies(getFrequencyDictForText(text))
+			wordcloud.to_file('wc.png')
+			await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 	@commands.max_concurrency(1, wait=True)
 	@commands.command()
