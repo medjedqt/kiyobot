@@ -1,3 +1,4 @@
+import asyncio
 import discord
 from discord.ext import commands
 from random import randint, choice
@@ -128,17 +129,20 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			for i, dj in enumerate(res):
 				if i < 5:
 					msg+=f"{i+1}: {dj.title(Format.English)}\n"
-			await ctx.send(content=msg)
+			mes: discord.Message = await ctx.send(content=msg)
 		else:
 			await ctx.send('No results found!')
+			return
 		def check(inp: discord.Message):
 			return inp.author == ctx.author
-		msg: discord.Message = await self.bot.wait_for('message', check=check, timeout=30.0)
 		try:
+			msg: discord.Message = await self.bot.wait_for('message', check=check, timeout=30.0)
 			djid = res[int(msg.content)-1].id
 			await self.nhentai(ctx, djid)
 		except (ValueError, IndexError):
 			await ctx.send("Invalid input")
+		except asyncio.TimeoutError:
+			await mes.delete()
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
