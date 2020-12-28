@@ -12,6 +12,11 @@ class Google(commands.Cog):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+		opts = webdriver.ChromeOptions()
+		opts.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+		opts.add_argument('--disable-dev-shm-usage')
+		opts.headless = True
+		self.driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=opts)
 
 	def request(self, query: str, extraparam: str = ""):
 		self.url = "https://google.com/search?q="+urllib.parse.quote(query)+extraparam
@@ -104,19 +109,13 @@ class Google(commands.Cog):
 				link = urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0]
 				break
 		async with ctx.channel.typing():
-			opts = webdriver.ChromeOptions()
-			opts.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
-			opts.add_argument('--disable-dev-shm-usage')
-			opts.headless = True
-			driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=opts)
-			driver.get(link)
-			S = lambda X: driver.execute_script('return document.body.parentNode.scroll'+X)
-			driver.set_window_size(S('Width'),S('Height'))
+			self.driver.get(link)
+			S = lambda X: self.driver.execute_script('return document.body.parentNode.scroll'+X)
+			self.driver.set_window_size(S('Width'),S('Height'))
 			try:
-				driver.find_element_by_tag_name('p').screenshot('gscr.png')
+				self.driver.find_element_by_tag_name('p').screenshot('gscr.png')
 			except:
-				driver.find_element_by_tag_name('body').screenshot('gscr.png')
-			driver.quit()
+				self.driver.find_element_by_tag_name('body').screenshot('gscr.png')
 			await ctx.send(file=discord.File('gscr.png'))
 
 def setup(bot: commands.Bot):
