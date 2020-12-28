@@ -92,7 +92,7 @@ class Google(commands.Cog):
 		await ctx.send(embed=e)
 
 	@google.command()
-	async def screen(self, ctx, *, query):
+	async def screen(self, ctx: commands.Context, *, query: str):
 		'''screenshots a webpage'''
 		link = 'https://google.com/eggatepoo'
 		safe = 'strict'
@@ -104,13 +104,13 @@ class Google(commands.Cog):
 			if i.a is not None and i.a['href'].startswith("/url"):
 				link = urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0]
 				break
-		
-		driver = webdriver.Chrome(ChromeDriverManager().install())
-		driver.get(link)
-		await asyncio.sleep(2)
-		driver.get_screenshot_as_file('gscr.png')
-		driver.quit()
-		await ctx.send(file=discord.File('gscr.png'))
+		async with ctx.channel.typing():
+			driver = webdriver.Chrome(ChromeDriverManager().install())
+			driver.get(link)
+			await asyncio.sleep(2)
+			driver.get_screenshot_as_file('gscr.png')
+			driver.quit()
+			await ctx.send(file=discord.File('gscr.png'))
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Google(bot))
