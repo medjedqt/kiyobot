@@ -48,6 +48,11 @@ class Google(commands.Cog):
 		e = discord.Embed(description=f"```\n{question}\n{ans}\n```")
 		await ctx.send(embed=e)
 
+	@google.command(aliases=['conv'])
+	async def convert(self, ctx: commands.Context, *, query: str):
+		'''converts measurements and stuff on google'''
+		await self.calculate(ctx, ctx, query)
+
 	@google.command()
 	async def weather(self, ctx: commands.Context, *, query: str):
 		'''checks weather on google'''
