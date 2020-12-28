@@ -127,12 +127,12 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			msg = str()
 			for i, dj in enumerate(res):
 				if i < 5:
-					msg+=f"#{i+1}: {dj.title(Format.English)}\n"
+					msg+=f"{i+1}: {dj.title(Format.English)}\n"
 			await ctx.send(content=msg)
 		else:
 			await ctx.send('No results found!')
 		def check(inp: discord.Message):
-			return inp.author == ctx.author()
+			return inp.author == ctx.author
 		msg: discord.Message = await self.bot.wait_for('message', check=check, timeout=30.0)
 		djid = res[int(msg.content)-1].id
 		await self.nhentai(ctx, djid)
