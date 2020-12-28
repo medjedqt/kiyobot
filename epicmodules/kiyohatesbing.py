@@ -110,12 +110,8 @@ class Google(commands.Cog):
 				break
 		async with ctx.channel.typing():
 			self.driver.get(link)
-			S = lambda X: self.driver.execute_script('return document.body.parentNode.scroll'+X)
-			self.driver.set_window_size(S('Width'),S('Height'))
-			try:
-				self.driver.find_element_by_tag_name('p').screenshot('gscr.png')
-			except:
-				self.driver.find_element_by_tag_name('body').screenshot('gscr.png')
+			body = self.driver.find_element_by_tag_name('body')
+			body.screenshot('gscr.png')
 			await ctx.send(file=discord.File('gscr.png'))
 
 def setup(bot: commands.Bot):
