@@ -51,7 +51,7 @@ class Google(commands.Cog):
 	@google.command(aliases=['conv'])
 	async def convert(self, ctx: commands.Context, *, query: str):
 		'''converts measurements and stuff on google'''
-		await self.calculate(ctx, query)
+		await self.calculate(ctx, query=query)
 
 	@google.command()
 	async def weather(self, ctx: commands.Context, *, query: str):
