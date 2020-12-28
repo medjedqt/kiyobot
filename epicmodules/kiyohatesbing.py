@@ -121,7 +121,7 @@ class Google(commands.Cog):
 			await screenmsg.add_reaction('🔼')
 			await screenmsg.add_reaction('🔽')
 			def check(r,u):
-				return r.message == screenmsg
+				return r.message == screenmsg and not u.bot
 			reaction, _ = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
 			if reaction.emoji == '🔽':
 				body.send_keys(Keys.PAGE_DOWN)
