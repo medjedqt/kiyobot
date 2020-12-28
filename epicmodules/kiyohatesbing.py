@@ -112,7 +112,10 @@ class Google(commands.Cog):
 			driver.get(link)
 			S = lambda X: driver.execute_script('return document.body.parentNode.scroll'+X)
 			driver.set_window_size(S('Width'),S('Height'))
-			driver.find_element_by_tag_name('body').screenshot('gscr.png')
+			try:
+				driver.find_element_by_tag_name('p').screenshot('gscr.png')
+			except:
+				driver.find_element_by_tag_name('body').screenshot('gscr.png')
 			driver.quit()
 			await ctx.send(file=discord.File('gscr.png'))
 
