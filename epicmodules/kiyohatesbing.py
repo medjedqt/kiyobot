@@ -110,18 +110,19 @@ class Google(commands.Cog):
 			if i.a is not None and i.a['href'].startswith("/url"):
 				link = urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0]
 				break
-		async with ctx.channel.typing():
-			self.driver.get(link)
-			body = self.driver.find_element_by_tag_name('body')
-			body.screenshot('gscr.png')
-			msg = await ctx.send(file=discord.File('gscr.png'))
-			await self.screenloop(ctx, msg, body)
+		self.driver.get(link)
+		body = self.driver.find_element_by_tag_name('body')
+		body.screenshot('gscr.png')
+		msg = await ctx.send(file=discord.File('gscr.png'))
+		await self.screenloop(ctx, msg, body)
 
 	async def screenloop(self, ctx: commands.Context, screenmsg: discord.Message, body):
 		try:
 			await screenmsg.add_reaction('🔼')
 			await screenmsg.add_reaction('🔽')
-			reaction, _ = await self.bot.wait_for('reaction_add', timeout=60.0)
+			def check(r,u):
+				return r.message == screenmsg
+			reaction, _ = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
 			if reaction.emoji == '🔽':
 				body.send_keys(Keys.PAGE_DOWN)
 			elif reaction.emoji == '🔼':
