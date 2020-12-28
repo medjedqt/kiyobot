@@ -124,7 +124,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		'''finds doujins by tags'''
 		res = Utils.search_by_query(tags, sort=Sort.Popular)
 		if res != []:
-			msg = str()
+			msg = "Choose from `1-5`;\n"
 			for i, dj in enumerate(res):
 				if i < 5:
 					msg+=f"{i+1}: {dj.title(Format.English)}\n"
@@ -134,8 +134,11 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		def check(inp: discord.Message):
 			return inp.author == ctx.author
 		msg: discord.Message = await self.bot.wait_for('message', check=check, timeout=30.0)
-		djid = res[int(msg.content)-1].id
-		await self.nhentai(ctx, djid)
+		try:
+			djid = res[int(msg.content)-1].id
+			await self.nhentai(ctx, djid)
+		except (ValueError, IndexError):
+			await ctx.send("Invalid input")
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
