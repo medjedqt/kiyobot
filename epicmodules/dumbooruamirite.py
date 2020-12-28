@@ -134,9 +134,8 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		def check(inp: discord.Message):
 			return inp.author == ctx.author()
 		msg: discord.Message = await self.bot.wait_for('message', check=check, timeout=30.0)
-		try:
-			djid = res[int(msg.content)-1].id
-			await self.nhentai(ctx, djid)
+		djid = res[int(msg.content)-1].id
+		await self.nhentai(ctx, djid)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
