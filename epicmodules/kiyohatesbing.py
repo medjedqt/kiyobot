@@ -1,4 +1,3 @@
-import asyncio
 import discord
 from discord.ext import commands
 
@@ -108,10 +107,12 @@ class Google(commands.Cog):
 			opts = webdriver.ChromeOptions()
 			opts.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
 			opts.add_argument('--disable-dev-shm-usage')
+			opts.headless = True
 			driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=opts)
 			driver.get(link)
-			await asyncio.sleep(2)
-			driver.get_screenshot_as_file('gscr.png')
+			S = lambda X: driver.execute_script('return document.body.parentNode.scroll'+X)
+			driver.set_window_size(S('Width'),S('Height'))
+			driver.find_element_by_tag_name('body').screenshot('gscr.png')
 			driver.quit()
 			await ctx.send(file=discord.File('gscr.png'))
 
