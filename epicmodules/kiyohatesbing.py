@@ -105,14 +105,10 @@ class Google(commands.Cog):
 				link = urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0]
 				break
 		async with ctx.channel.typing():
-			options = webdriver.ChromeOptions()
-			options.headless = True
-			driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+			driver = webdriver.Chrome(ChromeDriverManager().install())
 			driver.get(link)
 			await asyncio.sleep(2)
-			S = lambda X: driver.execute_script('return document.body.parentNode.scroll'+X)
-			driver.set_window_size(S('Width'),S('Height'))
-			driver.find_element_by_tag_name('body').screenshot('gscr.png')
+			driver.get_screenshot_as_file('gscr.png')
 			driver.quit()
 			await ctx.send(file=discord.File('gscr.png'))
 
