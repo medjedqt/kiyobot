@@ -107,6 +107,7 @@ class Google(commands.Cog):
 		async with ctx.channel.typing():
 			opts = webdriver.ChromeOptions()
 			opts.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+			opts.add_argument('--disable-dev-shm-usage')
 			driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=opts)
 			driver.get(link)
 			await asyncio.sleep(2)
