@@ -1,8 +1,11 @@
+import asyncio
 import discord
 from discord.ext import commands
 
 import requests
+from selenium import webdriver
 import urllib
+from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup as bs
 
 class Google(commands.Cog):
@@ -87,6 +90,27 @@ class Google(commands.Cog):
 		e = discord.Embed(title="Jump to result!", color=0x2f3136, url=urllib.parse.unquote(link).split('?q=')[1].split('&sa=')[0])
 		e.set_image(url=imglink)
 		await ctx.send(embed=e)
+
+	@google.command()
+	async def screen(self, ctx, *, query):
+		'''screenshots a webpage'''
+		link = 'https://google.com/eggatepoo'
+		safe = 'strict'
+		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
+			safe = 'off'
+		self.request(query, "&safe="+safe)
+		soup = self.soup.find_all("div", class_="kCrYT")
+		for i in soup:
+			if i.a is not None and i.a['href'].startswith("/url"):
+				link = urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0]
+				break
+		
+		driver = webdriver.Chrome(ChromeDriverManager().install())
+		driver.get(link)
+		await asyncio.sleep(2)
+		driver.get_screenshot_as_file('gscr.png')
+		driver.quit()
+		await ctx.send(file=discord.File('gscr.png'))
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Google(bot))
