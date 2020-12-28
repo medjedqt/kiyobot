@@ -1,8 +1,10 @@
+import asyncio
 import discord
 from discord.ext import commands
 
 import requests
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import urllib
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup as bs
@@ -112,7 +114,24 @@ class Google(commands.Cog):
 			self.driver.get(link)
 			body = self.driver.find_element_by_tag_name('body')
 			body.screenshot('gscr.png')
-			await ctx.send(file=discord.File('gscr.png'))
+			msg = await ctx.send(file=discord.File('gscr.png'))
+			await self.screenloop(ctx, msg, body)
+
+	async def screenloop(self, ctx: commands.Context, screenmsg: discord.Message, body):
+		try:
+			await screenmsg.add_reaction('🔼')
+			await screenmsg.add_reaction('🔽')
+			reaction, _ = await self.bot.wait_for('reaction_add', timeout=60.0)
+			if reaction.emoji == '🔽':
+				body.send_keys(Keys.PAGE_DOWN)
+			elif reaction.emoji == '🔼':
+				body.send_keys(Keys.PAGE_UP)
+			body.screenshot('gscr.png')
+			msg = await ctx.send(file=discord.File('gscr.png'))
+			await screenmsg.delete()
+			await self.screenloop(ctx, msg, body)
+		except asyncio.TimeoutError:
+			await screenmsg.clear_reactions()
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Google(bot))
