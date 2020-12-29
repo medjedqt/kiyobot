@@ -130,6 +130,7 @@ class Google(commands.Cog):
 				body.send_keys(Keys.PAGE_UP)
 			elif reaction.emoji == '❌':
 				raise asyncio.TimeoutError
+			await asyncio.sleep(1)
 			body.screenshot('gscr.png')
 			msg = await ctx.send(file=discord.File('gscr.png'))
 			await screenmsg.delete()
