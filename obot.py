@@ -127,25 +127,6 @@ async def on_message(message: discord.Message):
 	await bot.process_commands(message)
 
 @bot.command()
-async def connect(ctx: commands.Context):
-	'''vc'''
-	voice = ctx.author.voice
-	if voice is None:
-		await ctx.send(content='Join a voice channel first')
-	else:
-		await voice.channel.connect()
-		await ctx.send("*hacker voice* I'M IN")
-
-@bot.command(aliases=['dc'])
-async def disconnect(ctx: commands.Context):
-	'''disconnects.'''
-	if bot.voice_clients == []:
-		await ctx.send(content="I'm not in a voice channel")
-	else:
-		await ctx.voice_client.disconnect()
-		await ctx.send("bye...")
-
-@bot.command()
 async def ping(ctx: commands.Context, arg1: str = None):
 	'''pong'''
 	if arg1 is not None:
