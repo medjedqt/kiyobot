@@ -39,10 +39,9 @@ class Utilities(commands.Cog):
 				if word.startswith('https://www.reddit.com/'):
 					link = word.strip('/')
 					break
-			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}).json()
-			e = discord.Embed(title=resp[0]['data']['children'][0]['data']['title'], url=f"https://www.reddit.com{resp[0]['data']['children'][0]['data']['permalink']}")
-			e.set_image(url=resp[0]['data']['children'][0]['data']['url_overridden_by_dest'])
-			await message.channel.send(embed=e)
+			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+			data = requests.get(resp[0]['data']['children'][0]['data']['url_overridden_by_dest']).content
+			await message.channel.send(file=discord.File(data, filename='img.jpg'))
 
 	@commands.command(aliases=['nword','nw'])
 	async def nwordcount(self, ctx: commands.Context):
