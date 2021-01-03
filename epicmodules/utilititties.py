@@ -34,7 +34,7 @@ class Utilities(commands.Cog):
 		if message.author.bot or message.content.startswith('?'):
 			return
 		if 'https://www.reddit.com/' in message.content and '/comments/' in message.content:
-			link = 'https://www.reddit.com/r/masterhacker/comments/koe8ws/00110001_00110011_00110011_00110111_00100000'
+			link = ''
 			for word in message.content.split():
 				if word.startswith('https://www.reddit.com/'):
 					link = word.strip('/')
