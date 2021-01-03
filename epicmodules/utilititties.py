@@ -33,14 +33,16 @@ class Utilities(commands.Cog):
 	async def on_message(self, message: discord.Message):
 		if message.author.bot or message.content.startswith('?'):
 			return
-		if 'https://reddit.com/' in message.content and '/comments/' in message.content:
+		if 'https://www.reddit.com/' in message.content and '/comments/' in message.content:
 			link = 'https://www.reddit.com/r/masterhacker/comments/koe8ws/00110001_00110011_00110011_00110111_00100000'
 			for word in message.content.split():
-				if word.startswith('https://reddit.com/'):
+				if word.startswith('https://www.reddit.com/'):
 					link = word.strip('/')
 					break
-			r = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-			await message.channel.send(r.json()[0]['data']['children'][0]['data']['url_overridden_by_dest'])
+			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}).json()
+			e = discord.Embed(title=resp[0]['data']['children'][0]['data']['title'], url=f"https://www.reddit.com{resp[0]['data']['children'][0]['data']['permalink']}")
+			e.set_image(url=resp[0]['data']['children'][0]['data']['url_overridden_by_dest'])
+			await message.channel.send(embed=e)
 
 	@commands.command(aliases=['nword','nw'])
 	async def nwordcount(self, ctx: commands.Context):
