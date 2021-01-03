@@ -40,14 +40,22 @@ class Utilities(commands.Cog):
 					link = word.strip('/')
 					break
 			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}).json()
-			e = discord.Embed(title=resp[0]['data']['children'][0]['data']['title'], url=f"https://www.reddit.com{resp[0]['data']['children'][0]['data']['permalink']}")
+			e = discord.Embed(title=resp[0]['data']['children'][0]['data']['title'], description=message.content, url=f"https://www.reddit.com{resp[0]['data']['children'][0]['data']['permalink']}")
 			e.set_image(url=resp[0]['data']['children'][0]['data']['url_overridden_by_dest'])
 			hooks = await message.channel.webhooks()
 			if hooks == []:
 				hook = await message.channel.create_webhook(name='generic hook')
 			else:
 				hook = hooks[0]
-			await hook.send(embed=e)
+			files = list()
+			if message.attachments == []:
+				files = None
+			else:
+				for file in message.attachments:
+					await file.save(file.filename)
+					files.append(discord.File(file.filename))
+			await hook.send(embed=e, username=message.author.display_name, avatar_url=message.author.avatar_url, files=files)
+			await message.delete()
 
 	@commands.command(aliases=['nword','nw'])
 	async def nwordcount(self, ctx: commands.Context):
