@@ -40,7 +40,7 @@ class Utilities(commands.Cog):
 					link = word.strip('/')
 					break
 			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-			data = requests.get(resp[0]['data']['children'][0]['data']['url_overridden_by_dest']).content
+			data = requests.get(resp.json()[0]['data']['children'][0]['data']['url_overridden_by_dest']).content
 			await message.channel.send(file=discord.File(data, filename='img.jpg'))
 
 	@commands.command(aliases=['nword','nw'])
