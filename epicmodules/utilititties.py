@@ -5,6 +5,7 @@ import os
 from random import choice
 from gtts import gTTS
 from googletrans import Translator
+import io
 import requests
 import urllib
 from bs4 import BeautifulSoup as bs
@@ -41,7 +42,7 @@ class Utilities(commands.Cog):
 					break
 			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
 			data = requests.get(resp.json()[0]['data']['children'][0]['data']['url_overridden_by_dest']).content
-			await message.channel.send(file=discord.File(data, filename='img.jpg'))
+			await message.channel.send(file=discord.File(io.BytesIO(data), filename='img.jpg'))
 
 	@commands.command(aliases=['nword','nw'])
 	async def nwordcount(self, ctx: commands.Context):
