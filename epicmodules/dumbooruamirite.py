@@ -142,10 +142,40 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			await mes.delete()
 
 	@commands.is_nsfw()
-	@nhentai.command(aliases=['find'])
+	@nhentai.group(aliases=['find'], invoke_without_command=True)
 	async def search(self, ctx: commands.Context, *, tags: str):
 		'''finds doujins by tags'''
 		await self._search(ctx, tags, Sort.Popular)
+	
+	@commands.is_nsfw()
+	@search.commands(aliases=['lat'])
+	async def latest(self, ctx: commands.Context, *, tags: str):
+		'''finds latest doujins'''
+		await self._search(ctx, tags, Sort.Date)
+
+	@commands.is_nsfw()
+	@search.commands(aliases=['lat'])
+	async def today(self, ctx: commands.Context, *, tags: str):
+		'''finds popular doujins today'''
+		await self._search(ctx, tags, Sort.PopularToday)
+
+	@commands.is_nsfw()
+	@search.commands(aliases=['lat'])
+	async def week(self, ctx: commands.Context, *, tags: str):
+		'''finds popular doujins this week'''
+		await self._search(ctx, tags, Sort.PopularWeek)
+
+	@commands.is_nsfw()
+	@search.commands(aliases=['lat'])
+	async def month(self, ctx: commands.Context, *, tags: str):
+		'''finds popular doujins this month'''
+		await self._search(ctx, tags, Sort.PopularMonth)
+
+	@commands.is_nsfw()
+	@search.commands(aliases=['lat'])
+	async def year(self, ctx: commands.Context, *, tags: str):
+		'''finds popular doujins this year'''
+		await self._search(ctx, tags, Sort.PopularYear)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
