@@ -14,11 +14,11 @@ async def on_ready():
 async def on_command_error(ctx: commands.Context, error):
 
 	if isinstance(error, commands.CommandNotFound):
-		return
-	if isinstance(error, commands.MissingRequiredArgument):
+		pass
+	elif isinstance(error, commands.MissingRequiredArgument):
 		await ctx.send_help(ctx.command)
-		return
-	raise error
+	else:
+		raise error
 
 @bot.event
 async def on_message(message):
