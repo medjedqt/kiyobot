@@ -90,6 +90,10 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 				actual_file.Trash()
 				await ctx.send(content='Binned {0}'.format(file['title']))
 
+	def closer(conn):
+		conn.commit()
+		conn.close()
+
 	@commands.group(invoke_without_command=True)
 	async def tag(self, ctx: commands.Context, *, tagname: str):
 		if ctx.invoked_subcommand is not None:
@@ -106,8 +110,7 @@ SELECT tag_content FROM tags WHERE tag_name = %s
 			return await ctx.send(content="No tag found!")
 		await ctx.send(content=result[0])
 		cur.close()
-		conn.commit()
-		conn.close()
+		self.closer(conn)
 
 	@tag.command()
 	async def create(self, ctx: commands.Context, tagname: str = None, *, content: str = None):
@@ -120,8 +123,7 @@ VALUES(%s, %s, %s)
 """, (tagname, ctx.author.id, content)
 		)
 		cur.close()
-		conn.commit()
-		conn.close()
+		self.closer(conn)
 		await ctx.send(content=f"Tag saved as '{tagname}'")
 
 	@tag.command()
@@ -135,9 +137,16 @@ SELECT tag_author FROM tags WHERE tag_name = %s
 		)
 		if cur.fetchone()[0] != ctx.author and ctx.author.id != 550076298937237544:
 			cur.close()
-			conn.commit()
-			conn.close()
+			self.closer(conn)
 			return await ctx.send(content="Not your tag!")
+		await ctx.send(content=f"Type the tag name to confirm deletion (`{tagname}`)\n (Send other messages to cancel")
+		def check(m: discord.Message):
+			return m.author == ctx.author and m.channel == ctx.channel
+		msg: discord.Message = await self.bot.wait_for('message', check=check)
+		if msg.content != tagname:
+			cur.close()
+			self.closer(conn)
+			return await ctx.send(content="Tag deletion cancelled")
 		cur.close()
 		cur = conn.cursor()
 		cur.execute(
@@ -146,8 +155,7 @@ DELETE FROM tags WHERE tag_name = %s
 """, (tagname,)
 		)
 		cur.close()
-		conn.commit()
-		conn.close()
+		self.closer(conn)
 		await ctx.send(content=f"Tag '{tagname}' deleted")
 	
 	@tag.command(aliases=['find'])
@@ -167,7 +175,9 @@ SELECT tag_name FROM tags WHERE tag_name LIKE %s
 		if res == []:
 			await ctx.send(content="No tags found")
 		else:
-			await ctx.send(content=f"Tags found: '{tagname}'")
+			await ctx.send(content="Tags found:")
+			for tagn in res:
+				await ctx.send(content=tagn)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
