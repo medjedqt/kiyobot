@@ -110,7 +110,7 @@ SELECT tag_content FROM tags WHERE tag_name = %s
 		conn.close()
 
 	@tag.command()
-	async def create(self, ctx: commands.Context, tagname: str = None, content: str = None):
+	async def create(self, ctx: commands.Context, tagname: str = None, *, content: str = None):
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
 		cur.execute(
@@ -123,6 +123,32 @@ VALUES(%s, %s, %s)
 		conn.commit()
 		conn.close()
 		await ctx.send(content=f"Tag saved as '{tagname}'")
+
+	@tag.command()
+	async def delete(self, ctx: commands.Context, tagname):
+		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		cur = conn.cursor()
+		cur.execute(
+"""
+SELECT tag_author FROM tags WHERE tag_name = %s
+""", (tagname,)
+		)
+		if cur.fetchone()[0] != ctx.author and ctx.author.id != 550076298937237544:
+			cur.close()
+			conn.commit()
+			conn.close()
+			return await ctx.send(content="Not your tag!")
+		cur.close()
+		cur = conn.cursor()
+		cur.execute(
+"""
+DELETE FROM tags WHERE tag_name = %s
+""", (tagname,)
+		)
+		cur.close()
+		conn.commit()
+		conn.close()
+		await ctx.send(content=f"Tag '{tagname}' deleted")
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
