@@ -119,11 +119,8 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		'''finds random doujin'''
 		await self.nhentai(ctx, Utils.get_random_id())
 
-	@commands.is_nsfw()
-	@nhentai.command(aliases=['find'])
-	async def search(self, ctx: commands.Context, *, tags: str):
-		'''finds doujins by tags'''
-		res = Utils.search_by_query(tags, sort=Sort.Popular)
+	async def _search(self, ctx: commands.Context, tags: str, sort):
+		res = Utils.search_by_query(tags, sort=sort)
 		if res != []:
 			msg = "Choose from `1-5`;\n"
 			for i, dj in enumerate(res):
@@ -143,6 +140,12 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			await ctx.send("Invalid input")
 		except asyncio.TimeoutError:
 			await mes.delete()
+
+	@commands.is_nsfw()
+	@nhentai.command(aliases=['find'])
+	async def search(self, ctx: commands.Context, *, tags: str):
+		'''finds doujins by tags'''
+		await self._search(ctx, tags, Sort.Popular)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
