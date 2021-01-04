@@ -96,6 +96,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 
 	@commands.group(invoke_without_command=True)
 	async def tag(self, ctx: commands.Context, *, tagname: str):
+		'''Gets tags from a database created with ?tag create'''
 		if ctx.invoked_subcommand is not None:
 			return
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
@@ -114,6 +115,7 @@ SELECT tag_content FROM tags WHERE tag_name = %s
 
 	@tag.command()
 	async def create(self, ctx: commands.Context, tagname: str = None, *, content: str = None):
+		'''Creates tags'''
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
 		cur.execute(
@@ -128,6 +130,7 @@ VALUES(%s, %s, %s)
 
 	@tag.command()
 	async def delete(self, ctx: commands.Context, tagname):
+		'''Deletes tags'''
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
 		cur.execute(
@@ -135,11 +138,11 @@ VALUES(%s, %s, %s)
 SELECT tag_author FROM tags WHERE tag_name = %s
 """, (tagname,)
 		)
-		if cur.fetchone()[0] != ctx.author and ctx.author.id != 550076298937237544:
+		if cur.fetchone()[0] != ctx.author and ctx.author.id != 550076298937237544 and not ctx.author.guild_permissions.manage_messages:
 			cur.close()
 			self.closer(conn)
 			return await ctx.send(content="Not your tag!")
-		await ctx.send(content=f"Type the tag name to confirm deletion (`{tagname}`)\n (Send other messages to cancel")
+		await ctx.send(content=f"Type the tag name to confirm deletion (`{tagname}`)\n (Send other messages to cancel)")
 		def check(m: discord.Message):
 			return m.author == ctx.author and m.channel == ctx.channel
 		msg: discord.Message = await self.bot.wait_for('message', check=check)
@@ -160,6 +163,7 @@ DELETE FROM tags WHERE tag_name = %s
 	
 	@tag.command(aliases=['find'])
 	async def search(self, ctx: commands.Context, tagname: str):
+		'''Finds tags'''
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
 		cur.execute(
