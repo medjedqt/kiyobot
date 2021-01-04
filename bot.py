@@ -1,25 +1,23 @@
 import discord
-import asyncio
 from discord.ext import commands
-from discord.ext.commands import CommandNotFound,MissingRequiredArgument
-import os
+from discord.ext import commands
 
 prefix = '?'
 token = ''
-bot = commands.Bot(command_prefix=prefix,case_insensitive=True,intents=discord.Intents.all(),help_command=None)
+bot = commands.Bot(command_prefix=prefix,case_insensitive=True,intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
 
-	print('We have logged in as {0.user}'.format(bot))
+	print(f'We have logged in as {bot.user}')
 
 @bot.event
-async def on_command_error(ctx, error):
+async def on_command_error(ctx: commands.Context, error):
 
-	if isinstance(error, CommandNotFound):
+	if isinstance(error, commands.CommandNotFound):
 		return
-	if isinstance(error, MissingRequiredArgument):
-		await ctx.send(content="Missing arguments!")
+	if isinstance(error, commands.MissingRequiredArgument):
+		await ctx.send_help(ctx.command)
 		return
 	raise error
 
@@ -32,7 +30,7 @@ async def on_message(message):
 
 @bot.command()
 async def ping(ctx):
-
+	'''Pings the bot'''
 	await ctx.send(content=":ping_pong: Pong!")
 	
 bot.run(token)
