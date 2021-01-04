@@ -91,7 +91,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 				await ctx.send(content='Binned {0}'.format(file['title']))
 
 	@commands.group(invoke_without_command=True)
-	async def tag(self, ctx: commands.Context, *, tagname):
+	async def tag(self, ctx: commands.Context, *, tagname: str):
 		if ctx.invoked_subcommand is not None:
 			return
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
@@ -100,11 +100,29 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 """
 SELECT tag_content FROM tags WHERE tag_name = %s
 """, (tagname,)
-)
+		)
 		result = cur.fetchone()
 		if result is None:
 			return await ctx.send(content="No tag found!")
 		await ctx.send(content=result[0])
+		cur.close()
+		conn.commit()
+		conn.close()
+
+	@tag.command()
+	async def create(self, ctx: commands.Context, tagname: str = None, content: str = None):
+		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		cur = conn.cursor()
+		cur.execute(
+"""
+INSERT INTO tags(tag_name, tag_author, tag_content)
+VALUES(%s, %s, %s)
+""", (tagname, ctx.author.id, content)
+		)
+		cur.close()
+		conn.commit()
+		conn.close()
+		await ctx.send(content=f"Tag saved as '{tagname}'")
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
