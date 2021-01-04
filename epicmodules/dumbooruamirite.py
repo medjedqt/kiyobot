@@ -99,6 +99,8 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		elif djid is None:
 			await ctx.send_help(ctx.command)
 			return
+		elif not Hentai.exists(djid):
+			await ctx.send(content="Doujin does not exist!")
 		result = Hentai(djid)
 		tags = [_.name for _ in result.tag]
 		e = discord.Embed(title=result.title(Format.Pretty), description=f'#{result.id}', url=result.url, color=0x177013)
