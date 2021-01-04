@@ -17,7 +17,8 @@ from difflib import get_close_matches as auto
 
 intents = discord.Intents.default()
 intents.members = True
-helpcmd = discord.ext.commands.MinimalHelpCommand()
+helpcmd = commands.DefaultHelpCommand()
+helpcmd.dm_help = True
 bot = commands.Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd,intents=intents,description=choice(lines))
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
