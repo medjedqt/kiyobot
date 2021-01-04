@@ -149,6 +149,25 @@ DELETE FROM tags WHERE tag_name = %s
 		conn.commit()
 		conn.close()
 		await ctx.send(content=f"Tag '{tagname}' deleted")
+	
+	@tag.command(aliases=['find'])
+	async def search(self, ctx: commands.Context, tagname: str):
+		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		cur = conn.cursor()
+		cur.execute(
+"""
+SELECT tag_name FROM tags WHERE tag_name LIKE %s
+""", (f'%{tagname}%',)
+		)
+		res = cur.fetchall()
+		res = [_[0] for _ in res]
+		cur.close()
+		conn.commit()
+		conn.close()
+		if res == []:
+			await ctx.send(content="No tags found")
+		else:
+			await ctx.send(content=f"Tags found: '{tagname}'")
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
