@@ -36,7 +36,7 @@ class Utilities(commands.Cog):
 			link = ''
 			for word in message.content.split():
 				if word.startswith('https://www.reddit.com/'):
-					link = word.strip('/')
+					link = word.split('?')[0].strip('/')
 					break
 			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}).json()
 			e = discord.Embed(title=resp[0]['data']['children'][0]['data']['title'], description=message.content, url=f"https://www.reddit.com{resp[0]['data']['children'][0]['data']['permalink']}")
