@@ -58,7 +58,8 @@ class Utilities(commands.Cog):
 				for file in message.attachments:
 					await file.save(file.filename)
 					files.append(discord.File(file.filename))
-			await hook.send(content=f'{vlink}/DASH_1080.mp4',embed=e, username=message.author.display_name, avatar_url=message.author.avatar_url, files=files)
+			await hook.send(embed=e, username=message.author.display_name, avatar_url=message.author.avatar_url, files=files)
+			await hook.send(content=f'{vlink}/DASH_1080.mp4', username=message.author.display_name, avatar_url=message.author.avatar_url)
 			await message.delete()
 
 	@commands.command(aliases=['nword','nw'])
