@@ -94,7 +94,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 	async def tag(self, ctx: commands.Context, *, tagname):
 		if ctx.invoked_subcommand is not None:
 			return
-		conn = psycopg2.connect("postgres://ihnujeeluirimg:dae5a09e303f153d00d7124b634625557207d873c5f98f4146b500ee108365bb@ec2-34-237-236-32.compute-1.amazonaws.com:5432/db6nru3jtkhsne")
+		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
 		cur.execute(
 """
