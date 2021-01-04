@@ -149,31 +149,31 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		await self._search(ctx, tags, Sort.Popular)
 	
 	@commands.is_nsfw()
-	@search.command(aliases=['lat'])
+	@search.command(aliases=['lat', 'recent', 'newest', 'new'])
 	async def latest(self, ctx: commands.Context, *, tags: str):
 		'''finds latest doujins'''
 		await self._search(ctx, tags, Sort.Date)
 
 	@commands.is_nsfw()
-	@search.command(aliases=['lat'])
+	@search.command(aliases=['T', 'D', 'tdy'])
 	async def today(self, ctx: commands.Context, *, tags: str):
 		'''finds popular doujins today'''
 		await self._search(ctx, tags, Sort.PopularToday)
 
 	@commands.is_nsfw()
-	@search.command(aliases=['lat'])
+	@search.command(aliases=['W', 'wk'])
 	async def week(self, ctx: commands.Context, *, tags: str):
 		'''finds popular doujins this week'''
 		await self._search(ctx, tags, Sort.PopularWeek)
 
 	@commands.is_nsfw()
-	@search.command(aliases=['lat'])
+	@search.command(aliases=['M', 'mon'])
 	async def month(self, ctx: commands.Context, *, tags: str):
 		'''finds popular doujins this month'''
 		await self._search(ctx, tags, Sort.PopularMonth)
 
 	@commands.is_nsfw()
-	@search.command(aliases=['lat'])
+	@search.command(aliases=['Y', 'yr'])
 	async def year(self, ctx: commands.Context, *, tags: str):
 		'''finds popular doujins this year'''
 		await self._search(ctx, tags, Sort.PopularYear)
