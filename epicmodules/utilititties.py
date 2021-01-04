@@ -6,7 +6,6 @@ from random import choice
 from gtts import gTTS
 from googletrans import Translator
 import requests
-import urllib
 from bs4 import BeautifulSoup as bs
 from udpy import UrbanClient
 import youtube_dl

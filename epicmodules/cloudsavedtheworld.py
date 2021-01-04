@@ -1,4 +1,5 @@
 import os
+import psycopg2
 import requests
 import shutil
 from pydrive2.auth import GoogleAuth
@@ -88,6 +89,22 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 				actual_file = drive.CreateFile({'id':file['id']})
 				actual_file.Trash()
 				await ctx.send(content='Binned {0}'.format(file['title']))
+
+	@commands.group(invoke_without_command=True)
+	async def tag(self, ctx: commands.Context, *, tagname):
+		if ctx.invoked_subcommand is not None:
+			return
+		conn = psycopg2.connect("postgres://ihnujeeluirimg:dae5a09e303f153d00d7124b634625557207d873c5f98f4146b500ee108365bb@ec2-34-237-236-32.compute-1.amazonaws.com:5432/db6nru3jtkhsne")
+		cur = conn.cursor()
+		cur.execute(
+"""
+SELECT tag_content FROM tags WHERE tag_name = %s
+""", (tagname,)
+)
+		result = cur.fetchone()
+		if result is None:
+			return await ctx.send(content="No tag found!")
+		await ctx.send(content=result[0])
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
