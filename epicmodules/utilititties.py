@@ -40,6 +40,8 @@ class Utilities(commands.Cog):
 					break
 			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}).json()
 			e = discord.Embed(title=resp[0]['data']['children'][0]['data']['title'], description=message.content, url=f"https://www.reddit.com{resp[0]['data']['children'][0]['data']['permalink']}")
+			e.add_field(name='Upvotes',value=resp[0]['data']['children'][0]['data']['ups'])
+			e.add_field(name='Author', value=resp[0]['data']['children'][0]['data']['author'])
 			medialink = resp[0]['data']['children'][0]['data']['url_overridden_by_dest']
 			vlink = None
 			if medialink.startswith('https://i'):
