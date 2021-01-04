@@ -40,7 +40,12 @@ class Utilities(commands.Cog):
 					break
 			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}).json()
 			e = discord.Embed(title=resp[0]['data']['children'][0]['data']['title'], description=message.content, url=f"https://www.reddit.com{resp[0]['data']['children'][0]['data']['permalink']}")
-			e.set_image(url=resp[0]['data']['children'][0]['data']['url_overridden_by_dest'])
+			medialink = resp[0]['data']['children'][0]['data']['url_overridden_by_dest']
+			vlink = None
+			if medialink.startswith('https://i'):
+				e.set_image(url=medialink)
+			elif medialink.startswith('https://v'):
+				vlink = medialink
 			hooks = await message.channel.webhooks()
 			if hooks == []:
 				hook = await message.channel.create_webhook(name='generic hook')
@@ -53,7 +58,7 @@ class Utilities(commands.Cog):
 				for file in message.attachments:
 					await file.save(file.filename)
 					files.append(discord.File(file.filename))
-			await hook.send(embed=e, username=message.author.display_name, avatar_url=message.author.avatar_url, files=files)
+			await hook.send(content=f'{vlink}/DASH_1080.mp4',embed=e, username=message.author.display_name, avatar_url=message.author.avatar_url, files=files)
 			await message.delete()
 
 	@commands.command(aliases=['nword','nw'])
