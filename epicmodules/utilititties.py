@@ -45,7 +45,7 @@ class Utilities(commands.Cog):
 			if medialink.startswith('https://i'):
 				e.set_image(url=medialink)
 			elif medialink.startswith('https://v'):
-				vlink = medialink
+				vlink = resp[0]['data']['children'][0]['data']['secure_media']['reddit_video']['fallback_url']
 			hooks = await message.channel.webhooks()
 			if hooks == []:
 				hook = await message.channel.create_webhook(name='generic hook')
@@ -59,7 +59,8 @@ class Utilities(commands.Cog):
 					await file.save(file.filename)
 					files.append(discord.File(file.filename))
 			await hook.send(embed=e, username=message.author.display_name, avatar_url=message.author.avatar_url, files=files)
-			await hook.send(content=f'{vlink}/DASH_1080.mp4', username=message.author.display_name, avatar_url=message.author.avatar_url)
+			if vlink is not None:
+				await hook.send(content=vlink, username=message.author.display_name, avatar_url=message.author.avatar_url)
 			await message.delete()
 
 	@commands.command(aliases=['nword','nw'])
