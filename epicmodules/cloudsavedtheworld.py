@@ -176,7 +176,9 @@ SELECT tag_name FROM tags WHERE tag_name LIKE %s
 			await ctx.send(content="No tags found")
 		else:
 			await ctx.send(content="Tags found:")
-			for tagn in res:
+			for ind, tagn in enumerate(res):
+				if ind == 5:
+					return
 				await ctx.send(content=tagn)
 
 def setup(bot: commands.Bot):
