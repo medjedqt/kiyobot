@@ -90,7 +90,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 				actual_file.Trash()
 				await ctx.send(content='Binned {0}'.format(file['title']))
 
-	def closer(conn):
+	def closer(self, conn):
 		conn.commit()
 		conn.close()
 
