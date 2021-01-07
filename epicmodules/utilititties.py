@@ -52,9 +52,10 @@ class Utilities(commands.Cog):
 			elif medialink.startswith('https://v'):
 				vlink = resp[0]['data']['children'][0]['data']['secure_media']['reddit_video']['fallback_url']
 			elif mediameta is not None:
-				imgid = list(mediameta.keys())[0]
+				imgid = list(mediameta)[0]
 				imgformat = mediameta[imgid]['m'].split('/')[-1]
 				e.set_image(url=f'https://i.redd.it/{imgid}.{imgformat}')
+				e.title+="\n*More images in the link*"
 			hooks = await message.channel.webhooks()
 			if hooks == []:
 				hook = await message.channel.create_webhook(name='generic hook')
