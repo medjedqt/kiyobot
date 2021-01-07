@@ -46,10 +46,15 @@ class Utilities(commands.Cog):
 			e.add_field(name='Author', value=resp[0]['data']['children'][0]['data']['author'])
 			medialink = resp[0]['data']['children'][0]['data']['url_overridden_by_dest']
 			vlink = None
+			mediameta :dict = resp[0]['data']['children'][0]['data'].get('media_metadata')
 			if medialink.startswith('https://i'):
 				e.set_image(url=medialink)
 			elif medialink.startswith('https://v'):
 				vlink = resp[0]['data']['children'][0]['data']['secure_media']['reddit_video']['fallback_url']
+			elif mediameta is not None:
+				imgid = list(mediameta.keys())[0]
+				imgformat = mediameta[imgid]['m'].split('/')[-1]
+				e.set_image(url=f'https://i.redd.it/{imgid}.{imgformat}')
 			hooks = await message.channel.webhooks()
 			if hooks == []:
 				hook = await message.channel.create_webhook(name='generic hook')
