@@ -183,7 +183,7 @@ class Utilities(commands.Cog):
 		if not link.startswith('http'):
 			link = 'ytsearch:' + link + ' ' + rest
 		async with ctx.channel.typing():
-			with youtube_dl.YoutubeDL({'format': 'mp4', 'outtmpl': 'vid.%(ext)s'}) as ydl:
+			with youtube_dl.YoutubeDL({'outtmpl': 'vid.%(ext)s'}) as ydl:
 				ydl.download([link])
 			try:
 				await ctx.send(file=discord.File(f'vid.mp4'))
