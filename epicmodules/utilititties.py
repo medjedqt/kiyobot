@@ -180,7 +180,7 @@ class Utilities(commands.Cog):
 	@commands.command()
 	async def ytdl(self, ctx: commands.Context, link: str, *, rest: str = None):
 		'''ytdl, but has max limit of 8MB'''
-		if 'youtube.com' not in link and 'youtu.be' not in link:
+		if not link.startswith('http'):
 			link = 'ytsearch:' + link + ' ' + rest
 		async with ctx.channel.typing():
 			with youtube_dl.YoutubeDL({'format': 'mp4', 'outtmpl': 'vid.%(ext)s'}) as ydl:
