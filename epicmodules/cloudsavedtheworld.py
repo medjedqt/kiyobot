@@ -109,7 +109,7 @@ SELECT tag_content FROM tags WHERE tag_name = %s
 		result = cur.fetchone()
 		if result is None:
 			return await ctx.send(content="No tag found!")
-		await ctx.send(content=result[0])
+		await ctx.send(content=result[0], allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
 		cur.close()
 		self.closer(conn)
 
@@ -183,7 +183,7 @@ SELECT tag_name FROM tags WHERE tag_name LIKE %s
 			for ind, tagn in enumerate(res):
 				if ind == 5:
 					return
-				await ctx.send(content=tagn)
+				await ctx.send(content=tagn, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
