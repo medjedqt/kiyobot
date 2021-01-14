@@ -126,7 +126,7 @@ VALUES(%s, %s, %s)
 		)
 		cur.close()
 		self.closer(conn)
-		await ctx.send(content=f"Tag saved as '{tagname}'")
+		await ctx.send(content=f"Tag saved as '{tagname}'", allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
 
 	@tag.command()
 	async def delete(self, ctx: commands.Context, tagname):
