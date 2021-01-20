@@ -78,10 +78,9 @@ class Utilities(commands.Cog):
 	@tasks.loop(seconds=60.0)
 	async def rsscheck(self):
 		feed = feedparser.parse("https://nyaa.si/?page=rss")
-		if feed.entries[0].guid == self.guid:
-			return
-		else:
+		if feed.entries[0].guid != self.guid:
 			await self.rsschan.send(content=feed.entries[0].title)
+			self.guid = feed.entried[0].guid
 
 	@rsscheck.before_loop
 	async def beforerss(self):
