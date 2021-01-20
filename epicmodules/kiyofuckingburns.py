@@ -25,7 +25,7 @@ class Kiyohime(commands.Cog):
 			await message.channel.send('Ok pedophile')
 		elif message.author.id == 293395455830654977 and luck >= 0.85 and message.guild.id == 569845300244774922:
 			await message.add_reaction('❤️')
-		elif self.bot.user.mentioned_in(message) and (not message.mention_everyone or message.role_mentions==[]):
+		elif self.bot.user.mentioned_in(message) and not (message.mention_everyone or message.role_mentions!=[]):
 			if message.author.id == 293395455830654977 and luck >= 0.97:
 				e.set_image(url="https://cdn.discordapp.com/attachments/569845300244774924/692219666478923776/23a8b2e1-21d4-4dac-84ba-1128207f0e30.png")
 				await message.channel.send(embed=e)
