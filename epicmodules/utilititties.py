@@ -77,8 +77,8 @@ class Utilities(commands.Cog):
 
 	@tasks.loop(seconds=60.0)
 	async def rsscheck(self):
-		feed = feedparser.parse("https://nyaa.si/?page=rss", modified=self.modified)
-		self.modified = feed.modified
+		feed = feedparser.parse("https://nyaa.si/?page=rss", modified=self.modifier)
+		self.modifier = feed.modified
 		if feed.status == 304:
 			return
 		else:
@@ -88,7 +88,7 @@ class Utilities(commands.Cog):
 	async def beforerss(self):
 		await self.bot.wait_until_ready()
 		self.rsschan: discord.TextChannel = self.bot.get_channel(635002117375000606)
-		self.modified = None
+		self.modifier = None
 
 	@commands.command(aliases=['nword','nw'])
 	async def nwordcount(self, ctx: commands.Context):
