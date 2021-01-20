@@ -3,6 +3,7 @@ from discord.ext import commands
 import asyncio
 import os
 from random import choice
+import feedparser
 from gtts import gTTS
 from googletrans import Translator
 import requests
@@ -228,6 +229,11 @@ class Utilities(commands.Cog):
 		for choice in choices:
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
+
+	@commands.command()
+	async def rss(self, ctx: commands.Context):
+		'''rss'''
+		await ctx.send(content=feedparser.parse("https://nyaa.si/?page=rss")['feed']['title'])
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))
