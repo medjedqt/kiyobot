@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import asyncio
 import os
 from random import choice
@@ -13,7 +13,7 @@ import youtube_dl
 from kiyo import lang
 
 class Utilities(commands.Cog):
-	def __init__(self, bot):
+	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.ytclient = bot.ytclient
 		self.logchan = bot.logchan
@@ -73,6 +73,21 @@ class Utilities(commands.Cog):
 			if vlink is not None:
 				await hook.send(content=vlink, username=message.author.display_name, avatar_url=message.author.avatar_url)
 			await message.delete()
+
+	@tasks.loop(seconds=60.0)
+	async def rsscheck(self):
+		feed = feedparser.parse("https://nyaa.si/?page=rss", etag=self.etag)
+		self.etag = feed.etag
+		if feed.status == 304:
+			return
+		else:
+			await self.rsschan.send(content=feed.entries[0].title)
+
+	@rsscheck.before_loop
+	async def beforerss(self):
+		await self.bot.wait_until_ready()
+		self.rsschan: discord.TextChannel = self.bot.get_channel(635002117375000606)
+		self.etag = None
 
 	@commands.command(aliases=['nword','nw'])
 	async def nwordcount(self, ctx: commands.Context):
@@ -229,11 +244,6 @@ class Utilities(commands.Cog):
 		for choice in choices:
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
-
-	@commands.command()
-	async def rss(self, ctx: commands.Context):
-		'''rss'''
-		await ctx.send(content=feedparser.parse("https://nyaa.si/?page=rss")['feed']['title'])
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))
