@@ -19,6 +19,7 @@ class Utilities(commands.Cog):
 		self.logchan = bot.logchan
 		self.trans = Translator()
 		self.uclient = UrbanClient()
+		self.rsscheck.start()
 
 	@commands.Cog.listener()
 	async def on_message_edit(self, before: discord.Message, after: discord.Message):
