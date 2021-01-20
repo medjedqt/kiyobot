@@ -75,7 +75,7 @@ class Utilities(commands.Cog):
 				await hook.send(content=vlink, username=message.author.display_name, avatar_url=message.author.avatar_url)
 			await message.delete()
 
-	@tasks.loop(seconds=60.0)
+	@tasks.loop(seconds=30.0)
 	async def rsscheck(self):
 		feed = feedparser.parse("https://nyaa.si/?page=rss")
 		if feed.entries[0].guid != self.guid:
