@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 from udpy import UrbanClient
 import youtube_dl
-from kiyo import lang
+from kiyo import lang, animelist
 
 class Utilities(commands.Cog):
 	def __init__(self, bot: commands.Bot):
@@ -79,8 +79,11 @@ class Utilities(commands.Cog):
 	async def rsscheck(self):
 		feed = feedparser.parse("https://nyaa.si/?page=rss")
 		if feed.entries[0].guid != self.guid:
-			await self.rsschan.send(content=feed.entries[0].title)
-			self.guid = feed.entries[0].guid
+			for anime in animelist:
+				if anime in feed.entries[0].title:
+					await self.rsschan.send(content=feed.entries[0].title)
+					self.guid = feed.entries[0].guid
+					break
 
 	@rsscheck.before_loop
 	async def beforerss(self):

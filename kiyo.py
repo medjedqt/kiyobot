@@ -64,3 +64,8 @@ lang = [
 	'ko',
 	'ar'
 ]
+
+animelist = [
+	"insert title",
+	"more title"
+]
