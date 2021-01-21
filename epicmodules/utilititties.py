@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 import asyncio
 import os
 from random import choice
+import dateparser
 import feedparser
 from gtts import gTTS
 from googletrans import Translator
@@ -84,8 +85,8 @@ class Utilities(commands.Cog):
 			for anime in self.animelist:
 				if anime.lower() in feed.entries[0].title.lower():
 					e = discord.Embed(title=feed.entries[0].title, description=f"[Go to page!]({feed.entries[0].id})")
-					#e.add_field(name="Size", value=feed.entries[0]['size'])
-					e.set_footer(text=f"{feed.entries[0].published}")
+					date = dateparser.parse(feed.entries[0].published)
+					e.timestamp = date
 					await self.rsschan.send(embed=e)
 					self.guid = feed.entries[0].guid
 					break
