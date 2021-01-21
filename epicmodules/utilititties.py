@@ -274,6 +274,15 @@ class Utilities(commands.Cog):
 		cur.close()
 		conn.commit()
 		conn.close()
+		await ctx.send(content=f"Added `{title}` into the rss filter")
+
+	@rss.command(name="list")
+	async def tracklist(self, ctx: commands.Context):
+		e = discord.Embed(title="nyaa.si rss filter")
+		e.description = ""
+		for i, anime in enumerate(self.animelist):
+			e.description+=f'{i+1}. {anime}\n'
+		await ctx.send(embed=e)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))
