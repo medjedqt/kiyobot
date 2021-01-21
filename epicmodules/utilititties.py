@@ -304,5 +304,10 @@ class Utilities(commands.Cog):
 			e.description+=f'{i+1}. {anime}\n'
 		await ctx.send(embed=e)
 
+	@commands.command()
+	async def debug(self, ctx: commands.Context):
+		feet = feedparser.parse("https://nyaa.si/?page=rss")
+		await ctx.send(content=feet.namespaces)
+
 def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))
