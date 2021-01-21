@@ -256,7 +256,7 @@ class Utilities(commands.Cog):
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
 
-	def permcheck(self, ctx: commands.Context):
+	def permcheck(ctx: commands.Context):
 		return ctx.author.id in (230935510439297024, 550076298937237544)
 
 	@commands.group(invoke_without_command=True)
