@@ -83,7 +83,10 @@ class Utilities(commands.Cog):
 		if feed.entries[0].guid != self.guid:
 			for anime in self.animelist:
 				if anime.lower() in feed.entries[0].title.lower():
-					await self.rsschan.send(content=feed.entries[0].title)
+					e = discord.Embed(title=feed.entries[0].title, description=f"[Go to page!]({feed.entries[0].id})")
+					e.add_field(name="Size", value=feed.entries[0]['nyaa:size'])
+					e.footer = f"{feed.entries[0]['nyaa:category']} | {feed.entries[0].published}"
+					await self.rsschan.send(embed=e)
 					self.guid = feed.entries[0].guid
 					break
 
