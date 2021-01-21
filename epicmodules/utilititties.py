@@ -8,9 +8,10 @@ from gtts import gTTS
 from googletrans import Translator
 import requests
 from bs4 import BeautifulSoup as bs
+import psycopg2
 from udpy import UrbanClient
 import youtube_dl
-from kiyo import lang, animelist
+from kiyo import lang
 
 class Utilities(commands.Cog):
 	def __init__(self, bot: commands.Bot):
@@ -19,6 +20,7 @@ class Utilities(commands.Cog):
 		self.logchan = bot.logchan
 		self.trans = Translator()
 		self.uclient = UrbanClient()
+		self.animelistsync.start()
 		self.rsscheck.start()
 
 	@commands.Cog.listener()
@@ -75,12 +77,12 @@ class Utilities(commands.Cog):
 				await hook.send(content=vlink, username=message.author.display_name, avatar_url=message.author.avatar_url)
 			await message.delete()
 
-	@tasks.loop(seconds=30.0)
+	@tasks.loop(seconds=15.0)
 	async def rsscheck(self):
 		feed = feedparser.parse("https://nyaa.si/?page=rss")
 		if feed.entries[0].guid != self.guid:
-			for anime in animelist:
-				if anime in feed.entries[0].title:
+			for anime in self.animelist:
+				if anime.lower() in feed.entries[0].title.lower():
 					await self.rsschan.send(content=feed.entries[0].title)
 					self.guid = feed.entries[0].guid
 					break
@@ -90,6 +92,13 @@ class Utilities(commands.Cog):
 		await self.bot.wait_until_ready()
 		self.rsschan: discord.TextChannel = self.bot.get_channel(635002117375000606)
 		self.guid = None
+
+	@tasks.loop(seconds=120.0)
+	async def animelistsync(self):
+		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		cur = conn.cursor()
+		cur.execute("SELECT * FROM animelist")
+		self.animelist = [_[0] for _ in cur.fetchall()]
 
 	@commands.command(aliases=['nword','nw'])
 	async def nwordcount(self, ctx: commands.Context):
@@ -246,6 +255,25 @@ class Utilities(commands.Cog):
 		for choice in choices:
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
+
+	@commands.group(invoke_without_command=True)
+	async def rss(self, ctx: commands.Context):
+		'''shows help for rss functions'''
+		if ctx.invoked_subcommand is not None:
+			return
+		await ctx.send_help(ctx.command)
+	
+	@rss.command()
+	async def add(self, ctx: commands.Context, *, title: str):
+		'''adds a title to rss nyaa feed'''
+		if title in self.animelist:
+			return await ctx.send(content="Title already tracked")
+		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		cur = conn.cursor()
+		cur.execute("INSERT INTO animelist(title) VALUES(%s);", (title,))
+		cur.close()
+		conn.commit()
+		conn.close()
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))
