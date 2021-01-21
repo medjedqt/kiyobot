@@ -307,7 +307,7 @@ class Utilities(commands.Cog):
 	@commands.command()
 	async def debug(self, ctx: commands.Context):
 		feet = feedparser.parse("https://nyaa.si/?page=rss")
-		await ctx.send(content=feet.namespaces)
+		await ctx.send(content=feet.entries[0].nyaa_issn)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))
