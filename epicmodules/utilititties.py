@@ -256,6 +256,9 @@ class Utilities(commands.Cog):
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
 
+	def permcheck(self, ctx: commands.Context):
+		return ctx.author.id in (230935510439297024, 550076298937237544)
+
 	@commands.group(invoke_without_command=True)
 	async def rss(self, ctx: commands.Context):
 		'''shows help for rss functions'''
@@ -264,6 +267,7 @@ class Utilities(commands.Cog):
 		await ctx.send_help(ctx.command)
 	
 	@rss.command()
+	@commands.check(permcheck)
 	async def add(self, ctx: commands.Context, *, title: str):
 		'''adds a title to rss nyaa feed'''
 		if title in self.animelist:
@@ -275,6 +279,19 @@ class Utilities(commands.Cog):
 		conn.commit()
 		conn.close()
 		await ctx.send(content=f"Added `{title}` into the rss filter")
+
+	@rss.command()
+	@commands.check(permcheck)
+	async def remove(self, ctx: commands.Context, *, title: str):
+		'''removes a title from rss nyaa feed'''
+		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		cur = conn.cursor()
+		cur.execute("DELETE FROM animelist WHERE title = %s;", (title,))
+		delrows = cur.rowcount
+		cur.close()
+		conn.commit()
+		conn.close()
+		await ctx.send(content=f"{delrows} deleted entries")
 
 	@rss.command(name="list")
 	async def tracklist(self, ctx: commands.Context):
