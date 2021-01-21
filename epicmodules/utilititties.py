@@ -85,7 +85,7 @@ class Utilities(commands.Cog):
 				if anime.lower() in feed.entries[0].title.lower():
 					e = discord.Embed(title=feed.entries[0].title, description=f"[Go to page!]({feed.entries[0].id})")
 					#e.add_field(name="Size", value=feed.entries[0]['size'])
-					e.footer = f"{feed.entries[0].published}"
+					e.set_footer(text=f"{feed.entries[0].published}")
 					await self.rsschan.send(embed=e)
 					self.guid = feed.entries[0].guid
 					break
