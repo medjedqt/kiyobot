@@ -6,7 +6,6 @@ import os
 from random import choice
 import re
 import dateparser
-import feedparser
 from gtts import gTTS
 from googletrans import Translator
 import requests
@@ -313,11 +312,6 @@ class Utilities(commands.Cog):
 		for i, anime in enumerate(self.animelist):
 			e.description+=f'{i+1}. {anime}\n'
 		await ctx.send(embed=e)
-
-	@commands.command()
-	async def debug(self, ctx: commands.Context):
-		feet = feedparser.parse("https://nyaa.si/?page=rss")
-		await ctx.send(content=feet.entries[0].nyaa_issn)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))
