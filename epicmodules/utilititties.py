@@ -91,8 +91,10 @@ class Utilities(commands.Cog):
 				regexshit = re.search(anime.lower().replace(" ", "[\w\s]+"), entry.title.text.lower())
 				if regexshit is not None:
 					e = discord.Embed(title=entry.title.text, description=f"[Go to page!]({entry.guid.text})")
+					e.add_field(name="Size", value=entry.find("nyaa:size").text)
 					date = dateparser.parse(entry.pubDate.text)
 					e.timestamp = date
+					e.set_footer(text=entry.find("nyaa:category").text)
 					await self.rsschan.send(embed=e)
 					self.guid = feed.find_all("item")[0].guid.text
 					break
