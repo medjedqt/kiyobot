@@ -102,7 +102,7 @@ class Utilities(commands.Cog):
 	@rsscheck.before_loop
 	async def beforerss(self):
 		await self.bot.wait_until_ready()
-		self.rsschan: discord.TextChannel = self.bot.get_channel(635002117375000606)
+		self.rsschan: discord.TextChannel = self.bot.get_channel(802132987138801705)
 		self.guid = None
 
 	@tasks.loop(seconds=60.0)
