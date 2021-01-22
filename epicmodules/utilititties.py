@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup as bs
 import discord
 from discord.ext import commands, tasks
 import asyncio
@@ -81,18 +82,19 @@ class Utilities(commands.Cog):
 
 	@tasks.loop(seconds=15.0)
 	async def rsscheck(self):
-		feed = feedparser.parse("https://nyaa.si/?page=rss")
-		for entry in feed.entries:
+		tobefedsoup = requests.get("https://nyaa.si/?page=rss").text
+		feed = bs(tobefedsoup, features="xml")
+		for entry in feed.find_all("item"):
 			for anime in self.animelist:
-				if entry.guid == self.guid:
+				if entry.guid == self.guid.text:
 					return
-				regexshit = re.search(anime.lower().replace(" ", "[\w\s]+"), entry.title.lower())
+				regexshit = re.search(anime.lower().replace(" ", "[\w\s]+"), entry.title.text.lower())
 				if regexshit is not None:
-					e = discord.Embed(title=entry.title, description=f"[Go to page!]({entry.id})")
-					date = dateparser.parse(entry.published)
+					e = discord.Embed(title=entry.title.text, description=f"[Go to page!]({entry.guid.text})")
+					date = dateparser.parse(entry.pubDate.text)
 					e.timestamp = date
 					await self.rsschan.send(embed=e)
-					self.guid = feed.entries[0].guid
+					self.guid = feed.find_all("item")[0].guid.text
 					break
 
 	@rsscheck.before_loop
