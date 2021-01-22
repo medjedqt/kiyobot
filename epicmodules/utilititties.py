@@ -86,7 +86,6 @@ class Utilities(commands.Cog):
 				if anime.lower() in feed.entries[0].title.lower():
 					e = discord.Embed(title=feed.entries[0].title, description=f"[Go to page!]({feed.entries[0].id})")
 					date = dateparser.parse(feed.entries[0].published)
-					e.set_footer(text=feed.entries[0].nyaa_infoHash)
 					e.timestamp = date
 					await self.rsschan.send(embed=e)
 					self.guid = feed.entries[0].guid
