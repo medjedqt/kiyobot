@@ -284,7 +284,7 @@ class Utilities(commands.Cog):
 		cur.close()
 		conn.commit()
 		conn.close()
-		await ctx.send(content=f"Added `{title}` into the rss filter\n(Changes may take up to a minute to take place")
+		await ctx.send(content=f"Added `{title}` into the rss filter\n(Changes may take up to a minute to take place)")
 
 	@rss.command()
 	@commands.check(permcheck)
@@ -297,7 +297,7 @@ class Utilities(commands.Cog):
 		cur.close()
 		conn.commit()
 		conn.close()
-		await ctx.send(content=f"{delrows} deleted entries\n(Changes may take up to a minute to take place")
+		await ctx.send(content=f"{delrows} deleted entries\n(Changes may take up to a minute to take place)")
 
 	@rss.command(name="list")
 	async def tracklist(self, ctx: commands.Context):
