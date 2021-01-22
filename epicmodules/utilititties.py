@@ -81,11 +81,13 @@ class Utilities(commands.Cog):
 	@tasks.loop(seconds=15.0)
 	async def rsscheck(self):
 		feed = feedparser.parse("https://nyaa.si/?page=rss")
-		if feed.entries[0].guid != self.guid:
+		for entry in feed.entries:
 			for anime in self.animelist:
-				if anime.lower() in feed.entries[0].title.lower():
-					e = discord.Embed(title=feed.entries[0].title, description=f"[Go to page!]({feed.entries[0].id})")
-					date = dateparser.parse(feed.entries[0].published)
+				if entry.guid == self.guid:
+					return
+				if anime.lower() in entry.title.lower():
+					e = discord.Embed(title=entry.title, description=f"[Go to page!]({entry.id})")
+					date = dateparser.parse(entry.published)
 					e.timestamp = date
 					await self.rsschan.send(embed=e)
 					self.guid = feed.entries[0].guid
