@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 import asyncio
 import os
 from random import choice
+import re
 import dateparser
 import feedparser
 from gtts import gTTS
@@ -85,7 +86,8 @@ class Utilities(commands.Cog):
 			for anime in self.animelist:
 				if entry.guid == self.guid:
 					return
-				if anime.lower() in entry.title.lower():
+				regexshit = re.search(anime.lower().replace(" ", "[\w\s]"), entry.title.lower())
+				if regexshit is not None:
 					e = discord.Embed(title=entry.title, description=f"[Go to page!]({entry.id})")
 					date = dateparser.parse(entry.published)
 					e.timestamp = date
