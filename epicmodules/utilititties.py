@@ -88,7 +88,7 @@ class Utilities(commands.Cog):
 				if entry.guid.text == self.guid:
 					return
 				regexshit = re.search(anime.lower().replace(" ", "[\w\s]+"), entry.title.text.lower())
-				if regexshit is not None:
+				if regexshit is not None and entry.find("nyaa:categoryId").text in ("1_2", "3_1", "4_1"):
 					t = discord.utils.escape_markdown(entry.title.text)
 					e = discord.Embed(title=t, description=entry.find('nyaa:size').text)
 					e.add_field(name="Jump", value=f"[Go to page!]({entry.guid.text})")
