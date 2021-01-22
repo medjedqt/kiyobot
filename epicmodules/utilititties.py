@@ -10,7 +10,6 @@ import feedparser
 from gtts import gTTS
 from googletrans import Translator
 import requests
-from bs4 import BeautifulSoup as bs
 import psycopg2
 from udpy import UrbanClient
 import youtube_dl
@@ -90,11 +89,13 @@ class Utilities(commands.Cog):
 					return
 				regexshit = re.search(anime.lower().replace(" ", "[\w\s]+"), entry.title.text.lower())
 				if regexshit is not None:
-					e = discord.Embed(title=entry.title.text, description=f"[Go to page!]({entry.guid.text})")
-					e.add_field(name="Size", value=entry.find("nyaa:size").text)
+					t = discord.utils.escape_markdown(entry.title.text)
+					e = discord.Embed(title=t, description=entry.find('nyaa:size').text)
+					e.add_field(name="Jump", value=f"[Go to page!]({entry.guid.text})")
 					date = dateparser.parse(entry.pubDate.text)
 					e.timestamp = date
 					e.set_footer(text=entry.find("nyaa:category").text)
+					e.set_author(name="nyaa.si", url="https://nyaa.si")
 					await self.rsschan.send(embed=e)
 					self.guid = feed.find_all("item")[0].guid.text
 					break
