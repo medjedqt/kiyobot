@@ -97,7 +97,7 @@ class Utilities(commands.Cog):
 		self.rsschan: discord.TextChannel = self.bot.get_channel(635002117375000606)
 		self.guid = None
 
-	@tasks.loop(seconds=120.0)
+	@tasks.loop(seconds=60.0)
 	async def animelistsync(self):
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
@@ -282,7 +282,7 @@ class Utilities(commands.Cog):
 		cur.close()
 		conn.commit()
 		conn.close()
-		await ctx.send(content=f"Added `{title}` into the rss filter")
+		await ctx.send(content=f"Added `{title}` into the rss filter\n(Changes may take up to a minute to take place")
 
 	@rss.command()
 	@commands.check(permcheck)
@@ -295,7 +295,7 @@ class Utilities(commands.Cog):
 		cur.close()
 		conn.commit()
 		conn.close()
-		await ctx.send(content=f"{delrows} deleted entries")
+		await ctx.send(content=f"{delrows} deleted entries\n(Changes may take up to a minute to take place")
 
 	@rss.command(name="list")
 	async def tracklist(self, ctx: commands.Context):
