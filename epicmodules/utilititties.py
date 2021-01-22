@@ -86,7 +86,7 @@ class Utilities(commands.Cog):
 		feed = bs(tobefedsoup, features="xml")
 		for entry in feed.find_all("item"):
 			for anime in self.animelist:
-				if entry.guid == self.guid.text:
+				if entry.guid.text == self.guid:
 					return
 				regexshit = re.search(anime.lower().replace(" ", "[\w\s]+"), entry.title.text.lower())
 				if regexshit is not None:
