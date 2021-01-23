@@ -101,11 +101,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 			return
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
-		cur.execute(
-"""
-SELECT tag_content FROM tags WHERE tag_name = %s
-""", (tagname,)
-		)
+		cur.execute("SELECT tag_content FROM tags WHERE tag_name = %s", (tagname,))
 		result = cur.fetchone()
 		if result is None:
 			return await ctx.send(content="No tag found!")
@@ -133,11 +129,7 @@ VALUES(%s, %s, %s)
 		'''Deletes tags'''
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
-		cur.execute(
-"""
-SELECT tag_author FROM tags WHERE tag_name = %s
-""", (tagname,)
-		)
+		cur.execute("""SELECT tag_author FROM tags WHERE tag_name = %s""", (tagname,))
 		if cur.fetchone()[0] != ctx.author and ctx.author.id != 550076298937237544 and not ctx.author.guild_permissions.manage_messages:
 			cur.close()
 			self.closer(conn)
@@ -152,30 +144,21 @@ SELECT tag_author FROM tags WHERE tag_name = %s
 			return await ctx.send(content="Tag deletion cancelled")
 		cur.close()
 		cur = conn.cursor()
-		cur.execute(
-"""
-DELETE FROM tags WHERE tag_name = %s
-""", (tagname,)
-		)
+		cur.execute("DELETE FROM tags WHERE tag_name = %s", (tagname,))
 		cur.close()
 		self.closer(conn)
 		await ctx.send(content=f"Tag '{tagname}' deleted")
 	
 	@tag.command(aliases=['find'])
-	async def search(self, ctx: commands.Context, tagname: str):
+	async def search(self, ctx: commands.Context, *, tagname: str):
 		'''Finds tags'''
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
-		cur.execute(
-"""
-SELECT tag_name FROM tags WHERE tag_name LIKE %s
-""", (f'%{tagname}%',)
-		)
+		cur.execute("SELECT tag_name FROM tags WHERE tag_name LIKE %s", (f'%{tagname}%',))
 		res = cur.fetchall()
 		res = [_[0] for _ in res]
 		cur.close()
-		conn.commit()
-		conn.close()
+		self.closer(conn)
 		if res == []:
 			await ctx.send(content="No tags found")
 		else:
@@ -184,6 +167,21 @@ SELECT tag_name FROM tags WHERE tag_name LIKE %s
 				if ind == 5:
 					return
 				await ctx.send(content=tagn, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
+
+	@tag.command()
+	async def author(self, ctx: commands.Context, *, tagname: str):
+		'''fetch the author of a tag'''
+		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		cur = conn.cursor()
+		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s", (tagname,))
+		res = cur.fetchone()[0]
+		cur.close()
+		self.closer(conn)
+		if res is None:
+			await ctx.send(content=f"No tag named {tagname} found")
+		else:
+			author: discord.User = self.bot.get_user(int(res))
+			await ctx.send(content=f"tag was created by {author}")
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
