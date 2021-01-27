@@ -96,10 +96,10 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		'''finds doujins on nhentai by id'''
 		if ctx.invoked_subcommand is not None:
 			return
-		elif djid is None:
+		if djid is None:
 			await ctx.send_help(ctx.command)
 			return
-		elif not Hentai.exists(djid):
+		if not Hentai.exists(djid):
 			await ctx.send(content="Doujin does not exist!")
 			return
 		result = Hentai(djid)

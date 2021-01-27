@@ -181,7 +181,7 @@ VALUES(%s, %s, %s)
 			await ctx.send(content=f"No tag named {tagname} found")
 		else:
 			author: discord.User = self.bot.get_user(int(res))
-			await ctx.send(content=f"tag was created by {author}")
+			await ctx.send(content=f"tag `{tagname}` was created by {author}")
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
