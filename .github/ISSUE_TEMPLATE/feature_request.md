@@ -1,3 +1,11 @@
+---
+name: Feature Request.
+about: Request features.
+title: 'pls add'
+labels: 'enhancement'
+assignees: ''
+---
+
 **Brief explanation of the feature**
 
 
