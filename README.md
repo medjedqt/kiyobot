@@ -17,7 +17,7 @@ It is highly recommended to instead use the template bot in the [template branch
 
 ### Prerequisites
 
-* [Python 3](python.org)
+* [Python 3](https://python.org)
 * [Discord bot token](https://discordapp.com/developers/applications)
 * [Danbooru account and API key](https://danbooru.donmai.us/profile)
 * [Youtube API key](https://cloud.google.com/)
