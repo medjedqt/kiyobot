@@ -99,9 +99,8 @@ async def vrdoom_task():
 				doomurl = f"https://boards.4channel.org/vr/thread/{x}"
 				doomtitle = doom.topic.subject
 				doomdate = doom.topic.datetime
-				e = discord.Embed(title=doomtitle, url=doomurl, color=0x9ab89f)
+				e = discord.Embed(title=doomtitle, url=doomurl, color=0x9ab89f, timestamp=doomdate)
 				e.set_image(url=doompic)
-				e.set_footer(text=doomdate)
 				if doomurl not in threadlinks:
 					await channel.send(embed=e)
 					threadlinks.append(doomurl)
