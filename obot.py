@@ -102,7 +102,7 @@ async def vrdoom_task():
 				e = discord.Embed(title=doomtitle, url=doomurl, color=0x9ab89f)
 				e.set_image(url=doompic)
 				e.set_footer(text=doomdate)
-				if url not in threadlinks:
+				if doomurl not in threadlinks:
 					await channel.send(content=e)
 					threadlinks.append(doomurl)
 					return
