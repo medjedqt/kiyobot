@@ -105,7 +105,7 @@ async def vrdoom_task():
 				if url not in threadlinks:
 					await channel.send(content=e)
 					releaselinks.append(url)
-        			return
+					return
 		await asyncio.sleep(3600)
 
 @bot.event
