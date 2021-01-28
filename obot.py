@@ -104,9 +104,9 @@ async def vrdoom_task():
 				e.set_footer(text=doomdate)
 				if url not in threadlinks:
 					await channel.send(content=e)
-					threadlinks.append(url)
+					threadlinks.append(doomurl)
 					return
-		await asyncio.sleep(3600)
+		await asyncio.sleep(60)
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error):
