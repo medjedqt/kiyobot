@@ -9,6 +9,7 @@ import os
 import aiohttp
 import io
 import math
+import basc_py4chan
 from bs4 import BeautifulSoup
 from pysaucenao import SauceNao
 from pyyoutube import Api as ytapi
@@ -31,6 +32,7 @@ bot.sauce = SauceNao()
 bot.logchan = 693130723015524382
 bot.queuechan = 743713887123275817
 releasechan = 748084599447355523
+vrdoomchan = 804293651613745182
 
 @bot.event
 async def on_ready():
@@ -78,6 +80,33 @@ async def nh_task():
 								return
 					await bot.get_channel(bot.logchan).send("A release has been detected but no match has been found in queue.\nPlease use `?done` where appropriate.")
 		await asyncio.sleep(10)
+		
+async def vrdoom_task():
+
+	await bot.wait_until_ready()
+	threadlinks = list()
+	async for things in bot.get_channel(vrdoomchan).history():
+		threadlinks.append(things.content)
+
+	while True:
+		channel = bot.get_channel(vrdoomchan)
+		vr = basc_py4chan.Board('vr')
+		vrids = vr.get_all_thread_ids()
+		for x in vrids:
+			doom = vr.get_thread(x)
+			if "DOOM THREAD" in doom.topic.text_comment:
+				doompic = doom.topic.file.file_url
+				doomurl = f"https://boards.4channel.org/vr/thread/{x}"
+				doomtitle = doom.topic.subject
+				doomdate = doom.topic.datetime
+				e = discord.Embed(title=doomtitle, url=doomurl, color=0x9ab89f)
+				e.set_image(url=doompic)
+				e.set_footer(text=doomdate)
+				if url not in threadlinks:
+					await channel.send(content=e)
+					releaselinks.append(url)
+        			return
+		await asyncio.sleep(3600)
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error):
