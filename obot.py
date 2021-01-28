@@ -169,5 +169,6 @@ for filer in os.listdir('epicmodules'):
 
 bot.loop.create_task(status_task())
 bot.loop.create_task(nh_task())
+bot.loop.create_task(vrdoom_task())
 
 bot.run(token)
