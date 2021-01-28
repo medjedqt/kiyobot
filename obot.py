@@ -104,7 +104,7 @@ async def vrdoom_task():
 				e.set_footer(text=doomdate)
 				if url not in threadlinks:
 					await channel.send(content=e)
-					releaselinks.append(url)
+					threadlinks.append(url)
 					return
 		await asyncio.sleep(3600)
 
