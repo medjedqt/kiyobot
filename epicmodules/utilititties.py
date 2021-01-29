@@ -36,6 +36,9 @@ class Utilities(commands.Cog):
 		if message.author.bot or message.content.startswith('?'):
 			return
 		if 'https://www.reddit.com/' in message.content and '/comments/' in message.content:
+			await self.redditConverter(message)
+
+	async def redditConverter(self, message: discord.Message):
 			link = ''
 			for word in message.content.split():
 				if word.startswith('https://www.reddit.com/'):
