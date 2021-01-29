@@ -40,8 +40,8 @@ class Utilities(commands.Cog):
 			return
 		if 'https://www.reddit.com/' in message.content and '/comments/' in message.content:
 			await self.redditConverter(message)
-		if "https://" in message.content and "pixiv" in message.content and "artworks" in message.content:
-			await self.pixivConverter(message)
+		#if "https://" in message.content and "pixiv" in message.content and "artworks" in message.content:
+		#	await self.pixivConverter(message)
 		
 	async def redditConverter(self, message: discord.Message):
 			link = ''
