@@ -90,11 +90,9 @@ class Utilities(commands.Cog):
 			if word.startswith("https://") and "pixiv" in word and "artworks" in word:
 				art_id = int(word.split("/")[-1])
 				break
-		print(art_id)
 		illu = self.pixapi.illust_detail(art_id)
-		print(illu)
 		e = discord.Embed(title=illu.title, description=message.content)
-		e.set_author(name=illu['user']['name'])
+		e.set_author(name=illu['illust']['user']['name'])
 		ext = os.path.splitext(illu.image_urls.large)[1]
 		self.pixapi.download(illu.image_urls.large, name=f"piximg{ext}")
 		e.set_image(url=f"attachment://piximg{ext}")
