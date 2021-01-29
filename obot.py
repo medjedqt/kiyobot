@@ -9,6 +9,7 @@ import os
 import aiohttp
 import io
 import math
+import basc_py4chan
 from bs4 import BeautifulSoup
 from pysaucenao import SauceNao
 from pyyoutube import Api as ytapi
@@ -31,6 +32,7 @@ bot.sauce = SauceNao()
 bot.logchan = 693130723015524382
 bot.queuechan = 743713887123275817
 releasechan = 748084599447355523
+vrdoomchan = 804293651613745182
 
 @bot.event
 async def on_ready():
@@ -77,6 +79,32 @@ async def nh_task():
 								await bot.get_cog("Melty Scans").done(id_=item.content[3:7])
 								return
 					await bot.get_channel(bot.logchan).send("A release has been detected but no match has been found in queue.\nPlease use `?done` where appropriate.")
+		await asyncio.sleep(10)
+		
+async def vrdoom_task():
+
+	await bot.wait_until_ready()
+	threadlinks = list()
+	async for things in bot.get_channel(vrdoomchan).history():
+		threadlinks.append(things.content)
+
+	while True:
+		channel = bot.get_channel(vrdoomchan)
+		vr = basc_py4chan.Board('vr')
+		vrids = vr.get_all_thread_ids()
+		for x in vrids:
+			doom = vr.get_thread(x)
+			if "DOOM THREAD" in doom.topic.text_comment:
+				doompic = doom.topic.file.file_url
+				doomurl = f"https://boards.4channel.org/vr/thread/{x}"
+				doomtitle = doom.topic.subject
+				doomdate = doom.topic.datetime
+				e = discord.Embed(title=doomtitle, url=doomurl, color=0x9ab89f, timestamp=doomdate)
+				e.set_image(url=doompic)
+				if doomurl not in threadlinks:
+					await channel.send(embed=e)
+					threadlinks.append(doomurl)
+					return
 		await asyncio.sleep(10)
 
 @bot.event
@@ -140,5 +168,6 @@ for filer in os.listdir('epicmodules'):
 
 bot.loop.create_task(status_task())
 bot.loop.create_task(nh_task())
+bot.loop.create_task(vrdoom_task())
 
 bot.run(token)

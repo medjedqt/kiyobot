@@ -1,3 +1,11 @@
+---
+name: Bug Report.
+about: Report bugs.
+title: '🐛 '
+labels: ''
+assignees: ''
+---
+
 **To Reproduce**
 Please add all steps to reproduce the behaviour:
 

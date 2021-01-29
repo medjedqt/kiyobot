@@ -1,5 +1,6 @@
 aiohttp==3.6.2
 bs4==0.0.1
+basc_py4chan==0.6.5
 chemspipy==2.0.0
 dateparser==1.0.0
 discord.py==1.6.0
@@ -22,4 +23,4 @@ udpy==2.0.0
 urllib3==1.25.7
 webdriver-manager==3.2.2
 wordcloud==1.7.0
-youtube-dl==2020.11.21.1
+youtube-dl==2021.1.24.1
