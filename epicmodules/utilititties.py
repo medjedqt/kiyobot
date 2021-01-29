@@ -7,7 +7,6 @@ from random import choice
 import re
 import dateparser
 from gtts import gTTS
-from googletrans import Translator
 import requests
 import psycopg2
 from udpy import UrbanClient
@@ -203,18 +202,6 @@ class Utilities(commands.Cog):
 			await ctx.send(content="Word doesn't exist.")
 		except discord.HTTPException:
 			await ctx.send(content='The definition is a fucking essay.')
-	
-	@commands.command(aliases=['trans'])
-	async def translate(self, ctx: commands.Context, words: str, target: str = 'en', source: str = 'auto'):
-		'''Translates stuff (broken for now)'''
-		try:
-			neword = self.trans.translate(words, dest=target, src=source)
-		except ValueError:
-			await ctx.send(content="Usage: `?translate 'words' destination(optional) source(optional)`")
-			return
-		e = discord.Embed(color=0x000055, title='Translator')
-		e.add_field(name=f'Translated from {neword.src}', value=neword.text)
-		await ctx.send(embed=e)
 
 	@commands.command()
 	async def ytdl(self, ctx: commands.Context, link: str, *, rest: str = None):
