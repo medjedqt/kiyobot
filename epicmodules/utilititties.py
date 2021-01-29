@@ -8,6 +8,7 @@ import re
 import dateparser
 from gtts import gTTS
 import requests
+import pixivpy3
 import psycopg2
 from udpy import UrbanClient
 import youtube_dl
@@ -19,6 +20,8 @@ class Utilities(commands.Cog):
 		self.ytclient = bot.ytclient
 		self.logchan = bot.logchan
 		self.uclient = UrbanClient()
+		self.pixapi = pixivpy3.AppPixivAPI()
+		self.pixapi.login(os.environ['PIXIV_USER'], os.environ['PIXIV_PASS'])
 		self.animelistsync.start()
 		self.rsscheck.start()
 
@@ -78,6 +81,21 @@ class Utilities(commands.Cog):
 			if vlink is not None:
 				await hook.send(content=vlink, username=message.author.display_name, avatar_url=message.author.avatar_url)
 			await message.delete()
+
+	async def pixivConverter(self, message: discord.Message):
+		art_id = int()
+		for word in message.content.split():
+			if word.startswith("https://") and "pixiv" in word and "artworks" in word:
+				art_id = int(word.split("/"[-1]))
+				break
+		illu = self.pixapi.illust_detail(art_id)
+		e = discord.Embed(title=illu.title, description=message.content)
+		e.set_author(name=illu.user['name'])
+		ext = os.path.splitext(illu.image_urls.large)[1]
+		self.pixapi.download(illu.image_urls.large, name=f"piximg{ext}")
+		e.set_image(url=f"attachment://piximg{ext}")
+		await message.channel.send(embed=e)
+		await message.delete()
 
 	@tasks.loop(seconds=15.0)
 	async def rsscheck(self):
