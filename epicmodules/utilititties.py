@@ -40,8 +40,8 @@ class Utilities(commands.Cog):
 			return
 		if 'https://www.reddit.com/' in message.content and '/comments/' in message.content:
 			await self.redditConverter(message)
-		#if "https://" in message.content and "pixiv" in message.content and "artworks" in message.content:
-		#	await self.pixivConverter(message)
+		if "https://" in message.content and "pixiv" in message.content and "artworks" in message.content:
+			await self.pixivConverter(message)
 		
 	async def redditConverter(self, message: discord.Message):
 			link = ''
@@ -96,7 +96,7 @@ class Utilities(commands.Cog):
 		ext = os.path.splitext(illu['illust']['image_urls']['large'])[1]
 		self.pixapi.download(illu['illust']['image_urls']['large'], name=f"piximg{ext}")
 		e.set_image(url=f"attachment://piximg{ext}")
-		await message.channel.send(embed=e)
+		await message.channel.send(embed=e, file=discord.File(f"piximg{ext}"))
 		await message.delete()
 
 	@tasks.loop(seconds=15.0)
