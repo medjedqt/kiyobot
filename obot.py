@@ -79,7 +79,7 @@ async def nh_task():
 								await bot.get_cog("Melty Scans").done(id_=item.content[3:7])
 								return
 					await bot.get_channel(bot.logchan).send("A release has been detected but no match has been found in queue.\nPlease use `?done` where appropriate.")
-		await asyncio.sleep(10)
+		await asyncio.sleep(30)
 		
 async def vrdoom_task():
 
