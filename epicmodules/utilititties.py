@@ -96,7 +96,20 @@ class Utilities(commands.Cog):
 		ext = os.path.splitext(illu['illust']['image_urls']['large'])[1]
 		self.pixapi.download(illu['illust']['image_urls']['large'], name=f"piximg{ext}")
 		e.set_image(url=f"attachment://piximg{ext}")
-		await message.channel.send(embed=e, file=discord.File(f"piximg{ext}"))
+		hooks = await message.channel.webhooks()
+		if hooks == []:
+			hook = await message.channel.create_webhook(name='generic hook')
+		else:
+			hook = hooks[0]
+		files = list()
+		if message.attachments == []:
+			files = None
+		else:
+			for file in message.attachments:
+				await file.save(file.filename)
+				files.append(discord.File(file.filename))
+		await hook.send(embed=e, file=discord.File(f"piximg{ext}"), username=message.author.display_name, avatar_url=message.author.avatar_url)
+		await hook.send(files=files)
 		await message.delete()
 
 	@tasks.loop(seconds=15.0)
