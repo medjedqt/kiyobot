@@ -88,7 +88,7 @@ class Utilities(commands.Cog):
 		art_id = int()
 		for word in message.content.split():
 			if word.startswith("https://") and "pixiv" in word and "artworks" in word:
-				art_id = int(word.split("/"[-1]))
+				art_id = int(word.split("/")[-1])
 				break
 		illu = self.pixapi.illust_detail(art_id)
 		e = discord.Embed(title=illu.title, description=message.content)
