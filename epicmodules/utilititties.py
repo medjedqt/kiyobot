@@ -18,7 +18,6 @@ class Utilities(commands.Cog):
 		self.bot = bot
 		self.ytclient = bot.ytclient
 		self.logchan = bot.logchan
-		self.trans = Translator()
 		self.uclient = UrbanClient()
 		self.animelistsync.start()
 		self.rsscheck.start()
