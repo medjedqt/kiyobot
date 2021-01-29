@@ -95,14 +95,14 @@ async def vrdoom_task():
 		vrids = vr.get_all_thread_ids()
 		for x in vrids:
 			doom = vr.get_thread(x)
-			if "DOOM THREAD" in doom.topic.text_comment and doom.topic.datetime not in threadlinks:
+			if "DOOM THREAD" in doom.topic.text_comment:
 				doompic = doom.topic.file.file_url
 				doomurl = f"https://boards.4channel.org/vr/thread/{x}"
 				doomtitle = doom.topic.subject
 				doomdate = doom.topic.datetime
 				e = discord.Embed(title=doomtitle, url=doomurl, color=0x9ab89f, timestamp=doomdate)
 				e.set_image(url=doompic)
-				if doomurl not in threadlinks:
+				if doomdate not in threadlinks:
 					await channel.send(embed=e)
 					threadlinks.append(doomurl)
 					return
