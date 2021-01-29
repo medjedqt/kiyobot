@@ -105,7 +105,7 @@ async def vrdoom_task():
 					await channel.send(embed=e)
 					threadlinks.append(doomurl)
 					return
-		await asyncio.sleep(60)
+		await asyncio.sleep(10)
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error):
