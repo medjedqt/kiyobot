@@ -8,7 +8,7 @@ import re
 import dateparser
 from gtts import gTTS
 import requests
-import pixivpy3
+#import pixivpy3
 import psycopg2
 from udpy import UrbanClient
 import youtube_dl
@@ -20,10 +20,10 @@ class Utilities(commands.Cog):
 		self.ytclient = bot.ytclient
 		self.logchan = bot.logchan
 		self.uclient = UrbanClient()
-		self.pixapi = pixivpy3.AppPixivAPI()
-		self.pixapi.login(os.environ['PIXIV_USER'], os.environ['PIXIV_PASS'])
-		#self.animelistsync.start()
-		#self.rsscheck.start()
+		#self.pixapi = pixivpy3.AppPixivAPI()
+		#self.pixapi.login(os.environ['PIXIV_USER'], os.environ['PIXIV_PASS'])
+		self.animelistsync.start()
+		self.rsscheck.start()
 
 	@commands.Cog.listener()
 	async def on_message_edit(self, before: discord.Message, after: discord.Message):
@@ -40,8 +40,8 @@ class Utilities(commands.Cog):
 			return
 		if 'https://www.reddit.com/' in message.content and '/comments/' in message.content:
 			await self.redditConverter(message)
-		if "https://" in message.content and "pixiv" in message.content and "artworks" in message.content:
-			await self.pixivConverter(message)
+		#if "https://" in message.content and "pixiv" in message.content and "artworks" in message.content:
+		#	await self.pixivConverter(message)
 		
 	async def redditConverter(self, message: discord.Message):
 			link = ''
