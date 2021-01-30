@@ -22,8 +22,8 @@ class Utilities(commands.Cog):
 		self.uclient = UrbanClient()
 		self.pixapi = pixivpy3.AppPixivAPI()
 		self.pixapi.login(os.environ['PIXIV_USER'], os.environ['PIXIV_PASS'])
-		self.animelistsync.start()
-		self.rsscheck.start()
+		#self.animelistsync.start()
+		#self.rsscheck.start()
 
 	@commands.Cog.listener()
 	async def on_message_edit(self, before: discord.Message, after: discord.Message):
