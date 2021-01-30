@@ -65,7 +65,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 	@commands.max_concurrency(1, wait=True)
-	@commands.command()
+	@commands.command(enabled=False)
 	async def chat(self, ctx: commands.Context, *question: str):
 		'''Chat with Kiyohime. Don't die.'''
 		async with ctx.channel.typing():

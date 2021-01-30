@@ -96,7 +96,7 @@ class Google(commands.Cog):
 		e.set_image(url=imglink)
 		await ctx.send(embed=e)
 
-	@google.command()
+	@google.command(enabled=False)
 	async def screen(self, ctx: commands.Context, *, query: str):
 		'''screenshots a webpage'''
 		self.driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=self.opts)
