@@ -101,6 +101,7 @@ class Utilities(commands.Cog):
 			hook = await message.channel.create_webhook(name='generic hook')
 		else:
 			hook = hooks[0]
+		await hook.send(embed=e, file=discord.File(f"piximg{ext}"), username=message.author.display_name, avatar_url=message.author.avatar_url)
 		files = list()
 		if message.attachments == []:
 			files = None
@@ -108,9 +109,9 @@ class Utilities(commands.Cog):
 			for file in message.attachments:
 				await file.save(file.filename)
 				files.append(discord.File(file.filename))
-		await hook.send(embed=e, file=discord.File(f"piximg{ext}"), username=message.author.display_name, avatar_url=message.author.avatar_url)
-		await hook.send(files=files)
+			await hook.send(files=files)
 		await message.delete()
+		os.remove(f"piximg{ext}")
 
 	@tasks.loop(seconds=15.0)
 	async def rsscheck(self):
