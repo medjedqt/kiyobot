@@ -12,7 +12,7 @@ class Music(commands.Cog):
 	
 	async def start_nodes(self):
 		await self.bot.wait_until_ready()
-		await self.bot.wavelink.initiate_node(host='0.0.0.0', port=2333, rest_uri='http://0.0.0.0:2333', password='youshallnotpass', identifier='TEST', region='singapore')
+		await self.bot.wavelink.initiate_node(host='kiyolava.herokuapp.com', port=80, rest_uri='http://kiyolava.herokuapp.com', password='youshallnotpass', identifier='MAIN', region='singapore')
 	
 	@commands.command()
 	async def connect(self, ctx: commands.Context, *, channel: discord.VoiceChannel=None):
