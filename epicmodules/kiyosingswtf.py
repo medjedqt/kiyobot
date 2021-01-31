@@ -6,15 +6,15 @@ import wavelink
 class Music(commands.Cog):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		if not hasattr(bot, 'wavelink'):
-			self.bot.wavelink = wavelink.Client(bot=self.bot)
-		self.bot.loop.create_task(self.start_nodes())
+		#if not hasattr(bot, 'wavelink'):
+		#	self.bot.wavelink = wavelink.Client(bot=self.bot)
+		#self.bot.loop.create_task(self.start_nodes())
 	
 	async def start_nodes(self):
 		await self.bot.wait_until_ready()
 		await self.bot.wavelink.initiate_node(host='kiyolava.herokuapp.com', port=80, rest_uri='http://kiyolava.herokuapp.com', password='youshallnotpass', identifier='MAIN', region='singapore')
 	
-	@commands.command()
+	@commands.command(enabled=False)
 	async def connect(self, ctx: commands.Context, *, channel: discord.VoiceChannel=None):
 		if not channel:
 			try:
@@ -25,7 +25,7 @@ class Music(commands.Cog):
 		await ctx.send(f'Connecting to **`{channel.name}`**')
 		await player.connect(channel.id)
 
-	@commands.command()
+	@commands.command(enabled=False)
 	async def play(self, ctx, *, query: str):
 		tracks = await self.bot.wavelink.get_tracks(f'ytsearch:{query}')
 		if not tracks:
