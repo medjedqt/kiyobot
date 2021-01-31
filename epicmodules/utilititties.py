@@ -91,7 +91,7 @@ class Utilities(commands.Cog):
 				art_id = int(word.split("/")[-1])
 				break
 		illu = self.pixapi.illust_detail(art_id)
-		await ctx.send(illu)
+		await message.channel.send(illu)
 		e = discord.Embed(title=illu.title, description=message.content)
 		e.set_author(name=illu['illust']['user']['name'])
 		ext = os.path.splitext(illu['illust']['image_urls']['large'])[1]
