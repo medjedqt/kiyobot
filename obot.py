@@ -168,6 +168,7 @@ async def ping(ctx: commands.Context, arg1: str = None):
 for filer in os.listdir('epicmodules'):
 	if filer.endswith('.py'):
 		bot.load_extension(f'epicmodules.{filer[:-3]}')
+bot.load_extension('jishaku')
 
 bot.loop.create_task(status_task())
 bot.loop.create_task(nh_task())
