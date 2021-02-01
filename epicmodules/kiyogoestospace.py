@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-
+import os
 class InterCom(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
@@ -21,8 +21,9 @@ class InterCom(commands.Cog):
 				for stic in message.stickers:
 					if stic.image_url is None:
 						continue
-					await stic.image_url.save(stic.name)
-					files.append(discord.File(stic.name))
+					fname = "stic" + os.path.splitext(str(stic.image_url))[1]
+					await stic.image_url.save(fname)
+					files.append(discord.File(fname))
 			await hook.send(content=message.content, username=message.author.display_name, avatar_url=message.author.avatar_url, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False), files=files)
 		await message.delete()
 
