@@ -12,12 +12,17 @@ class InterCom(commands.Cog):
 			return
 		for hook in self.commhooks:
 			files = list()
-			if message.attachments == []:
+			if message.attachments == [] and message.stickers == []:
 				files = None
 			else:
 				for atta in message.attachments:
 					await atta.save(atta.filename)
 					files.append(discord.File(atta.filename))
+				for stic in message.stickers:
+					if stic.image_url is None:
+						continue
+					await stic.image_url.save(stic.name)
+					files.append(discord.File(stic.name))
 			await hook.send(content=message.content, username=message.author.display_name, avatar_url=message.author.avatar_url, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False), files=files)
 		await message.delete()
 
