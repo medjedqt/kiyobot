@@ -14,7 +14,9 @@ from selenium.webdriver.common.keys import Keys
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		self.bot.browser = webdriver.Chrome(ChromeDriverManager().install())
+		opts = webdriver.ChromeOptions()
+		opts.binary_location("/app/.apt/usr/bin/google-chrome")
+		self.bot.browser = webdriver.Chrome(ChromeDriverManager().install(), options=opts)
 		self.bot.browser.get('https://www.cleverbot.com')
 		self.bot.browser.execute_script('noteok()')
 
