@@ -14,13 +14,9 @@ from selenium.webdriver.common.keys import Keys
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		opts = webdriver.ChromeOptions()
-		opts.add_argument("--disable-dev-shm-usage")
-		#opts.binary_location = "/app/.apt/usr/bin/google-chrome"
-		#self.bot.browser = webdriver.Chrome(ChromeDriverManager().install(), options=opts)
-		self.bot.browser = webdriver.Chrome()
-		self.bot.browser.get('https://www.cleverbot.com')
-		self.bot.browser.execute_script('noteok()')
+		#self.bot.browser = webdriver.Chrome(ChromeDriverManager().install())
+		#self.bot.browser.get('https://www.cleverbot.com')
+		#self.bot.browser.execute_script('noteok()')
 
 	@commands.command()
 	async def word(self, ctx: commands.Context):
@@ -69,7 +65,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 	@commands.max_concurrency(1, wait=True)
-	@commands.command(enabled=True)
+	@commands.command(enabled=False)
 	async def chat(self, ctx: commands.Context, *question: str):
 		'''Chat with Kiyohime. Don't die.'''
 		async with ctx.channel.typing():
