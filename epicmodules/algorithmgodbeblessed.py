@@ -18,11 +18,14 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		chrome = os.environ['GOOGLE_CHROME_SHIM']
 		opts = webdriver.ChromeOptions()
 		opts.binary_location = chrome
+		print(opts.binary_location)
 		#driver = ChromeDriverManager().install()
-		os.chmod("./chromedriver", 0o755)
-		self.bot.browser = webdriver.Chrome("./chromedriver", options=opts,)
-		self.bot.browser.get('https://www.cleverbot.com')
-		self.bot.browser.execute_script('noteok()')
+		try:
+			self.bot.browser = webdriver.Chrome(options=opts)
+			self.bot.browser.get('https://www.cleverbot.com')
+			self.bot.browser.execute_script('noteok()')
+		except:
+			self.bot.browser = None
 
 	@commands.command()
 	async def word(self, ctx: commands.Context):
@@ -71,9 +74,11 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 	@commands.max_concurrency(1, wait=True)
-	@commands.command(enabled=False)
+	@commands.command(enabled=True)
 	async def chat(self, ctx: commands.Context, *question: str):
 		'''Chat with Kiyohime. Don't die.'''
+		if self.bot.browser is None:
+			raise commands.DisabledCommand
 		async with ctx.channel.typing():
 			q = []
 			for word in question:
