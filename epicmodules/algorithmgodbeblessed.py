@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import os
 import requests
 import asyncio
 from bs4 import BeautifulSoup
@@ -14,9 +15,12 @@ from selenium.webdriver.common.keys import Keys
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		#self.bot.browser = webdriver.Chrome(ChromeDriverManager().install())
-		#self.bot.browser.get('https://www.cleverbot.com')
-		#self.bot.browser.execute_script('noteok()')
+		chrome = os.environ['GOOGLE_CHROME_SHIM']
+		opts = webdriver.ChromeOptions()
+		opts.binary_location = chrome
+		self.bot.browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=opts)
+		self.bot.browser.get('https://www.cleverbot.com')
+		self.bot.browser.execute_script('noteok()')
 
 	@commands.command()
 	async def word(self, ctx: commands.Context):
