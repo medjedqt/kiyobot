@@ -15,15 +15,15 @@ from selenium.webdriver.common.keys import Keys
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		opts = webdriver.ChromeOptions()
-		opts.binary_location = "/app/.apt/usr/bin/google-chrome-stable"
+		#opts = webdriver.ChromeOptions()
+		#opts.binary_location = "/app/.apt/usr/bin/google-chrome-stable"
 		#driver = ChromeDriverManager().install()
-		try:
-			self.bot.browser = webdriver.Chrome(options=opts)
-			self.bot.browser.get('https://www.cleverbot.com')
-			self.bot.browser.execute_script('noteok()')
-		except:
-			self.bot.browser = None
+		#try:
+		#	self.bot.browser = webdriver.Chrome(options=opts)
+		#	self.bot.browser.get('https://www.cleverbot.com')
+		#	self.bot.browser.execute_script('noteok()')
+		#except:
+		#	self.bot.browser = None
 
 	@commands.command()
 	async def word(self, ctx: commands.Context):
@@ -72,11 +72,9 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 	@commands.max_concurrency(1, wait=True)
-	@commands.command(enabled=True)
+	@commands.command(enabled=False)
 	async def chat(self, ctx: commands.Context, *question: str):
 		'''Chat with Kiyohime. Don't die.'''
-		if self.bot.browser is None:
-			raise commands.DisabledCommand
 		async with ctx.channel.typing():
 			q = []
 			for word in question:
