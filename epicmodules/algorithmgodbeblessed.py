@@ -15,10 +15,8 @@ from selenium.webdriver.common.keys import Keys
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		chrome = os.environ['GOOGLE_CHROME_SHIM']
 		opts = webdriver.ChromeOptions()
-		opts.binary_location = chrome
-		print(opts.binary_location)
+		opts.binary_location = "/app/.apt/usr/bin/google-chrome-stable"
 		#driver = ChromeDriverManager().install()
 		try:
 			self.bot.browser = webdriver.Chrome(options=opts)
@@ -100,7 +98,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			response = self.bot.browser.find_element_by_xpath("//p[@id='line1']/span")
 			await ctx.send(content=response.text)
 
-	@commands.command(hidden=True)
+	@commands.command(hidden=True, enabled=False)
 	async def reloadchat(self, ctx: commands.Context):
 		
 		message = await ctx.send(content='Reloading..')
