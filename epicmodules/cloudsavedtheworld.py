@@ -125,7 +125,7 @@ VALUES(%s, %s, %s)
 		await ctx.send(content=f"Tag saved as '{tagname}'", allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
 
 	@tag.command()
-	async def delete(self, ctx: commands.Context, *, tagname):
+	async def delete(self, ctx: commands.Context, *, tagname: str):
 		'''Deletes tags'''
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
