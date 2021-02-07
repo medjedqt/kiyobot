@@ -8,18 +8,19 @@ import multidict
 import re
 import inspirobot
 from wordcloud import WordCloud
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		#self.bot.browser = webdriver.Chrome(ChromeDriverManager().install())
-		#self.bot.browser.get('https://www.cleverbot.com')
-		#self.bot.browser.execute_script('noteok()')
-		#self.bot.browser = None
-
+		opt = webdriver.FirefoxOptions()
+		opt.add_argument("--headless")
+		self.bot.browser = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+		self.bot.browser.get('https://www.cleverbot.com')
+		self.bot.browser.execute_script('noteok()')
+		
 	@commands.command()
 	async def word(self, ctx: commands.Context):
 		'''Generates a word that doesn't exist'''
