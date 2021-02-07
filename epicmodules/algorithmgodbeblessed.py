@@ -17,7 +17,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		self.bot = bot
 		opt = webdriver.FirefoxOptions()
 		opt.add_argument("--headless")
-		self.bot.browser = webdriver.Firefox(executable_path=GeckoDriverManager().install(), firefox_binary="/app/vendor/firefox/firefox", firefox_options=opt)
+		self.bot.browser = webdriver.Firefox(executable_path=os.environ['GECKODRIVER_PATH'], firefox_binary=os.environ['FIREFOX_BIN'], firefox_options=opt)
 		self.bot.browser.get('https://www.cleverbot.com')
 		self.bot.browser.execute_script('noteok()')
 		
