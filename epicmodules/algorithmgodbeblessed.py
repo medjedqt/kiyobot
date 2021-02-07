@@ -68,7 +68,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
 
 	@commands.max_concurrency(1, wait=True)
-	@commands.command(enabled=False)
+	@commands.command()
 	async def chat(self, ctx: commands.Context, *question: str):
 		'''Chat with Kiyohime. Don't die.'''
 		async with ctx.channel.typing():
@@ -92,7 +92,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			response = self.bot.browser.find_element_by_xpath("//p[@id='line1']/span")
 			await ctx.send(content=response.text)
 
-	@commands.command(hidden=True, enabled=False)
+	@commands.command(hidden=True)
 	async def reloadchat(self, ctx: commands.Context):
 		
 		message = await ctx.send(content='Reloading..')
