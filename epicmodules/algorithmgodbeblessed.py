@@ -8,16 +8,14 @@ import multidict
 import re
 import inspirobot
 from wordcloud import WordCloud
-from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		opt = webdriver.FirefoxOptions()
-		opt.add_argument("--headless")
-		self.bot.browser = webdriver.Firefox(executable_path=os.environ['GECKODRIVER_PATH'], firefox_binary=os.environ['FIREFOX_BIN'], firefox_options=opt)
+		self.bot.browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
 		self.bot.browser.get('https://www.cleverbot.com')
 		self.bot.browser.execute_script('noteok()')
 		
