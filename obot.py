@@ -28,7 +28,7 @@ cskey = os.environ['CHEM_API']
 bot.ytclient = ytapi(api_key=os.environ['YT_API'])
 bot.db = Danbooru('danbooru',username=dbname,api_key=dbkey)
 bot.cs = ChemSpider(cskey)
-bot.sauce = SauceNao()
+bot.sauce = SauceNao(api_key=os.environ['SAUCE_API'])
 bot.logchan = 693130723015524382
 bot.queuechan = 743713887123275817
 releasechan = 748084599447355523

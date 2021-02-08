@@ -15,4 +15,4 @@ class KiyoCyte(commands.Cog, name="Kiyo Site"):
 
 def setup(bot: commands.Bot):
 	bot.add_cog(KiyoCyte(bot))
-	uvicorn.run(app)
+	uvicorn.run("kiyoresideshere:app")
