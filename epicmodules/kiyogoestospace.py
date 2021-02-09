@@ -24,7 +24,11 @@ class InterCom(commands.Cog):
 					fname = "stic" + os.path.splitext(str(stic.image_url))[1]
 					await stic.image_url.save(fname)
 					files.append(discord.File(fname))
-			await hook.send(content=message.content, username=message.author.display_name, avatar_url=message.author.avatar_url, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False), files=files)
+			await hook.send(content=message.content,
+							username=message.author.display_name,
+							avatar_url=message.author.avatar_url,
+							allowed_mentions=discord.AllowedMentions(everyone=False, roles=False),
+							files=files)
 		await message.delete()
 
 	async def comm_task(self):
