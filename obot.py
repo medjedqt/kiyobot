@@ -20,7 +20,14 @@ intents = discord.Intents.default()
 intents.members = True
 helpcmd = commands.DefaultHelpCommand()
 helpcmd.dm_help = True
-bot = commands.Bot(command_prefix='?',case_insensitive=True,help_command=helpcmd,intents=intents,description=choice(lines))
+ment = discord.AllowedMentions.all()
+ment.replied_user = False
+bot = commands.Bot(command_prefix='?',
+					case_insensitive=True,
+					help_command=helpcmd,
+					intents=intents,
+					description=choice(lines),
+					allowed_mentions=ment)
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']

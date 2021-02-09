@@ -33,7 +33,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		e = discord.Embed(title=defword, url=deflink,color=0x002258)
 		e.add_field(name=defdesc, value=defex)
 		e.set_footer(text='Powered by This Word Does Not Exist',icon_url='https://www.thisworddoesnotexist.com/favicon-32x32.png')
-		await ctx.send(embed=e)
+		await ctx.reply(embed=e)
 
 	@commands.command()
 	async def wordcloud(self, ctx: commands.Context, chanlimit: int = 100, maxim: int = 100):
@@ -62,7 +62,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			text = ' '.join(messages)
 			wordcloud = WordCloud(max_words=maxim,width=1920, height=1080, min_word_length=2).generate_from_frequencies(getFrequencyDictForText(text))
 			wordcloud.to_file('wc.png')
-			await ctx.send(file=discord.File('wc.png', filename='wordcloud.png'))
+			await ctx.reply(file=discord.File('wc.png', filename='wordcloud.png'))
 
 	@commands.max_concurrency(1, wait=True)
 	@commands.command()
@@ -87,7 +87,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			inputbox.send_keys(Keys.RETURN)
 			await asyncio.sleep(5)
 			response = self.bot.browser.find_element_by_xpath("//p[@id='line1']/span")
-			await ctx.send(content=response.text)
+			await ctx.reply(content=response.text)
 
 	@commands.command(hidden=True)
 	async def reloadchat(self, ctx: commands.Context):
@@ -103,7 +103,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	async def inspire(self, ctx: commands.Context):
 		'''Generates inspiring (or not) images'''
 		quote = inspirobot.generate()
-		await ctx.send(content=quote.url)
+		await ctx.reply(content=quote.url, mention_author=False)
 
 
 def setup(bot: commands.Bot):
