@@ -5,6 +5,7 @@ chemspipy==2.0.0
 dateparser==1.0.0
 discord.py==1.6.0
 feedparser==6.0.2
+googletrans==4.0.0-rc1
 gtts==2.2.1
 insprio==0.0.1
 multidict==4.6.1
