@@ -21,6 +21,7 @@ class Utilities(commands.Cog):
 		self.ytclient = bot.ytclient
 		self.logchan = bot.logchan
 		self.uclient = UrbanClient()
+		self.trans = googletrans.Translator()
 		#self.pixapi = pixivpy3.AppPixivAPI()
 		#self.pixapi.login(os.environ['PIXIV_USER'], os.environ['PIXIV_PASS'])
 		self.animelistsync.start()
@@ -335,6 +336,13 @@ class Utilities(commands.Cog):
 		e.description = ""
 		for i, anime in enumerate(self.animelist):
 			e.description+=f'{i+1}. {anime}\n'
+		await ctx.send(embed=e)
+	
+	@commands.command()
+	async def translate(self, ctx: commands.Context, query: str, destination: str = 'en', source: str = 'auto'):
+		res = self.trans.translate(query, destination, source)
+		e = discord.Embed(title="Translator", color=0x36393F)
+		e.add_field(name=f"Translated from {res.src} to {res.dest}", value=res.text)
 		await ctx.send(embed=e)
 
 def setup(bot: commands.Bot):
