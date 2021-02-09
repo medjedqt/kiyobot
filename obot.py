@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import asyncio
 from kiyo import lines
 from random import choice, randint, uniform
@@ -48,16 +48,19 @@ async def on_ready():
 	channel = bot.get_channel(bot.logchan)
 	await channel.send(content='Restarted')
 
+@tasks.loop(seconds=20)
 async def status_task():
 
+	await bot.change_presence(activity=discord.Game(name="with Fira's pussy"))
+	await asyncio.sleep(20)
+	await bot.change_presence(activity=discord.Activity(name="Fira nutting to me", type=discord.ActivityType.watching))
+	await asyncio.sleep(20)
+	await bot.change_presence(activity=discord.Game(name="?help"))
+
+@status_task.before_loop
+async def before_status():
+
 	await bot.wait_until_ready()
-	while True:
-		await bot.change_presence(activity=discord.Game(name="with Fira's pussy"))
-		await asyncio.sleep(8)
-		await bot.change_presence(activity=discord.Activity(name="Fira nutting to me", type=discord.ActivityType.watching))
-		await asyncio.sleep(8)
-		await bot.change_presence(activity=discord.Game(name="?help"))
-		await asyncio.sleep(8)
 
 async def nh_task():
 
@@ -113,7 +116,7 @@ async def vrdoom_task():
 					await channel.send(embed=e)
 					threadlinks.append(doomurl)
 					return
-		await asyncio.sleep(10)
+		await asyncio.sleep(30)
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error):
