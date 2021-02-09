@@ -181,7 +181,7 @@ for filer in os.listdir('epicmodules'):
 	if filer.endswith('.py'):
 		bot.load_extension(f'epicmodules.{filer[:-3]}')
 
-bot.loop.create_task(status_task())
+status_task.start()
 bot.loop.create_task(nh_task())
 bot.loop.create_task(vrdoom_task())
 
