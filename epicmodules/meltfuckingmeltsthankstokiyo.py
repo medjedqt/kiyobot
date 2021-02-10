@@ -147,7 +147,7 @@ TL link: <{doclink}>'''
 			if f'MS#{id_}' in message.content:
 				if message.content.endswith('~~') and ctx is not None:
 					resp = await ctx.send(content='Doujin already cancelled')
-				elif message.content.endswith('✅' and ctx is not None):
+				elif message.content.endswith('✅') and ctx is not None:
 					resp = await ctx.send(content='Doujin already finished')
 				else:
 					await message.edit(content=f'{message.content} ✅')
