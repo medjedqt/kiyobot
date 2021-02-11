@@ -65,7 +65,7 @@ class Utilities(commands.Cog):
 			elif medialink.startswith('https://v'):
 				vlink = resp[0]['data']['children'][0]['data']['secure_media']['reddit_video']['fallback_url']
 			elif mediameta is not None:
-				imgid = choice(list(mediameta))
+				imgid = list(mediameta)[0]
 				imgformat = mediameta[imgid]['m'].split('/')[-1]
 				e.set_image(url=f'https://i.redd.it/{imgid}.{imgformat}')
 				e.description+="\n*More images in the link*"
@@ -81,10 +81,47 @@ class Utilities(commands.Cog):
 				for file in message.attachments:
 					await file.save(file.filename)
 					files.append(discord.File(file.filename))
-			await hook.send(embed=e, username=message.author.display_name, avatar_url=message.author.avatar_url, files=files)
-			if vlink is not None:
-				await hook.send(content=vlink, username=message.author.display_name, avatar_url=message.author.avatar_url)
-			await message.delete()
+
+	async def redditSender(self, hook: discord.Webhook, embed: discord.Embed, author: discord.Member, message: discord.Message, files: list, multi_images: dict = None, video: str = None):
+		hookmsg: discord.WebhookMessage = await hook.send(embed=embed, username=author.display_name, avatar_url=author.avatar_url, files=files, wait=True)
+		await message.delete()
+		if video:
+			await hook.send(content=video, username=author.display_name, avatar_url=author.avatar_url)
+		if multi_images:
+			not_timeout = True
+			await hookmsg.add_reaction("◀")
+			await hookmsg.add_reaction("▶")
+			await hookmsg.add_reaction("❌")
+			while not_timeout:
+				def r_check(r: discord.Reaction, u):
+					return r.message == hookmsg and not u.bot
+				add = self.bot.wait_for('reaction_add', check=r_check)
+				less = self.bot.wait_for('reaction_remove', check=r_check)
+				done, pending = await asyncio.wait([add, less], timeout=30.0, return_when=asyncio.FIRST_COMPLETED)
+				for p in pending:
+					p.cancel()
+				if done:
+					response: discord.Reaction = done.pop().result()
+					embed = response.message.embeds[0]
+					image_url: str = embed.image.url
+					image = image_url.strip('/').split('/')[-1].split('.')
+					image_id = image[0]
+					image_format = image[1]
+					if response.emoji == "◀":
+						i = list(multi_images).index(image_id) - 1
+					elif response.emoji == "▶":
+						i = list(multi_images).index(image_id) + 1
+						if i == len(multi_images):
+							i = 0
+					elif response.emoji == "❌":
+						break
+					else:
+						continue
+					new_image = list(multi_images)[i]
+					embed.set_image(url=f'https://i.redd.it/{new_image}.{image_format}')
+					await hookmsg.edit(embed)
+				break
+			await hookmsg.clear_reactions()
 
 	async def pixivConverter(self, message: discord.Message):
 		art_id = int()
