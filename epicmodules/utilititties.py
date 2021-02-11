@@ -81,6 +81,7 @@ class Utilities(commands.Cog):
 				for file in message.attachments:
 					await file.save(file.filename)
 					files.append(discord.File(file.filename))
+			await self.redditSender(hook, e, message.author, message, files, mediameta, vlink)
 
 	async def redditSender(self, hook: discord.Webhook, embed: discord.Embed, author: discord.Member, message: discord.Message, files: list, multi_images: dict = None, video: str = None):
 		hookmsg: discord.WebhookMessage = await hook.send(embed=embed, username=author.display_name, avatar_url=author.avatar_url, files=files, wait=True)
