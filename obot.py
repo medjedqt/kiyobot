@@ -174,7 +174,7 @@ async def on_message(message: discord.Message):
 async def ping(ctx: commands.Context, arg1: str = None):
 	'''pong'''
 	if arg1 is not None:
-		await ctx.send(content=f'{bot.latency} seconds')
+		await ctx.send(content=f'{round(bot.latency*1000)}ms')
 	await ctx.send(content=":ping_pong: Pong!")
 
 for filer in os.listdir('epicmodules'):
