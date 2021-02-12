@@ -121,6 +121,7 @@ class Utilities(commands.Cog):
 					new_image = list(multi_images)[i]
 					embed.set_image(url=f'https://i.redd.it/{new_image}.{image_format}')
 					await hookmsg.edit(embed=embed)
+					continue
 				break
 			await hookmsg.clear_reactions()
 
