@@ -5,9 +5,10 @@ from random import randint, choice, uniform
 from kiyo import burnlist, lines
 
 class Kiyohime(commands.Cog):
-	def __init__(self, bot):
+	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.db = bot.db
+		self.bot.help_command.cog = self
 	
 	@commands.Cog.listener()
 	async def on_message(self, message: discord.Message):
