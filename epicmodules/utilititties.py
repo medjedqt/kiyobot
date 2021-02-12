@@ -95,12 +95,10 @@ class Utilities(commands.Cog):
 			await hookmsg.add_reaction("❌")
 			while not_timeout:
 				def r_check(r, u):
-					print("check trigger")
 					return r.message.id == hookmsg.id and not u.bot
 				add = self.bot.wait_for('reaction_add', check=r_check)
 				less = self.bot.wait_for('reaction_remove', check=r_check)
 				done, pending = await asyncio.wait([add, less], timeout=30.0, return_when=asyncio.FIRST_COMPLETED)
-				print("done waiting")
 				for p in pending:
 					p.cancel()
 				if done:
@@ -122,8 +120,7 @@ class Utilities(commands.Cog):
 						continue
 					new_image = list(multi_images)[i]
 					embed.set_image(url=f'https://i.redd.it/{new_image}.{image_format}')
-					print("before edit")
-					hookmsg.edit(embed=embed)
+					await hookmsg.edit(embed=embed)
 				break
 			await hookmsg.clear_reactions()
 
