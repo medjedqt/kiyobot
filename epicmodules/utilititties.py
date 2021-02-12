@@ -94,9 +94,9 @@ class Utilities(commands.Cog):
 			await hookmsg.add_reaction("▶")
 			await hookmsg.add_reaction("❌")
 			while not_timeout:
-				def r_check(r: discord.Reaction, u):
+				def r_check(r, u):
 					print("check trigger")
-					return r.message == hookmsg and not u.bot
+					return r.message.id == hookmsg.id and not u.bot
 				add = self.bot.wait_for('reaction_add', check=r_check)
 				less = self.bot.wait_for('reaction_remove', check=r_check)
 				done, pending = await asyncio.wait([add, less], timeout=30.0, return_when=asyncio.FIRST_COMPLETED)
