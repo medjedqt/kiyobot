@@ -104,7 +104,7 @@ class Utilities(commands.Cog):
 				for p in pending:
 					p.cancel()
 				if done:
-					response: discord.Reaction = done.pop().result()
+					response, _ = done.pop().result()
 					embed = response.message.embeds[0]
 					image_url: str = embed.image.url
 					image = image_url.strip('/').split('/')[-1].split('.')
