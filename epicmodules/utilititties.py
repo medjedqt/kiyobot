@@ -52,20 +52,21 @@ class Utilities(commands.Cog):
 					link = word.split('?')[0].strip('/')
 					break
 			resp = requests.get(link+'.json', headers={'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}).json()
-			if resp[0]['data']['children'][0]['data']['over_18'] and not message.channel.is_nsfw():
+			data = resp[0]['data']['children'][0]['data']
+			if data['over_18'] and not message.channel.is_nsfw():
 				return
-			e = discord.Embed(title=resp[0]['data']['children'][0]['data']['title'], description=message.content, url=f"https://www.reddit.com{resp[0]['data']['children'][0]['data']['permalink']}")
-			e.add_field(name='Upvotes',value=resp[0]['data']['children'][0]['data']['ups'])
-			e.add_field(name='Author', value=resp[0]['data']['children'][0]['data']['author'])
-			medialink = resp[0]['data']['children'][0]['data']['url_overridden_by_dest']
+			e = discord.Embed(title=data['title'], description=message.content, url=f"https://www.reddit.com{data['permalink']}")
+			e.add_field(name='Upvotes',value=data['ups'])
+			e.add_field(name='Author', value=data['author'])
+			medialink = data['url_overridden_by_dest']
 			vlink = None
-			mediameta :dict = resp[0]['data']['children'][0]['data'].get('media_metadata')
+			mediameta :dict = data.get('media_metadata')
 			if medialink.startswith('https://i'):
 				e.set_image(url=medialink)
 			elif medialink.startswith('https://v'):
-				vlink = resp[0]['data']['children'][0]['data']['secure_media']['reddit_video']['fallback_url']
+				vlink = data['secure_media']['reddit_video']['fallback_url']
 			elif mediameta is not None:
-				imgid = list(mediameta)[0]
+				imgid = data['gallery_data']['items'][0]['media_id']
 				imgformat = mediameta[imgid]['m'].split('/')[-1]
 				e.set_image(url=f'https://i.redd.it/{imgid}.{imgformat}')
 				e.description+="\n*More images in the link*"
@@ -81,14 +82,16 @@ class Utilities(commands.Cog):
 				for file in message.attachments:
 					await file.save(file.filename)
 					files.append(discord.File(file.filename))
-			await self.redditSender(hook, e, message.author, message, files, mediameta, vlink)
+			await self.redditSender(hook, e, message.author, message, files, data, vlink)
 
-	async def redditSender(self, hook: discord.Webhook, embed: discord.Embed, author: discord.Member, message: discord.Message, files: list, multi_images: dict = None, video: str = None):
+	async def redditSender(self, hook: discord.Webhook, embed: discord.Embed, author: discord.Member, message: discord.Message, files: list, reddata: dict = None, video: str = None):
 		hookmsg: discord.WebhookMessage = await hook.send(embed=embed, username=author.display_name, avatar_url=author.avatar_url, files=files, wait=True)
 		await message.delete()
 		if video:
 			await hook.send(content=video, username=author.display_name, avatar_url=author.avatar_url)
-		if multi_images:
+		if reddata.get("media_metadata"):
+			gallery_order = reddata['gallery_data']['items']
+			metadata = reddata['media_metadata']
 			not_timeout = True
 			await hookmsg.add_reaction("◀")
 			await hookmsg.add_reaction("▶")
@@ -105,21 +108,24 @@ class Utilities(commands.Cog):
 					response, _ = done.pop().result()
 					embed = response.message.embeds[0]
 					image_url: str = embed.image.url
-					image = image_url.strip('/').split('/')[-1].split('.')
-					image_id = image[0]
-					image_format = image[1]
+					image_id = image_url.strip('/').split('/')[-1].split('.')[0]
+					for i, item in enumerate(gallery_order):
+						if image_id == item['media_id']:
+							current_index = i
+							break
 					if response.emoji == "◀":
-						i = list(multi_images).index(image_id) - 1
+						i = current_index - 1
 					elif response.emoji == "▶":
-						i = list(multi_images).index(image_id) + 1
-						if i == len(multi_images):
+						i = current_index + 1
+						if i == len(metadata):
 							i = 0
 					elif response.emoji == "❌":
 						break
 					else:
 						continue
-					new_image = list(multi_images)[i]
-					embed.set_image(url=f'https://i.redd.it/{new_image}.{image_format}')
+					new_image = gallery_order[i]
+					new_format = metadata[new_image]['m'].split('/')[-1]
+					embed.set_image(url=f'https://i.redd.it/{new_image}.{new_format}')
 					await hookmsg.edit(embed=embed)
 					continue
 				break
