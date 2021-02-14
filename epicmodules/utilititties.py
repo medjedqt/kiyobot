@@ -123,7 +123,7 @@ class Utilities(commands.Cog):
 						break
 					else:
 						continue
-					new_image = gallery_order[i]
+					new_image = gallery_order[i]['media_id']
 					new_format = metadata[new_image]['m'].split('/')[-1]
 					embed.set_image(url=f'https://i.redd.it/{new_image}.{new_format}')
 					await hookmsg.edit(embed=embed)
