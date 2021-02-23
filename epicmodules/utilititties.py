@@ -242,7 +242,7 @@ class Utilities(commands.Cog):
 	@commands.command()
 	async def calc(self, ctx: commands.Context, *, inp: str):
 		'''It's a calculator'''
-		await self.bot.get_cog('Google').calculate(ctx, inp)
+		await self.bot.get_cog('Google').calculate(ctx=ctx, query=inp)
 	
 	@commands.command(aliases=['yt'])
 	async def youtube(self, ctx: commands.Context, *, words: str):
