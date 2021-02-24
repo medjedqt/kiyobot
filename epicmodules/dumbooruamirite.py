@@ -73,8 +73,19 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 					fileurl = 'https://danbooru.donmai.us' + post['source']
 				e.set_image(url=fileurl)
 				await ctx.send(embed=e)
-		except:
-			await ctx.send(content="Some shit broke. Also firara is gay")
+		except IndexError:
+			correctlist = list()
+			q = '*'+tag+'*'
+			correct = self.db.tag_list(order='count', name_matches=q)
+			correctlist+=correct
+			if correctlist:
+				await ctx.send(content="Can't find tag, did you mean;")
+				for i, correct in enumerate(correctlist):
+					if i == 5:
+						break
+					await ctx.send(content=correct['name'])
+			else:
+				await ctx.send(content="Some shit broke. Also firara is gay")
 	
 	@commands.command()
 	async def iqdb(self, ctx: commands.Context, url: str = None):
