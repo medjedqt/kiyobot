@@ -9,10 +9,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.db = bot.db
-	
-	@commands.is_nsfw()
+
 	@commands.command()
-	async def latest(self, ctx: commands.Bot, key: str = None, *tag: str):
+	async def latest(self, ctx: commands.Context, key: str = None, *tag: str):
 		'''shits out latest danbooru pic (kiyo by default)'''
 		if key is None:
 			tag="kiyohime_(fate/grand_order)"
@@ -20,15 +19,16 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			tag = '_'.join(tag)
 			tag = key + '_' + tag
 		post = self.db.post_list(tags=tag, page=1, limit=1)[0]
+		if post['rating'] != 's' and not (ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel)):
+			return await ctx.send("Command returned an NSFW result in an SFW channel :<")
 		try:
 			fileurl = post['file_url']
-		except:
+		except KeyError:
 			fileurl = 'https://danbooru.donmai.us' + post['source']
 		e = discord.Embed(title="Latest", color=0x00FF00)
 		e.set_image(url=fileurl)
 		await ctx.send(embed=e)
-	
-	@commands.is_nsfw()
+
 	@commands.command(aliases=['dan','d'])
 	async def danbooru(self, ctx: commands.Context, *tag: str):
 		'''Finds an image on danbooru'''
@@ -36,6 +36,8 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		try:
 			posts = self.db.post_list(tags=tag,page=page,limit=5)
 			post = choice(posts)
+			if post['rating'] != 's' and not (ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel)):
+				return await ctx.send("Command returned an NSFW result in an SFW channel :<")
 			try:
 				fileurl = post['file_url']
 			except KeyError:
@@ -58,7 +60,6 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			else:
 				await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
 
-	@commands.is_nsfw()
 	@commands.command()
 	async def multi(self, ctx: commands.Context, *, tag: str):
 		'''Finds multiple images on danbooru'''
@@ -66,13 +67,17 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		e = discord.Embed(color=0x00FFBE)
 		try:
 			posts = self.db.post_list(tags=tag,page=page,limit=5)
+			
 			for post in posts:
-				try:
-					fileurl = post['file_url']
-				except KeyError:
-					fileurl = 'https://danbooru.donmai.us' + post['source']
-				e.set_image(url=fileurl)
-				await ctx.send(embed=e)
+				if post['rating'] != 's' and not (ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel)):
+					await ctx.send("Command returned an NSFW result in an SFW channel :<")
+				else:
+					try:
+						fileurl = post['file_url']
+					except KeyError:
+						fileurl = 'https://danbooru.donmai.us' + post['source']
+					e.set_image(url=fileurl)
+					await ctx.send(embed=e)
 		except IndexError:
 			correctlist = list()
 			q = '*'+tag+'*'
