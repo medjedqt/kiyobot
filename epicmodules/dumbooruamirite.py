@@ -46,7 +46,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		except IndexError:
 			correctlist = list()
 			for t in tag:
-				q = '*'+'_'.join(t)+'*'
+				q = '*'+t+'*'
 				correct = self.db.tag_list(order='count', name_matches=q)
 				correctlist+=correct
 			if correctlist:
