@@ -70,7 +70,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			
 			for post in posts:
 				if post['rating'] != 's' and not (ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel)):
-					await ctx.send("Command returned an NSFW result in an SFW channel :<")
+					return await ctx.send("Command returned an NSFW result in an SFW channel :<")
 				else:
 					try:
 						fileurl = post['file_url']
