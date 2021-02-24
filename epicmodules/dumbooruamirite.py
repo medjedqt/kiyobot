@@ -43,8 +43,20 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			e = discord.Embed(color=0x0000ff)
 			e.set_image(url=fileurl)
 			await ctx.send(embed=e)
-		except:
-			await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
+		except IndexError:
+			correctlist = list()
+			for t in tag:
+				q = '*'+'_'.join(t)+'*'
+				correct = self.db.tag_list(order='count', name_matches=q)
+				correctlist.append(correct)
+			if correctlist:
+				await ctx.send(content="Can't find tag, did you mean;")
+				for i, correct in enumerate(correctlist):
+					if i == 5:
+						break
+					await ctx.send(content=correct['name'])
+			else:
+				await ctx.send(content="Can't find image! Please enter in this format `character name (series)`")
 
 	@commands.is_nsfw()
 	@commands.command()
