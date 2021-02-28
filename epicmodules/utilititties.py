@@ -96,6 +96,7 @@ class Utilities(commands.Cog):
 			await hookmsg.add_reaction("◀")
 			await hookmsg.add_reaction("▶")
 			await hookmsg.add_reaction("❌")
+			await hookmsg.add_reaction("🚮")
 			while not_timeout:
 				def r_check(r, u):
 					return r.message.id == hookmsg.id and not u.bot
@@ -105,7 +106,7 @@ class Utilities(commands.Cog):
 				for p in pending:
 					p.cancel()
 				if done:
-					response, _ = done.pop().result()
+					response, user = done.pop().result()
 					embed = response.message.embeds[0]
 					image_url: str = embed.image.url
 					image_id = image_url.strip('/').split('/')[-1].split('.')[0]
@@ -119,6 +120,8 @@ class Utilities(commands.Cog):
 						i = current_index + 1
 						if i == len(metadata):
 							i = 0
+					elif response.emoji == "🚮" and user == author:
+						return await hookmsg.delete()
 					elif response.emoji == "❌":
 						break
 					else:
@@ -128,7 +131,8 @@ class Utilities(commands.Cog):
 					embed.set_image(url=f'https://i.redd.it/{new_image}.{new_format}')
 					await hookmsg.edit(embed=embed)
 					continue
-				break
+				else:
+					break
 			await hookmsg.clear_reactions()
 
 	async def pixivConverter(self, message: discord.Message):
@@ -323,6 +327,7 @@ class Utilities(commands.Cog):
 			return reaction.emoji == '🚮' and user == ctx.author
 		try:
 			await self.bot.wait_for('reaction_add', check=check, timeout=600.0)
+			await msg.delete()
 		except asyncio.TimeoutError:
 			await msg.clear_reactions()
 
@@ -348,6 +353,7 @@ class Utilities(commands.Cog):
 			return reaction.emoji == '🚮' and user == ctx.author
 		try:
 			await self.bot.wait_for('reaction_add', check=check, timeout=600.0)
+			await message.delete()
 		except asyncio.TimeoutError:
 			await message.clear_reactions()
 
