@@ -101,7 +101,7 @@ class Utilities(commands.Cog):
 					return r.message.id == hookmsg.id and not u.bot
 				add = self.bot.wait_for('reaction_add', check=r_check)
 				less = self.bot.wait_for('reaction_remove', check=r_check)
-				done, pending = await asyncio.wait([add, less], timeout=30.0, return_when=asyncio.FIRST_COMPLETED)
+				done, pending = await asyncio.wait([add, less], timeout=600.0, return_when=asyncio.FIRST_COMPLETED)
 				for p in pending:
 					p.cancel()
 				if done:
@@ -317,8 +317,15 @@ class Utilities(commands.Cog):
 		'''Embeds whatever you say'''
 		e = discord.Embed(title=ctx.author.name, description=words, color=0x523523)
 		e.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-		await ctx.send(embed=e)
-	
+		msg: discord.Message = await ctx.send(embed=e)
+		await msg.add_reaction('🚮')
+		def check(reaction, user):
+			return reaction.emoji == '🚮' and user == ctx.author
+		try:
+			await self.bot.wait_for('reaction_add', check=check, timeout=600.0)
+		except asyncio.TimeoutError:
+			await msg.clear_reactions()
+
 	@commands.command()
 	async def poll(self, ctx: commands.Context, question: str, *choices: str):
 		'''democracy'''
@@ -336,6 +343,13 @@ class Utilities(commands.Cog):
 		for choice in choices:
 			x = x + 1
 			await message.add_reaction('{}\N{variation selector-16}\N{combining enclosing keycap}'.format(x))
+		await message.add_reaction('🚮')
+		def check(reaction, user):
+			return reaction.emoji == '🚮' and user == ctx.author
+		try:
+			await self.bot.wait_for('reaction_add', check=check, timeout=600.0)
+		except asyncio.TimeoutError:
+			await message.clear_reactions()
 
 	def permcheck(ctx: commands.Context):
 		return ctx.author.id in (230935510439297024, 550076298937237544)

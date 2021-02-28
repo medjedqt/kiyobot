@@ -2,13 +2,12 @@ import discord
 from discord.ext import commands, tasks
 import asyncio
 from kiyo import lines
-from random import choice, randint, uniform
+from random import choice
 from pybooru import Danbooru
 import requests
 import os
 import aiohttp
 import io
-import math
 import basc_py4chan
 from bs4 import BeautifulSoup
 from pysaucenao import SauceNao
