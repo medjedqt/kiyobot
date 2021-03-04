@@ -36,8 +36,8 @@ class Google(commands.Cog):
 		soup = self.soup.find_all("div", class_="kCrYT")
 		for i in soup:
 			if i.a is not None and i.a['href'].startswith("/url"):
-				await ctx.send(urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0])
-				return
+				return await ctx.send(urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0])
+		await ctx.send(content="No results found (or they're nsfw idk)")
 
 	@google.command(aliases=['ans'])
 	async def answer(self, ctx: commands.Context, *, query: str):
