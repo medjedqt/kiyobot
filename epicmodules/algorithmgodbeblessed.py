@@ -17,7 +17,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		#self.bot.browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
 		#self.bot.browser.get('https://www.cleverbot.com')
 		#self.bot.browser.execute_script('noteok()')
-		
+
 	@commands.command()
 	async def word(self, ctx: commands.Context):
 		'''Generates a word that doesn't exist'''
@@ -98,13 +98,12 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		self.bot.browser.get('https://www.cleverbot.com')
 		self.bot.browser.execute_script('noteok()')
 		await message.edit(content='Reloaded!')
-	
+
 	@commands.command()
 	async def inspire(self, ctx: commands.Context):
 		'''Generates inspiring (or not) images'''
 		quote = inspirobot.generate()
 		await ctx.reply(content=quote.url, mention_author=False)
-
 
 def setup(bot: commands.Bot):
 	bot.add_cog(MachineLearningShit(bot))
