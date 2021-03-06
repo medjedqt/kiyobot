@@ -136,7 +136,8 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		e.set_image(url=result.cover)
 		e.set_footer(text=result.upload_date)
 		e.add_field(name="Tags", value=', '.join(tags))
-		e.add_field(name="Artist(s)",value=', '.join([_.name for _ in result.artist]))
+		artists = ', '.join([_.name for _ in result.artist]) if result.artist is not [] else 'None'
+		e.add_field(name="Artist(s)",value=artists)
 		await ctx.send(embed=e)
 	
 	@nhentai.error
