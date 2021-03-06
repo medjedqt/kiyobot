@@ -120,7 +120,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@commands.is_nsfw()
 	@commands.group(aliases=['nh'], invoke_without_command=True)
-	async def nhentai(self, ctx: commands.Context, djid: int = None):
+	async def nhentai(self, ctx: commands.Context, djid: int = None, *, extra: str = ''):
 		'''finds doujins on nhentai by id'''
 		if ctx.invoked_subcommand is not None:
 			return
@@ -128,8 +128,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			await ctx.send_help(ctx.command)
 			return
 		if not Hentai.exists(djid):
-			await ctx.send(content="Doujin does not exist!")
-			return
+			return await self.search(ctx, tags=f'{djid} {extra}')
 		result = Hentai(djid)
 		tags = [_.name for _ in result.tag]
 		e = discord.Embed(title=result.title(Format.Pretty), description=f'#{result.id}', url=result.url, color=0x177013)
