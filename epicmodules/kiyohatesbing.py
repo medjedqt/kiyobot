@@ -35,7 +35,7 @@ class Google(commands.Cog):
 		self.request(query, "&safe="+safe)
 		soup = self.soup.find_all("div", class_="kCrYT")
 		for i in soup:
-			if i.a is not None and i.a['href'].startswith("/url"):
+			if i.a is not None and i.a['href'].startswith("/url") and not 'scholar.google' in i.a['href']:
 				return await ctx.send(urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0])
 		await ctx.send(content="No results found (or they're nsfw idk)")
 
