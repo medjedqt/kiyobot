@@ -294,15 +294,15 @@ class Utilities(commands.Cog):
 		'''ytdl, but has max limit of 8MB'''
 		if not link.startswith('http'):
 			link = 'ytsearch:' + link + ' ' + rest
+		elif link.startswith('<http'):
+			link = link.strip('<>')
 		async with ctx.channel.typing():
-			with youtube_dl.YoutubeDL({'format': 'mp4', 'outtmpl': 'vid.%(ext)s'}) as ydl:
+			with youtube_dl.YoutubeDL({'format': 'mp4', 'outtmpl': 'videos/%(title)s-%(id)s.%(ext)s'}) as ydl:
 				ydl.download([link])
 			try:
 				await ctx.send(file=discord.File(f'vid.mp4'))
 			except discord.HTTPException:
-				await ctx.send(content=f"File too large, visit https://kiyo-api.herokuapp.com/ytdl?link={link}")
-			finally:
-				os.remove(f'vid.mp4')
+				await ctx.send(content=f"File too large, download from https://kiyo-api.herokuapp.com/ytdl?link={link} instead")
 	
 	@commands.guild_only()
 	@commands.command()
