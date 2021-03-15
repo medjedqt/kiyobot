@@ -301,8 +301,8 @@ class Utilities(commands.Cog):
 				info = ydl.extract_info(link)
 			for file in  os.listdir('videos/'):
 				if info['id'] in file:
-					if os.path.getsize('file') < 8000000:
-						await ctx.send(file=discord.File(f'vid.mp4'))
+					if os.path.getsize(f'videos/{file}') < 8000000:
+						await ctx.send(file=discord.File(f'videos/{file}'))
 						break
 					else:
 						await ctx.send(content=f"File too large, download from https://kiyo-api.herokuapp.com/ytdl?link={link} instead")
