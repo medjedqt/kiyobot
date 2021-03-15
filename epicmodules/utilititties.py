@@ -299,9 +299,9 @@ class Utilities(commands.Cog):
 		async with ctx.channel.typing():
 			with youtube_dl.YoutubeDL({'format': 'mp4', 'outtmpl': 'videos/%(title)s-%(id)s.%(ext)s'}) as ydl:
 				info = ydl.extract_info(link)
-			for file in  os.listdir('videos/'):
+			for file in os.listdir('videos/'):
 				if info['id'] in file:
-					if os.path.getsize(f'videos/{file}') < 8000000:
+					if os.path.getsize(f'videos/{file}') < 8388608:
 						await ctx.send(file=discord.File(f'videos/{file}'))
 						break
 					else:
