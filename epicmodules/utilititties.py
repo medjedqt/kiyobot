@@ -292,9 +292,9 @@ class Utilities(commands.Cog):
 	@commands.command()
 	async def ytdl(self, ctx: commands.Context, link: str, *, rest: str = ''):
 		'''ytdl, but has max limit of 8MB'''
-		if not link.startswith('http'):
+		if not link.startswith('http') and not link.startswith('<'):
 			link = 'ytsearch:' + link + ' ' + rest
-		elif link.startswith('<http'):
+		elif link.startswith('<http') and link.endswith('>'):
 			link = link.strip('<>')
 		async with ctx.channel.typing():
 			with youtube_dl.YoutubeDL({'format': 'mp4', 'outtmpl': 'vid.mp4'}) as ydl:
@@ -304,7 +304,7 @@ class Utilities(commands.Cog):
 				os.remove('vid.mp4')
 			except discord.HTTPException:
 				await ctx.send(content=f"File too large, download from https://kiyo-api.herokuapp.com/ytdl?link={link} instead")
-	
+
 	@commands.guild_only()
 	@commands.command()
 	async def clone(self, ctx: commands.Context, user: discord.Member, *, message: str):
