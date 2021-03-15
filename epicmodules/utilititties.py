@@ -290,7 +290,7 @@ class Utilities(commands.Cog):
 			await ctx.send(content='The definition is a fucking essay.')
 
 	@commands.command()
-	async def ytdl(self, ctx: commands.Context, link: str, *, rest: str = None):
+	async def ytdl(self, ctx: commands.Context, link: str, *, rest: str = ''):
 		'''ytdl, but has max limit of 8MB'''
 		if not link.startswith('http'):
 			link = 'ytsearch:' + link + ' ' + rest
