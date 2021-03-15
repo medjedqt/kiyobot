@@ -300,7 +300,7 @@ class Utilities(commands.Cog):
 			try:
 				await ctx.send(file=discord.File(f'vid.mp4'))
 			except discord.HTTPException:
-				await ctx.send(content="File too large, visit https://kiyo-api.herokuapp.com/ytdl?link={link}")
+				await ctx.send(content=f"File too large, visit https://kiyo-api.herokuapp.com/ytdl?link={link}")
 			finally:
 				os.remove(f'vid.mp4')
 	
