@@ -298,11 +298,14 @@ class Utilities(commands.Cog):
 			link = link.strip('<>')
 		async with ctx.channel.typing():
 			with youtube_dl.YoutubeDL({'format': 'mp4', 'outtmpl': 'videos/%(title)s-%(id)s.%(ext)s'}) as ydl:
-				ydl.download([link])
-			try:
-				await ctx.send(file=discord.File(f'vid.mp4'))
-			except discord.HTTPException:
-				await ctx.send(content=f"File too large, download from https://kiyo-api.herokuapp.com/ytdl?link={link} instead")
+				info = ydl.extract_info(link)
+			for file in  os.listdir('videos/'):
+				if info['id'] in file:
+					if os.path.getsize('file') < 8000000:
+						await ctx.send(file=discord.File(f'vid.mp4'))
+						break
+					else:
+						await ctx.send(content=f"File too large, download from https://kiyo-api.herokuapp.com/ytdl?link={link} instead")
 	
 	@commands.guild_only()
 	@commands.command()
