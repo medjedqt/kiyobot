@@ -12,6 +12,7 @@ import requests
 import pixivpy3
 import psycopg2
 from udpy import UrbanClient
+from urllib.parse import quote
 import youtube_dl
 from kiyo import lang
 
@@ -303,7 +304,7 @@ class Utilities(commands.Cog):
 				await ctx.send(file=discord.File('vid.mp4'))
 				os.remove('vid.mp4')
 			except discord.HTTPException:
-				await ctx.send(content=f"File too large, download from https://kiyo-api.herokuapp.com/ytdl?link={link} instead")
+				await ctx.send(content=f"File too large, download from https://kiyo-api.herokuapp.com/ytdl?link={quote(link)} instead")
 
 	@commands.guild_only()
 	@commands.command()
