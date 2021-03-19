@@ -410,6 +410,14 @@ class Utilities(commands.Cog):
 		e = discord.Embed(title="Translator", color=0x36393F)
 		e.add_field(name=f"Translated from {res.src} to {res.dest}", value=res.text)
 		await ctx.send(embed=e)
+	
+	@commands.command()
+	async def clean(self, ctx: commands.Context, amount: int = 10):
+		def is_me(m: discord.Message):
+			return m.author == self.bot.user
+		delmsglist = await ctx.channel.purge(limit=amount, check=is_me, bulk=False)
+		delmsg: discord.Message = await ctx.send(content=f'Deleted {len(delmsglist)} responses(s)')
+		await delmsg.delete(delay=5)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))
