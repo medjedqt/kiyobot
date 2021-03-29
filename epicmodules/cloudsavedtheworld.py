@@ -203,7 +203,7 @@ VALUES(%s, %s, %s, %s)
 		cur.execute("UPDATE tags SET tag_content = %s WHERE tag_name = %s AND tag_guild = %s",
 					(tagcontent, tagname, str(ctx.guild.id)))
 		self.closer(conn)
-		ctx.message.add_reaction('👍')
+		await ctx.message.add_reaction('👍')
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
