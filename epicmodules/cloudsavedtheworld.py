@@ -198,10 +198,12 @@ VALUES(%s, %s, %s, %s)
 		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s",
 					(tagname, str(ctx.guild.id)))
 		if cur.fetchone()[0] != str(ctx.author.id):
+			cur.close()
 			self.closer(conn)
 			return await ctx.send(content=f"You have no tag named `{tagname}`")
 		cur.execute("UPDATE tags SET tag_content = %s WHERE tag_name = %s AND tag_guild = %s",
 					(tagcontent, tagname, str(ctx.guild.id)))
+		cur.close()
 		self.closer(conn)
 		await ctx.message.add_reaction('👍')
 
