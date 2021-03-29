@@ -94,6 +94,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		conn.commit()
 		conn.close()
 
+	@commands.guild_only()
 	@commands.group(invoke_without_command=True)
 	async def tag(self, ctx: commands.Context, *, tagname: str):
 		'''Gets tags from a database created with ?tag create'''
@@ -101,7 +102,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 			return
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
-		cur.execute("SELECT tag_content FROM tags WHERE tag_name = %s", (tagname,))
+		cur.execute("SELECT tag_content FROM tags WHERE tag_name = %s AND tag_guild = %s", (tagname, str(ctx.guild.id)))
 		result = cur.fetchone()
 		if result is None:
 			return await ctx.send(content="No tag found!")
@@ -109,6 +110,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		cur.close()
 		self.closer(conn)
 
+	@commands.guild_only()
 	@tag.command()
 	async def create(self, ctx: commands.Context, tagname: str = None, *, content: str = None):
 		'''Creates tags'''
@@ -116,20 +118,21 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		cur = conn.cursor()
 		cur.execute(
 """
-INSERT INTO tags(tag_name, tag_author, tag_content)
-VALUES(%s, %s, %s)
-""", (tagname, ctx.author.id, content)
+INSERT INTO tags(tag_name, tag_author, tag_content, tag_guild)
+VALUES(%s, %s, %s, %s)
+""", (tagname, ctx.author.id, content, ctx.guild.id)
 		)
 		cur.close()
 		self.closer(conn)
 		await ctx.send(content=f"Tag saved as '{tagname}'", allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
 
+	@commands.guild_only()
 	@tag.command()
 	async def delete(self, ctx: commands.Context, *, tagname: str):
 		'''Deletes tags'''
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
-		cur.execute("""SELECT tag_author FROM tags WHERE tag_name = %s""", (tagname,))
+		cur.execute("""SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s""", (tagname, str(ctx.guild.id)))
 		if cur.fetchone()[0] != ctx.author and ctx.author.id != 550076298937237544 and not ctx.author.guild_permissions.manage_messages:
 			cur.close()
 			self.closer(conn)
@@ -144,17 +147,18 @@ VALUES(%s, %s, %s)
 			return await ctx.send(content="Tag deletion cancelled")
 		cur.close()
 		cur = conn.cursor()
-		cur.execute("DELETE FROM tags WHERE tag_name = %s", (tagname,))
+		cur.execute("DELETE FROM tags WHERE tag_name = %s AND tag_guild = %s", (tagname, str(ctx.guild.id)))
 		cur.close()
 		self.closer(conn)
 		await ctx.send(content=f"Tag '{tagname}' deleted")
-	
+
+	@commands.guild_only()
 	@tag.command(aliases=['find'])
 	async def search(self, ctx: commands.Context, *, tagname: str):
 		'''Finds tags'''
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
-		cur.execute("SELECT tag_name FROM tags WHERE tag_name LIKE %s", (f'%{tagname}%',))
+		cur.execute("SELECT tag_name FROM tags WHERE tag_name LIKE %s AND tag_guild = %s", (f'%{tagname}%', str(ctx.guild.id)))
 		res = cur.fetchall()
 		res = [_[0] for _ in res]
 		cur.close()
@@ -168,12 +172,13 @@ VALUES(%s, %s, %s)
 					return
 				await ctx.send(content=tagn, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
 
+	@commands.guild_only()
 	@tag.command()
 	async def author(self, ctx: commands.Context, *, tagname: str):
 		'''fetch the author of a tag'''
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
-		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s", (tagname,))
+		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s", (tagname, str(ctx.guild.id)))
 		res = cur.fetchone()[0]
 		cur.close()
 		self.closer(conn)

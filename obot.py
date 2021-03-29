@@ -142,6 +142,8 @@ async def on_command_error(ctx: commands.Context, error):
 		await ctx.send(content="Command disabled temporarily")
 	elif isinstance(error, discord.Forbidden):
 		await ctx.send(content="Missing perms!")
+	elif isinstance(error, commands.NoPrivateMessage):
+		await ctx.send(content="Guild exclusive command ❌")
 	else:
 		await bot.get_channel(bot.logchan).send(content=error)
 		raise error

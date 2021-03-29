@@ -196,7 +196,14 @@ class Utilities(commands.Cog):
 	async def animelistsync(self):
 		conn = psycopg2.connect(os.environ['DATABASE_URL'])
 		cur = conn.cursor()
-		cur.execute("SELECT * FROM animelist")
+		try:
+			cur.execute("SELECT * FROM animelist")
+		except psycopg2.ProgrammingError as e:
+			if e.pgcode == '42P01':
+				cur.execute("CREATE TABLE animelist (title TEXT)")
+				cur.execute("SELECT * FROM animelist")
+			else:
+				raise e
 		self.animelist = [_[0] for _ in cur.fetchall()]
 
 	@commands.command(aliases=['nword','nw'])
