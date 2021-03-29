@@ -253,10 +253,12 @@ class Utilities(commands.Cog):
 		await self.bot.get_cog('Google').calculate(ctx=ctx, query=inp)
 	
 	@commands.command(aliases=['yt'])
-	async def youtube(self, ctx: commands.Context, *, words: str):
+	async def youtube(self, ctx: commands.Context = None, *, words: str):
 		'''Searches youtube vids'''
 		results = self.ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
 		link = f'https://youtu.be/{results.items[0].id.videoId}'
+		if ctx == None:
+			return link
 		e = await ctx.send(content=link)
 
 	@commands.command()
@@ -307,6 +309,8 @@ class Utilities(commands.Cog):
 				await ctx.send(file=discord.File('vid.mp4'))
 				os.remove('vid.mp4')
 			except discord.HTTPException:
+				if link.startswith('ytsearch:'):
+					link = await self.youtube(None, link.replace('ytsearch:',''))
 				await ctx.send(content=f"File too large, download from https://kiyo-api.herokuapp.com/ytdl?link={quote(link)} instead")
 
 	@commands.guild_only()
