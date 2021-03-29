@@ -195,12 +195,17 @@ VALUES(%s, %s, %s, %s)
 		'''edits a tag'''
 		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
-		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s",
-					(tagname, str(ctx.guild.id)))
-		if cur.fetchone() is None or cur.fetchone()[0] != str(ctx.author.id):
+		cur.execute("SELECT tag_content FROM tags WHERE tag_name = %s AND tag_guild = %s AND tag_author",
+					(tagname, str(ctx.guild.id), str(ctx.author.id)))
+		them = cur.fetchone()
+		async def whatever():
 			cur.close()
 			self.closer(conn)
-			return await ctx.send(content=f"You have no tag named `{tagname}`")
+			await ctx.send(content=f"You have no tag named `{tagname}`")
+		if them is None:
+			return await whatever()
+		elif them[0] != str(ctx.author.id):
+			return await whatever()
 		cur.execute("UPDATE tags SET tag_content = %s WHERE tag_name = %s AND tag_guild = %s",
 					(tagcontent, tagname, str(ctx.guild.id)))
 		cur.close()
