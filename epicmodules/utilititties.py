@@ -198,6 +198,9 @@ class Utilities(commands.Cog):
 		cur = conn.cursor()
 		cur.execute("SELECT * FROM animelist")
 		self.animelist = [_[0] for _ in cur.fetchall()]
+		cur.close()
+		conn.commit()
+		conn.close()
 
 	@commands.command(aliases=['nword','nw'])
 	async def nwordcount(self, ctx: commands.Context):
