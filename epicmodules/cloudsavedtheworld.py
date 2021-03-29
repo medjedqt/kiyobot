@@ -197,7 +197,7 @@ VALUES(%s, %s, %s, %s)
 		cur = conn.cursor()
 		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s",
 					(tagname, str(ctx.guild.id)))
-		if cur.fetchone()[0] != str(ctx.author.id):
+		if cur.fetchone() is None or cur.fetchone()[0] != str(ctx.author.id):
 			cur.close()
 			self.closer(conn)
 			return await ctx.send(content=f"You have no tag named `{tagname}`")
