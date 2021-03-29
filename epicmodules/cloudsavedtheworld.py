@@ -19,6 +19,7 @@ drive = GoogleDrive(gauth)
 class Cloudshit(commands.Cog, name='Cloud Transfers'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
+		self.db_url = os.environ['DATABASE_URL']
 	
 	@commands.command(aliases=['u','up'])
 	async def upload(self, ctx: commands.Context, title: str = None):
@@ -100,7 +101,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		'''Gets tags from a database created with ?tag create'''
 		if ctx.invoked_subcommand is not None:
 			return
-		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
 		cur.execute("SELECT tag_content FROM tags WHERE tag_name = %s AND tag_guild = %s", (tagname, str(ctx.guild.id)))
 		result = cur.fetchone()
@@ -114,7 +115,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 	@tag.command()
 	async def create(self, ctx: commands.Context, tagname: str = None, *, content: str = None):
 		'''Creates tags'''
-		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
 		cur.execute(
 """
@@ -130,7 +131,7 @@ VALUES(%s, %s, %s, %s)
 	@tag.command()
 	async def delete(self, ctx: commands.Context, *, tagname: str):
 		'''Deletes tags'''
-		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
 		cur.execute("""SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s""", (tagname, str(ctx.guild.id)))
 		if cur.fetchone()[0] != ctx.author and ctx.author.id != 550076298937237544 and not ctx.author.guild_permissions.manage_messages:
@@ -156,7 +157,7 @@ VALUES(%s, %s, %s, %s)
 	@tag.command(aliases=['find'])
 	async def search(self, ctx: commands.Context, *, tagname: str):
 		'''Finds tags'''
-		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
 		cur.execute("SELECT tag_name FROM tags WHERE tag_name LIKE %s AND tag_guild = %s", (f'%{tagname}%', str(ctx.guild.id)))
 		res = cur.fetchall()
@@ -176,7 +177,7 @@ VALUES(%s, %s, %s, %s)
 	@tag.command()
 	async def author(self, ctx: commands.Context, *, tagname: str):
 		'''fetch the author of a tag'''
-		conn = psycopg2.connect(os.environ['DATABASE_URL'])
+		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
 		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s", (tagname, str(ctx.guild.id)))
 		res = cur.fetchone()[0]
@@ -187,6 +188,22 @@ VALUES(%s, %s, %s, %s)
 		else:
 			author: discord.User = self.bot.get_user(int(res))
 			await ctx.send(content=f"tag `{tagname}` was created by {author}")
+	
+	@commands.guild_only()
+	@tag.command()
+	async def edit(self, ctx: commands.Context, tagname: str, *, tagcontent: str):
+		'''edits a tag'''
+		conn = psycopg2.connect(self.db_url)
+		cur = conn.cursor()
+		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s",
+					(tagname, str(ctx.guild.id)))
+		if cur.fetchone()[0] != str(ctx.author.id):
+			self.closer(conn)
+			return await ctx.send(content=f"You have no tag named `{tagname}`")
+		cur.execute("UPDATE tags SET tag_content = %s WHERE tag_name = %s AND tag_guild = %s",
+					(tagcontent, tagname, str(ctx.guild.id)))
+		self.closer(conn)
+		ctx.message.add_reaction('👍')
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Cloudshit(bot))
