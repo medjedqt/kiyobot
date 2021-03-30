@@ -119,7 +119,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		cur = conn.cursor()
 		cur.execute("SELECT tag_name FROM tags WHERE tag_name = %s",
 					(tagname,))
-		if cur.fetchone() is None:
+		if cur.fetchone() is not None:
 			cur.close()
 			self.closer(conn)
 			return await ctx.send(content=f"tag `{tagname}` already exists")
