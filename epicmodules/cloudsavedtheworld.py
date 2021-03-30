@@ -107,7 +107,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		result = cur.fetchone()
 		if result is None:
 			return await ctx.send(content="No tag found!")
-		await ctx.send(content=result[0], allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
+		await ctx.send(content=result[0])
 		cur.close()
 		self.closer(conn)
 
@@ -131,7 +131,7 @@ VALUES(%s, %s, %s, %s)
 		)
 		cur.close()
 		self.closer(conn)
-		await ctx.send(content=f"Tag saved as '{tagname}'", allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
+		await ctx.send(content=f"Tag saved as '{tagname}'")
 
 	@commands.guild_only()
 	@tag.command()
@@ -177,7 +177,7 @@ VALUES(%s, %s, %s, %s)
 			for ind, tagn in enumerate(res):
 				if ind == 5:
 					return
-				await ctx.send(content=tagn, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
+				await ctx.send(content=tagn)
 
 	@commands.guild_only()
 	@tag.command()

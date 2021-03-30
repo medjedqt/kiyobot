@@ -19,7 +19,7 @@ intents = discord.Intents.default()
 intents.members = True
 helpcmd = commands.DefaultHelpCommand()
 helpcmd.dm_help = True
-ment = discord.AllowedMentions.all()
+ment = discord.AllowedMentions.none()
 ment.replied_user = False
 bot = commands.Bot(command_prefix='?',
 					case_insensitive=True,
@@ -131,13 +131,13 @@ async def on_command_error(ctx: commands.Context, error):
 	elif isinstance(error, commands.UnexpectedQuoteError):
 		await ctx.send(content="Clean your inputs from quotes you dirty little dirt baby")
 	elif isinstance(error, commands.MemberNotFound):
-		await ctx.send(content=f"Member {error.argument} not found", allowed_mentions=discord.AllowedMentions.none())
+		await ctx.send(content=f"Member {error.argument} not found")
 	elif isinstance(error, commands.NSFWChannelRequired):
 		await ctx.send(content="NSFW channel required.")
 	elif isinstance(error, discord.HTTPException) and error.code == 413:
 		await ctx.send(content="Request Entity too large")
 	elif isinstance(error, commands.ConversionError):
-		await ctx.send(content=error, allowed_mentions=discord.AllowedMentions.none())
+		await ctx.send(content=error)
 	elif isinstance(error, commands.DisabledCommand):
 		await ctx.send(content="Command disabled temporarily")
 	elif isinstance(error, discord.Forbidden):

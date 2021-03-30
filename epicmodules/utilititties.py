@@ -238,7 +238,7 @@ class Utilities(commands.Cog):
 	async def say(self, ctx: commands.Context, *, msg: str):
 		'''yes'''
 		await ctx.message.delete()
-		await ctx.send(content=msg, allowed_mentions=discord.AllowedMentions.none())
+		await ctx.send(content=msg)
 	
 	@commands.command()
 	async def tts(self, ctx: commands.Context, *, msg: str):
@@ -321,7 +321,7 @@ class Utilities(commands.Cog):
 		if name is None:
 			name = user.name
 		hook = await ctx.channel.create_webhook(name=name)
-		await hook.send(content=message, username=name, avatar_url=user.avatar_url, allowed_mentions=discord.AllowedMentions(everyone=False, roles=False))
+		await hook.send(content=message, username=name, avatar_url=user.avatar_url)
 		await ctx.message.delete()
 		await hook.delete()
 
