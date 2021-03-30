@@ -6,6 +6,7 @@ from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import discord
 from discord.ext import commands
+from discord.utils import escape_markdown
 import tension
 
 gauth = GoogleAuth()
@@ -122,7 +123,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		if cur.fetchone() is not None:
 			cur.close()
 			self.closer(conn)
-			return await ctx.send(content=f"tag `{tagname}` already exists")
+			return await ctx.send(content=f"tag `{escape_markdown(tagname)}` already exists")
 		cur.execute(
 """
 INSERT INTO tags(tag_name, tag_author, tag_content)
@@ -131,7 +132,7 @@ VALUES(%s, %s, %s)
 		)
 		cur.close()
 		self.closer(conn)
-		await ctx.send(content=f"Tag saved as '{tagname}'")
+		await ctx.send(content=f"Tag saved as `{escape_markdown(tagname)}`")
 
 	@commands.guild_only()
 	@tag.command()
@@ -144,7 +145,7 @@ VALUES(%s, %s, %s)
 			cur.close()
 			self.closer(conn)
 			return await ctx.send(content="Not your tag!")
-		await ctx.send(content=f"Type the tag name to confirm deletion (`{tagname}`)\n (Send other messages to cancel)")
+		await ctx.send(content=f"Type the tag name to confirm deletion (`{escape_markdown(tagname)}`)\n (Send other messages to cancel)")
 		def check(m: discord.Message):
 			return m.author == ctx.author and m.channel == ctx.channel
 		msg: discord.Message = await self.bot.wait_for('message', check=check)
@@ -193,7 +194,7 @@ VALUES(%s, %s, %s)
 			await ctx.send(content=f"No tag named {tagname} found")
 		else:
 			author: discord.User = self.bot.get_user(int(res))
-			await ctx.send(content=f"tag `{tagname}` was created by {author}")
+			await ctx.send(content=f"tag `{escape_markdown(tagname)}` was created by {author}")
 	
 	@commands.guild_only()
 	@tag.command()
