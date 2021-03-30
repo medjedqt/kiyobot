@@ -117,6 +117,12 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		'''Creates tags'''
 		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
+		cur.execute("SELECT tag_name FROM tags WHERE tag_name = %s AND tag_guild = %s",
+					(tagname, str(ctx.guild.id)))
+		if cur.fetchone() is None:
+			cur.close()
+			self.closer(conn)
+			return await ctx.send(content=f"tag `{tagname}` already exists")
 		cur.execute(
 """
 INSERT INTO tags(tag_name, tag_author, tag_content, tag_guild)
