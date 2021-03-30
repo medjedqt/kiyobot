@@ -103,7 +103,7 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 			return
 		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
-		cur.execute("SELECT tag_content FROM tags WHERE tag_name = %s AND tag_guild = %s", (tagname, str(ctx.guild.id)))
+		cur.execute("SELECT tag_content FROM tags WHERE tag_name = %s", (tagname,))
 		result = cur.fetchone()
 		if result is None:
 			return await ctx.send(content="No tag found!")
@@ -117,17 +117,17 @@ class Cloudshit(commands.Cog, name='Cloud Transfers'):
 		'''Creates tags'''
 		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
-		cur.execute("SELECT tag_name FROM tags WHERE tag_name = %s AND tag_guild = %s",
-					(tagname, str(ctx.guild.id)))
+		cur.execute("SELECT tag_name FROM tags WHERE tag_name = %s",
+					(tagname,))
 		if cur.fetchone() is None:
 			cur.close()
 			self.closer(conn)
 			return await ctx.send(content=f"tag `{tagname}` already exists")
 		cur.execute(
 """
-INSERT INTO tags(tag_name, tag_author, tag_content, tag_guild)
-VALUES(%s, %s, %s, %s)
-""", (tagname, ctx.author.id, content, ctx.guild.id)
+INSERT INTO tags(tag_name, tag_author, tag_content)
+VALUES(%s, %s, %s)
+""", (tagname, ctx.author.id, content)
 		)
 		cur.close()
 		self.closer(conn)
@@ -139,7 +139,7 @@ VALUES(%s, %s, %s, %s)
 		'''Deletes tags'''
 		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
-		cur.execute("""SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s""", (tagname, str(ctx.guild.id)))
+		cur.execute("""SELECT tag_author FROM tags WHERE tag_name = %s""", (tagname,))
 		if cur.fetchone()[0] != ctx.author and ctx.author.id != 550076298937237544 and not ctx.author.guild_permissions.manage_messages:
 			cur.close()
 			self.closer(conn)
@@ -154,7 +154,7 @@ VALUES(%s, %s, %s, %s)
 			return await ctx.send(content="Tag deletion cancelled")
 		cur.close()
 		cur = conn.cursor()
-		cur.execute("DELETE FROM tags WHERE tag_name = %s AND tag_guild = %s", (tagname, str(ctx.guild.id)))
+		cur.execute("DELETE FROM tags WHERE tag_name = %s", (tagname,))
 		cur.close()
 		self.closer(conn)
 		await ctx.send(content=f"Tag '{tagname}' deleted")
@@ -165,7 +165,7 @@ VALUES(%s, %s, %s, %s)
 		'''Finds tags'''
 		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
-		cur.execute("SELECT tag_name FROM tags WHERE tag_name LIKE %s AND tag_guild = %s", (f'%{tagname}%', str(ctx.guild.id)))
+		cur.execute("SELECT tag_name FROM tags WHERE tag_name LIKE %s", (f'%{tagname}%',))
 		res = cur.fetchall()
 		res = [_[0] for _ in res]
 		cur.close()
@@ -185,7 +185,7 @@ VALUES(%s, %s, %s, %s)
 		'''fetch the author of a tag'''
 		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
-		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s AND tag_guild = %s", (tagname, str(ctx.guild.id)))
+		cur.execute("SELECT tag_author FROM tags WHERE tag_name = %s", (tagname,))
 		res = cur.fetchone()[0]
 		cur.close()
 		self.closer(conn)
@@ -201,15 +201,15 @@ VALUES(%s, %s, %s, %s)
 		'''edits a tag'''
 		conn = psycopg2.connect(self.db_url)
 		cur = conn.cursor()
-		cur.execute("SELECT tag_content FROM tags WHERE tag_name = %s AND tag_guild = %s AND tag_author = %s",
-					(tagname, str(ctx.guild.id), str(ctx.author.id)))
+		cur.execute("SELECT tag_content FROM tags WHERE tag_name = %s AND tag_author = %s",
+					(tagname, str(ctx.author.id)))
 		them = cur.fetchone()
 		if them is None:
 			cur.close()
 			self.closer(conn)
 			return await ctx.send(content=f"You have no tag named `{tagname}`")
-		cur.execute("UPDATE tags SET tag_content = %s WHERE tag_name = %s AND tag_guild = %s",
-					(tagcontent, tagname, str(ctx.guild.id)))
+		cur.execute("UPDATE tags SET tag_content = %s WHERE tag_name = %s",
+					(tagcontent, tagname))
 		cur.close()
 		self.closer(conn)
 		await ctx.message.add_reaction('👍')
