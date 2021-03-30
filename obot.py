@@ -172,11 +172,10 @@ async def on_message(message: discord.Message):
 	await bot.process_commands(message)
 
 @bot.command()
-async def ping(ctx: commands.Context, arg1: str = None):
+async def ping(ctx: commands.Context):
 	'''pong'''
-	if arg1 is not None:
-		await ctx.send(content=f'{round(bot.latency*1000)}ms')
 	await ctx.send(content=":ping_pong: Pong!")
+	await ctx.send(content=f'{round(bot.latency*1000)}ms')
 
 for filer in os.listdir('epicmodules'):
 	if filer.endswith('.py'):
