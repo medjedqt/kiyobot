@@ -120,6 +120,8 @@ class Utilities(commands.Cog):
 							break
 					if response.emoji == "◀":
 						i = current_index - 1
+						if i == -1:
+							i = len(gallery_order) - 1
 					elif response.emoji == "▶":
 						i = current_index + 1
 						if i == len(metadata):
