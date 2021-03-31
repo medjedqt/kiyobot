@@ -98,6 +98,9 @@ class Utilities(commands.Cog):
 			await hookmsg.add_reaction("▶")
 			await hookmsg.add_reaction("❌")
 			await hookmsg.add_reaction("🚮")
+			embed = hookmsg.embeds[0]
+			embed.set_footer(text=f'1/{len(gallery_order)}')
+			await hookmsg.edit(embed=embed)
 			while not_timeout:
 				def r_check(r, u):
 					return r.message.id == hookmsg.id and not u.bot
@@ -130,6 +133,7 @@ class Utilities(commands.Cog):
 					new_image = gallery_order[i]['media_id']
 					new_format = metadata[new_image]['m'].split('/')[-1]
 					embed.set_image(url=f'https://i.redd.it/{new_image}.{new_format}')
+					embed.set_footer(text=f'{i+1}/{len(gallery_order)}')
 					await hookmsg.edit(embed=embed)
 					continue
 				else:
