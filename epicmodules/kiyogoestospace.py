@@ -24,12 +24,17 @@ class InterCom(commands.Cog):
 					fname = "stic" + os.path.splitext(str(stic.image_url))[1]
 					await stic.image_url.save(fname)
 					files.append(discord.File(fname))
-			await hook.send(content=message.content,
-							username=message.author.display_name,
+			hookmsg = await hook.send(content=message.content,
+							username=f"{message.author.display_name} #{message.author.id}",
 							avatar_url=message.author.avatar_url,
 							allowed_mentions=discord.AllowedMentions(everyone=False, roles=False),
 							files=files)
 		await message.delete()
+
+	@commands.Cog.listener()
+	async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
+		if str(user.id) == reaction.message.author.display_name.split('#')[-1] and reaction.emoji == "🚮" and isinstance(reaction.message, discord.WebhookMessage):
+			await reaction.message.delete()
 
 	async def comm_task(self):
 		self.commhooks = list()
