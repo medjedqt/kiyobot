@@ -31,7 +31,7 @@ class InterCom(commands.Cog):
 							files=files)
 		await message.delete()
 
-	@commands.Cog.listener()
+	@commands.Cog.listener
 	async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
 		if str(user.id) == reaction.message.author.display_name.split('#')[-1] and reaction.emoji == "🚮" and isinstance(reaction.message, discord.WebhookMessage):
 			await reaction.message.delete()
