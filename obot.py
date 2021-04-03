@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands, tasks
+from discord_slash import SlashCommand
 import asyncio
 from kiyo import lines
 from random import choice
@@ -27,6 +28,7 @@ bot = commands.Bot(command_prefix='?',
 					intents=intents,
 					description=choice(lines),
 					allowed_mentions=ment)
+slash = SlashCommand(bot, override_type=True, sync_commands=True)
 token = os.environ['BOT_TOKEN']
 dbkey = os.environ['DAN_KEY']
 dbname = os.environ['DAN_NAME']
