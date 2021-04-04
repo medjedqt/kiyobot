@@ -13,5 +13,10 @@ class Slash(commands.Cog):
 		quote = inspirobot.generate()
 		await ctx.send(content=quote.url)
 
+	@cog_ext.cog_slash(description='google for stuff here')
+	async def google(self, ctx: SlashContext, *, query):
+		comm = self.bot.get_cog('Google').google
+		await comm(ctx=ctx, query=query)
+
 def setup(bot: commands.Bot):
 	bot.add_cog(Slash(bot))

@@ -27,8 +27,9 @@ class Google(commands.Cog):
 	@commands.group(aliases=['go'], invoke_without_command=True)
 	async def google(self, ctx: commands.Context, *, query: str):
 		'''google.'''
-		if ctx.invoked_subcommand is not None:
-			return
+		if isinstance(ctx, commands.Context):
+			if ctx.invoked_subcommand is not None:
+				return
 		safe = 'strict'
 		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
 			safe = 'off'
