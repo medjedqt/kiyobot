@@ -18,8 +18,8 @@ class Slash(commands.Cog):
 		comm = self.bot.get_cog('Google').google
 		await comm(ctx=ctx, query=query)
 	
-	@cog_ext.cog_subcommand(base="google", name="image")
-	async def _google_image(self, ctx: SlashContext, *, query):
+	@cog_ext.cog_slash(description="googles some image, i guess")
+	async def image(self, ctx: SlashContext, *, query):
 		comm = self.bot.get_cog('Google').image
 		await comm(ctx=ctx, query=query)
 
