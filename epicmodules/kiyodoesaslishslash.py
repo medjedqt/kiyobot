@@ -34,7 +34,7 @@ class Slash(commands.Cog):
 		except AttributeError:
 			await ctx.send(content="Invalid input")
 	
-	@cog_ext.cog_slash(description="answers your most mundane of questions", base="google")
+	@cog_ext.cog_slash(description="answers your most mundane of questions")
 	async def answer(self, ctx: SlashContext, *, query):
 		comm = self.bot.get_cog('Google').answer
 		try:
