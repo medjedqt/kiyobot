@@ -13,12 +13,12 @@ class Slash(commands.Cog):
 		quote = inspirobot.generate()
 		await ctx.send(content=quote.url)
 
-	@cog_ext.cog_slash(description='google for stuff here')
-	async def google(self, ctx: SlashContext, *, query):
+	@cog_ext.cog_subcommand(description='google for stuff here', base='google', base_description='google tools')
+	async def search(self, ctx: SlashContext, *, query):
 		comm = self.bot.get_cog('Google').google
 		await comm(ctx=ctx, query=query)
 	
-	@cog_ext.cog_slash(description="googles some image, i guess")
+	@cog_ext.cog_subcommand(description="googles some image, i guess", base='google', base_description='google tools')
 	async def image(self, ctx: SlashContext, *, query):
 		comm = self.bot.get_cog('Google').image
 		await comm(ctx=ctx, query=query)
