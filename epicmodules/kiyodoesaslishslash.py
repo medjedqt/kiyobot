@@ -42,5 +42,13 @@ class Slash(commands.Cog):
 		except AttributeError:
 			await ctx.send(content="Invalid input")
 
+	@cog_ext.cog_slash(description="checks the weather")
+	async def weather(self, ctx: SlashContext, *, query):
+		comm = self.bot.get_cog('Google').weather
+		try:
+			await comm(ctx=ctx, query=query)
+		except AttributeError:
+			await ctx.send(content="Invalid input")
+
 def setup(bot: commands.Bot):
 	bot.add_cog(Slash(bot))
