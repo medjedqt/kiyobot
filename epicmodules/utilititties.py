@@ -432,5 +432,17 @@ class Utilities(commands.Cog):
 		delmsg: discord.Message = await ctx.send(content=f'Deleted {len(delmsglist)} responses(s)')
 		await delmsg.delete(delay=5)
 
+	@commands.command()
+	async def click(self, ctx: commands.Context, link: str):
+		header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+		r = requests.get(link, headers=header)
+		soup = bs(r.text, 'html.parser')
+		text = str()
+		for p in soup.find('div').find_all('p'):
+			text += p.text + '\n'
+		with open('clicked.txt', 'w', encoding='utf-8') as f:
+			f.write(text)
+		await ctx.send(file=discord.File('clicked.txt'))
+
 def setup(bot: commands.Bot):
 	bot.add_cog(Utilities(bot))
