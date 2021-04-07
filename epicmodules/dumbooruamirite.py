@@ -120,7 +120,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	
 	@commands.is_nsfw()
 	@commands.group(aliases=['nh'], invoke_without_command=True)
-	async def nhentai(self, ctx: commands.Context, djid: int = None, *, extra: str = ''):
+	async def nhentai(self, ctx: commands.Context, djid = None, *, extra: str = ''):
 		'''finds doujins on nhentai by id'''
 		if ctx.invoked_subcommand is not None:
 			return
