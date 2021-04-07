@@ -1,10 +1,36 @@
 import asyncio
 import discord
-from discord.ext import commands
+from discord.ext import commands, menus
 from random import randint, choice
+from requests.exceptions import HTTPError
 from sauce_finder import sauce_finder
 from hentai import Hentai, Format, Utils, Sort
 
+class DoujinMenu(menus.Menu):
+	def __init__(self, ctx, bot, dj):
+		super().__init__(timeout=600, clear_reactions_after=False)
+		self.dj: Hentai = dj
+	
+	async def send_initial_message(self, ctx, channel):
+		return await channel.send(content=self.dj.image_urls[0])
+
+	@menus.button('◀')
+	async def left(self, payload):
+		nindex = self.dj.image_urls.index(self.message.content) - 1
+		if nindex == -1:
+			nindex = len(self.dj.image_urls) - 1
+		await self.message.edit(content=self.dj.image_urls[nindex])
+
+	@menus.button('▶')
+	async def right(self, payload):
+		nindex = self.dj.image_urls.index(self.message.content) + 1
+		if nindex == len(self.dj.image_urls):
+			nindex = 0
+		await self.message.edit(content=self.dj.image_urls[nindex])
+	
+	@menus.button('❌')
+	async def clear(self, payload):
+		self.stop()
 class Danboorushit(commands.Cog, name='Danbooru'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
@@ -209,6 +235,17 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	async def year(self, ctx: commands.Context, *, tags: str):
 		'''finds popular doujins this year'''
 		await self._search(ctx, tags, Sort.PopularYear)
+
+	@commands.is_nsfw()
+	@nhentai.command(name='read')
+	async def _read(self, ctx: commands.Context, djid: int):
+		'''opens a reader '''
+		try:
+			dj = Hentai(djid)
+		except HTTPError:
+			return await ctx.send(content='Invalid code')
+		m = DoujinMenu(ctx, self.bot, dj)
+		await m.start(ctx)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Danboorushit(bot))
