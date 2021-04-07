@@ -424,7 +424,7 @@ class Utilities(commands.Cog):
 		e.add_field(name=f"Translated from {res.src} to {res.dest}", value=res.text)
 		await ctx.send(embed=e)
 	
-	@commands.command()
+	@commands.command(hidden=True)
 	async def clean(self, ctx: commands.Context, amount: int = 10):
 		def is_me(m: discord.Message):
 			return m.author == self.bot.user
@@ -434,6 +434,7 @@ class Utilities(commands.Cog):
 
 	@commands.command()
 	async def click(self, ctx: commands.Context, link: str):
+		'''saves you a click'''
 		header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
 		r = requests.get(link, headers=header)
 		soup = bs(r.text, 'html.parser')
