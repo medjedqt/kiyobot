@@ -169,6 +169,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			djid = res[int(msg.content)-1].id
 			await self.nhentai(ctx, djid)
 		except (ValueError, IndexError):
+			await mes.delete()
 			await ctx.send("Invalid input")
 		except asyncio.TimeoutError:
 			await mes.delete()
