@@ -21,7 +21,7 @@ requests==2.25.1
 sauce-finder==2.2.4
 selenium==3.141.0
 udpy==2.0.0
-urllib3==1.26.3
+urllib3==1.26.4
 webdriver-manager==3.3.0
 wordcloud==1.8.1
 youtube-dl
