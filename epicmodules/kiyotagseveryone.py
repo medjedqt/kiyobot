@@ -1,96 +1,13 @@
 import os
 import psycopg2
-import requests
-import shutil
-from pydrive2.auth import GoogleAuth
-from pydrive2.drive import GoogleDrive
 import discord
 from discord.ext import commands
 from discord.utils import escape_markdown
-import tension
 
-gauth = GoogleAuth()
-gauth.LoadCredentialsFile("auth.json")
-if gauth.access_token_expired:
-	gauth.Refresh()
-else:
-	gauth.Authorize()
-drive = GoogleDrive(gauth)
-
-class Cloudshit(commands.Cog, name='Cloud Transfers'):
+class Tagshit(commands.Cog, name='Tag System'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.db_url = os.environ['DATABASE_URL']
-	
-	@commands.command(aliases=['u','up'])
-	async def upload(self, ctx: commands.Context, title: str = None):
-		'''Uploads file to a cloud server'''
-		try:
-			attachment =ctx.message.attachments[0]
-			fileurl=attachment.url
-			exname, ext = 'yes', '.ext'
-			if fileurl.find('/'):
-				name=fileurl.rsplit('/',1)[1]
-				exname, ext = os.path.splitext(name)
-			r=requests.get(fileurl,stream=True)
-			if title is None:
-				newname = exname+ext
-			else:
-				newname = title+ext
-			if r.status_code==200:
-				with open(newname,'wb') as f:
-					r.raw.decode_content=True
-					shutil.copyfileobj(r.raw,f)
-		except:
-			await ctx.send(content="Attach a file!")
-			return
-		file1 = drive.CreateFile()
-		file1.SetContentFile(newname)
-		file1.Upload()
-		await ctx.send(content="Uploaded as {0}".format(newname))
-		os.remove(newname)
-
-	@commands.command(aliases=['dl','down'])
-	async def download(self, ctx: commands.Context, file: str):
-		'''Downloads file from cloud server'''
-		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
-		file_notthere = True
-		for file2 in file_list:
-			title = file2['title']
-			name, _ = os.path.splitext(title)
-			file_notthere = True
-			if file in name:
-				file1 = drive.CreateFile({'id':file2['id']})
-				file1.GetContentFile(title)
-				await ctx.send(file=discord.File(title))
-				os.remove(title)
-				file_notthere = False
-				break
-		if file_notthere:
-			await ctx.send("Can't find file :c")
-
-	@commands.command(aliases=['ls'])
-	async def list(self, ctx: commands.Context):
-		'''Lists down every file on the cloud'''
-		e = discord.Embed(title='Cloud Files',color=0x00ffff)
-		file_list = drive.ListFile({'q': "'root' in parents and trashed = false"}).GetList()
-		for file1 in file_list:
-			_, ext = os.path.splitext(file1['title'])
-			nexte = tension.Ext(ext)
-			e.add_field(name=file1['title'],value=nexte)
-		await ctx.send(embed=e)
-
-	@commands.command()
-	async def trash(self, ctx: commands.Context, filename: str):
-		'''Dumps a cloud file to trash'''
-		file_list = drive.ListFile({'q': "'root' in parents"}).GetList()
-		for file in file_list:
-			title = file['title']
-			name, _ = os.path.splitext(title)
-			if filename == name:
-				actual_file = drive.CreateFile({'id':file['id']})
-				actual_file.Trash()
-				await ctx.send(content='Binned {0}'.format(file['title']))
 
 	def closer(self, conn):
 		conn.commit()
@@ -216,4 +133,4 @@ VALUES(%s, %s, %s)
 		await ctx.message.add_reaction('👍')
 
 def setup(bot: commands.Bot):
-	bot.add_cog(Cloudshit(bot))
+	bot.add_cog(Tagshit(bot))
