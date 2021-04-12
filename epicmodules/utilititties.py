@@ -19,7 +19,6 @@ from kiyo import lang
 class Utilities(commands.Cog):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		self.ytclient = bot.ytclient
 		self.logchan = bot.logchan
 		self.uclient = UrbanClient()
 		self.trans = googletrans.Translator()
@@ -261,8 +260,9 @@ class Utilities(commands.Cog):
 	@commands.command(aliases=['yt'])
 	async def youtube(self, ctx: commands.Context = None, *, words: str):
 		'''Searches youtube vids'''
-		results = self.ytclient.search_by_keywords(q=words,search_type='video',limit=1,count=1)
-		link = f'https://youtu.be/{results.items[0].id.videoId}'
+		with youtube_dl.YoutubeDL() as ydl:
+			results = ydl.extract_info(f'ytsearch: {words}', download=False)
+		link = f'https://youtu.be/{results["entries"][0]["id"]}'
 		if ctx == None:
 			return link
 		e = await ctx.send(content=link)
