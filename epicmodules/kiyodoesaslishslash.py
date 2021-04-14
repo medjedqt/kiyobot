@@ -52,6 +52,7 @@ class Slash(commands.Cog):
 	
 	@cog_ext.cog_slash(description="talk to kiyo, dont die")
 	async def chat(self, ctx: SlashContext, *text: str):
+		await ctx.defer()
 		await self.bot.get_cog('Machine Learning Shit').chat(ctx=ctx, question=text)
 
 def setup(bot: commands.Bot):
