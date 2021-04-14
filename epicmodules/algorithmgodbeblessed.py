@@ -1,11 +1,13 @@
 import discord
 from discord.ext import commands
+from discord_slash import SlashContext
 import requests
 import asyncio
 from bs4 import BeautifulSoup
 import multidict
 import re
 import inspirobot
+import time
 from wordcloud import WordCloud
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
@@ -85,9 +87,15 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			inputbox.clear()
 			inputbox.send_keys(q)
 			inputbox.send_keys(Keys.RETURN)
-			await asyncio.sleep(5)
+			if isinstance(ctx, SlashContext):
+				time.sleep(5)
+			else:
+				await asyncio.sleep(5)
 			response = self.bot.browser.find_element_by_xpath("//p[@id='line1']/span")
-			await ctx.reply(content=response.text)
+			if isinstance(ctx, SlashContext):
+				await ctx.send(content=response.text)
+			else:
+				await ctx.reply(content=response.text)
 
 	@commands.command(hidden=True)
 	async def reloadchat(self, ctx: commands.Context):

@@ -49,6 +49,10 @@ class Slash(commands.Cog):
 			await comm(ctx=ctx, query=query)
 		except AttributeError:
 			await ctx.send(content="Invalid input")
+	
+	@cog_ext.cog_slash(description="talk to kiyo, dont die")
+	async def chat(self, ctx: SlashContext, *text: str):
+		await self.bot.get_cog('Machine Learning Shit').chat(ctx=ctx, question=text)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Slash(bot))
