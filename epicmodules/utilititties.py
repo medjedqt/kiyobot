@@ -51,7 +51,7 @@ class Utilities(commands.Cog):
 				if word.startswith('https://www.reddit.com/'):
 					link = word.split('?')[0].strip('/')
 					break
-			resp = requests.get(link+'.json', headers={'user-agent': 'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36 Edg/89.0.774.76'}).json()
+			resp = requests.get(link+'.json', headers={'user-agent': 'kiyohime/1.9.0'}).json()
 			data = resp[0]['data']['children'][0]['data']
 			if data['over_18'] and not message.channel.is_nsfw():
 				return
