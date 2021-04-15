@@ -110,8 +110,8 @@ class Utilities(commands.Cog):
 			for p in pending:
 				p.cancel()
 			if done:
+				response, user = done.pop().result()
 				if reddata.get("media_metadata"):
-					response, user = done.pop().result()
 					embed = response.message.embeds[0]
 					image_url: str = embed.image.url
 					image_id = image_url.strip('/').split('/')[-1].split('.')[0]
