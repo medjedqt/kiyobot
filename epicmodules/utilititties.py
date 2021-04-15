@@ -8,6 +8,7 @@ import re
 import dateparser
 import googletrans
 from gtts import gTTS
+import json
 import requests
 import pixivpy3
 import psycopg2
@@ -52,6 +53,7 @@ class Utilities(commands.Cog):
 					link = word.split('?')[0].strip('/')
 					break
 			resp = requests.get(link+'.json', headers={'user-agent': 'kiyohime/1.9.0'}).json()
+			print(json.dumps(resp, indent=2))
 			data = resp[0]['data']['children'][0]['data']
 			if data['over_18'] and not message.channel.is_nsfw():
 				return
