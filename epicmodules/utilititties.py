@@ -128,6 +128,8 @@ class Utilities(commands.Cog):
 					if i == len(metadata):
 						i = 0
 				elif response.emoji == "🚮" and user == author:
+					if video:
+						await vidmsg.delete()
 					return await hookmsg.delete()
 				elif response.emoji == "❌" and reddata.get("media_metadata"):
 					break
