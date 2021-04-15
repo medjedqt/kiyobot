@@ -96,13 +96,13 @@ class Utilities(commands.Cog):
 		if reddata.get("media_metadata"):
 			gallery_order = reddata['gallery_data']['items']
 			metadata = reddata['media_metadata']
-			not_timeout = True
 			await hookmsg.add_reaction("◀")
 			await hookmsg.add_reaction("▶")
 			await hookmsg.add_reaction("❌")
 			embed = hookmsg.embeds[0]
 			embed.set_footer(text=f'1/{len(gallery_order)}')
 			await hookmsg.edit(embed=embed)
+		not_timeout = True
 		while not_timeout:
 			add = self.bot.wait_for('reaction_add', check=r_check)
 			less = self.bot.wait_for('reaction_remove', check=r_check)
