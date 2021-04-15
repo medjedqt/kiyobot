@@ -106,11 +106,13 @@ class Utilities(commands.Cog):
 		while not_timeout:
 			add = self.bot.wait_for('reaction_add', check=r_check)
 			less = self.bot.wait_for('reaction_remove', check=r_check)
+			print('starting to wait')
 			done, pending = await asyncio.wait([add, less], timeout=600.0, return_when=asyncio.FIRST_COMPLETED)
 			for p in pending:
 				p.cancel()
 			if done:
 				response, user = done.pop().result()
+				print('it got done')
 				if reddata.get("media_metadata"):
 					embed = response.message.embeds[0]
 					image_url: str = embed.image.url
@@ -128,9 +130,11 @@ class Utilities(commands.Cog):
 					if i == len(metadata):
 						i = 0
 				elif response.emoji == "🚮" and user == author:
+					print('got right emote')
 					if video:
 						await vidmsg.delete()
-					return await hookmsg.delete()
+					await hookmsg.delete()
+					return print('deleted')
 				elif response.emoji == "❌" and reddata.get("media_metadata"):
 					break
 				else:
