@@ -86,9 +86,13 @@ class Utilities(commands.Cog):
 
 	async def redditSender(self, hook: discord.Webhook, embed: discord.Embed, author: discord.Member, message: discord.Message, files: list, reddata: dict = None, video: str = None):
 		hookmsg: discord.WebhookMessage = await hook.send(embed=embed, username=author.display_name, avatar_url=author.avatar_url, files=files, wait=True)
+		def r_check(r, u):
+			return r.message.id == hookmsg.id and not u.bot
+		await hookmsg.add_reaction("🚮")
 		await message.delete()
+		await self.bot.wait_for('reaction_add', timeout=600.0, check=r_check)
 		if video:
-			await hook.send(content=video, username=author.display_name, avatar_url=author.avatar_url)
+			vidmsg = await hook.send(content=video, username=author.display_name, avatar_url=author.avatar_url)
 		if reddata.get("media_metadata"):
 			gallery_order = reddata['gallery_data']['items']
 			metadata = reddata['media_metadata']
@@ -96,19 +100,17 @@ class Utilities(commands.Cog):
 			await hookmsg.add_reaction("◀")
 			await hookmsg.add_reaction("▶")
 			await hookmsg.add_reaction("❌")
-			await hookmsg.add_reaction("🚮")
 			embed = hookmsg.embeds[0]
 			embed.set_footer(text=f'1/{len(gallery_order)}')
 			await hookmsg.edit(embed=embed)
-			while not_timeout:
-				def r_check(r, u):
-					return r.message.id == hookmsg.id and not u.bot
-				add = self.bot.wait_for('reaction_add', check=r_check)
-				less = self.bot.wait_for('reaction_remove', check=r_check)
-				done, pending = await asyncio.wait([add, less], timeout=600.0, return_when=asyncio.FIRST_COMPLETED)
-				for p in pending:
-					p.cancel()
-				if done:
+		while not_timeout:
+			add = self.bot.wait_for('reaction_add', check=r_check)
+			less = self.bot.wait_for('reaction_remove', check=r_check)
+			done, pending = await asyncio.wait([add, less], timeout=600.0, return_when=asyncio.FIRST_COMPLETED)
+			for p in pending:
+				p.cancel()
+			if done:
+				if reddata.get("media_metadata"):
 					response, user = done.pop().result()
 					embed = response.message.embeds[0]
 					image_url: str = embed.image.url
@@ -117,29 +119,29 @@ class Utilities(commands.Cog):
 						if image_id == item['media_id']:
 							current_index = i
 							break
-					if response.emoji == "◀":
-						i = current_index - 1
-						if i == -1:
-							i = len(gallery_order) - 1
-					elif response.emoji == "▶":
-						i = current_index + 1
-						if i == len(metadata):
-							i = 0
-					elif response.emoji == "🚮" and user == author:
-						return await hookmsg.delete()
-					elif response.emoji == "❌":
-						break
-					else:
-						continue
-					new_image = gallery_order[i]['media_id']
-					new_format = metadata[new_image]['m'].split('/')[-1]
-					embed.set_image(url=f'https://i.redd.it/{new_image}.{new_format}')
-					embed.set_footer(text=f'{i+1}/{len(gallery_order)}')
-					await hookmsg.edit(embed=embed)
-					continue
-				else:
+				if response.emoji == "◀" and reddata.get("media_metadata"):
+					i = current_index - 1
+					if i == -1:
+						i = len(gallery_order) - 1
+				elif response.emoji == "▶" and reddata.get("media_metadata"):
+					i = current_index + 1
+					if i == len(metadata):
+						i = 0
+				elif response.emoji == "🚮" and user == author:
+					return await hookmsg.delete()
+				elif response.emoji == "❌" and reddata.get("media_metadata"):
 					break
-			await hookmsg.clear_reactions()
+				else:
+					continue
+				new_image = gallery_order[i]['media_id']
+				new_format = metadata[new_image]['m'].split('/')[-1]
+				embed.set_image(url=f'https://i.redd.it/{new_image}.{new_format}')
+				embed.set_footer(text=f'{i+1}/{len(gallery_order)}')
+				await hookmsg.edit(embed=embed)
+				continue
+			else:
+				break
+		await hookmsg.clear_reactions()
 
 	async def pixivConverter(self, message: discord.Message):
 		art_id = int()
