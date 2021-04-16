@@ -8,7 +8,6 @@ import re
 import dateparser
 import googletrans
 from gtts import gTTS
-import json
 import requests
 import pixivpy3
 import psycopg2
@@ -52,8 +51,7 @@ class Utilities(commands.Cog):
 				if word.startswith('https://www.reddit.com/'):
 					link = word.split('?')[0].strip('/')
 					break
-			resp = requests.get(link+'.json', headers={'user-agent': 'kiyohime/1.9.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}).json()
-			print(json.dumps(resp, indent=2))
+			resp = requests.get(link+'.json', headers={'user-agent': 'kiyohime:kiyo-api:v1.9.0 (by medjed#8988)'}).json()
 			data = resp[0]['data']['children'][0]['data']
 			if data['over_18'] and not message.channel.is_nsfw():
 				return
@@ -92,7 +90,6 @@ class Utilities(commands.Cog):
 			return r.message.id == hookmsg.id and not u.bot
 		await hookmsg.add_reaction("🚮")
 		await message.delete()
-		await self.bot.wait_for('reaction_add', timeout=600.0, check=r_check)
 		if video:
 			vidmsg = await hook.send(content=video, username=author.display_name, avatar_url=author.avatar_url)
 		if reddata.get("media_metadata"):
@@ -104,6 +101,7 @@ class Utilities(commands.Cog):
 			embed = hookmsg.embeds[0]
 			embed.set_footer(text=f'1/{len(gallery_order)}')
 			await hookmsg.edit(embed=embed)
+		await self.bot.wait_for('reaction_add', timeout=600.0, check=r_check)
 		not_timeout = True
 		while not_timeout:
 			add = self.bot.wait_for('reaction_add', check=r_check)
