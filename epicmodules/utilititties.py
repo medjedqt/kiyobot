@@ -127,7 +127,7 @@ class Utilities(commands.Cog):
 					i = current_index + 1
 					if i == len(metadata):
 						i = 0
-				elif response.emoji == "🚮" and user == author:
+				elif response.emoji == "🚮" and user.id == author.id:
 					if video:
 						await vidmsg.delete()
 					await hookmsg.delete()
