@@ -2,7 +2,7 @@ import asyncio
 import discord
 from discord.ext import commands
 
-import requests
+import aiohttp
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import urllib
@@ -19,10 +19,12 @@ class Google(commands.Cog):
 		self.opts.add_argument('--disable-dev-shm-usage')
 		self.opts.headless = True
 
-	def request(self, query: str, extraparam: str = ""):
+	async def request(self, query: str, extraparam: str = ""):
 		self.url = "https://google.com/search?q="+urllib.parse.quote(query)+extraparam
-		self.req = requests.get(self.url, headers=self.header)
-		self.soup = bs(self.req.text, 'html.parser')
+		async with aiohttp.ClientSession() as sess:
+			async with sess.get(self.url, headers=self.header) as req:
+				self.resp = await req.text()
+		self.soup = bs(self.resp, 'html.parser')
 
 	@commands.group(aliases=['go'], invoke_without_command=True)
 	async def google(self, ctx: commands.Context, *, query: str):
@@ -33,7 +35,7 @@ class Google(commands.Cog):
 		safe = 'strict'
 		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
 			safe = 'off'
-		self.request(query, "&safe="+safe)
+		await self.request(query, "&safe="+safe)
 		soup = self.soup.find_all("div", class_="kCrYT")
 		for i in soup:
 			if i.a is not None and i.a['href'].startswith("/url") and not 'scholar.google' in i.a['href']:
@@ -43,7 +45,7 @@ class Google(commands.Cog):
 	@google.command(aliases=['ans'])
 	async def answer(self, ctx: commands.Context, *, query: str):
 		'''scrapes random answers on google (Not entirely polished)'''
-		self.request(query)
+		await self.request(query)
 		h = self.soup.find('div', class_="BNeawe s3v9rd AP7Wnd")
 		self.resp = h.text
 		await ctx.send(self.resp)
@@ -51,7 +53,7 @@ class Google(commands.Cog):
 	@google.command(aliases=['calc'])
 	async def calculate(self, ctx: commands.Context, *, query: str):
 		'''calculates stuff on google'''
-		self.request(f'calculate {query}')
+		await self.request(f'calculate {query}')
 		question = self.soup.find('span', class_="BNeawe tAd8D AP7Wnd").text
 		ans = self.soup.find('div', class_="BNeawe iBp4i AP7Wnd").text
 		e = discord.Embed(description=f"```\n{question}\n{ans}\n```")
@@ -65,7 +67,7 @@ class Google(commands.Cog):
 	@google.command()
 	async def weather(self, ctx: commands.Context, *, query: str):
 		'''checks weather on google'''
-		self.request('weather '+query)
+		await self.request('weather '+query)
 		h = self.soup.find('div', class_="BNeawe tAd8D AP7Wnd").text
 		i = self.soup.find('div', class_="BNeawe iBp4i AP7Wnd").text
 		self.resp = f'{h} {i}'
@@ -74,7 +76,7 @@ class Google(commands.Cog):
 	@google.command()
 	async def define(self, ctx: commands.Context, *, query: str):
 		'''define stuff on google'''
-		self.request('define '+query)
+		await self.request('define '+query)
 		self.phrase = self.soup.find('div', class_="BNeawe deIvCb AP7Wnd").text
 		self.pronounciation = self.soup.find('div', class_="BNeawe tAd8D AP7Wnd").text
 		self.type = self.soup.find('span', class_="r0bn4c rQMQod").text.strip()
@@ -89,7 +91,7 @@ class Google(commands.Cog):
 		safe = 'strict'
 		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
 			safe = 'off'
-		self.request(query, "&tbm=isch&safe="+safe)
+		await self.request(query, "&tbm=isch&safe="+safe)
 		root = self.soup.find('div', class_="RAyV4b")
 		link = root.parent['href']
 		imglink = root.img['src']
@@ -105,7 +107,7 @@ class Google(commands.Cog):
 		safe = 'strict'
 		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
 			safe = 'off'
-		self.request(query, "&safe="+safe)
+		await self.request(query, "&safe="+safe)
 		soup = self.soup.find_all("div", class_="kCrYT")
 		for i in soup:
 			if i.a is not None and i.a['href'].startswith("/url"):
