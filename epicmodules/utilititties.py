@@ -1,3 +1,4 @@
+import aiohttp
 from bs4 import BeautifulSoup as bs
 import discord
 from discord.ext import commands, tasks
@@ -440,8 +441,10 @@ class Utilities(commands.Cog):
 	async def click(self, ctx: commands.Context, link: str):
 		'''saves you a click'''
 		header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-		r = requests.get(link, headers=header)
-		soup = bs(r.text, 'html.parser')
+		async with aiohttp.ClientSession() as sess:
+			async with sess.get(link, headers=header) as req:
+				r = await req.text()
+		soup = bs(r, 'html.parser')
 		text = str()
 		for p in soup.find('div').find_all('p'):
 			text += p.text + '\n'
