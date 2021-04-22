@@ -1,7 +1,7 @@
+import aiohttp
 import discord
 from discord.ext import commands
 from discord_slash import SlashContext
-import requests
 import asyncio
 from bs4 import BeautifulSoup
 import multidict
@@ -23,8 +23,10 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	@commands.command()
 	async def word(self, ctx: commands.Context):
 		'''Generates a word that doesn't exist'''
-		r = requests.get('https://www.thisworddoesnotexist.com/')
-		soup = BeautifulSoup(r.text, 'html.parser')
+		async with aiohttp.ClientSession() as sess:
+			async with sess.get('https://www.thisworddoesnotexist.com/') as req:
+				r = await req.text()
+		soup = BeautifulSoup(r, 'html.parser')
 		defword = soup.find(id='definition-word').string
 		deflink = soup.find(id='link-button-a')['href']
 		defgrammar = soup.find(id='definition-pos').string
