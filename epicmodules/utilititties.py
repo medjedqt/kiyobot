@@ -92,8 +92,7 @@ class Utilities(commands.Cog):
 		await hookmsg.add_reaction("🚮")
 		await message.delete()
 		if video:
-			vidmsg = await hook.send(content=video, username=author.display_name, avatar_url=author.avatar_url)
-			print(vidmsg)
+			await hookmsg.edit(content=video)
 		if reddata.get("media_metadata"):
 			gallery_order = reddata['gallery_data']['items']
 			metadata = reddata['media_metadata']
@@ -129,8 +128,6 @@ class Utilities(commands.Cog):
 					if i == len(metadata):
 						i = 0
 				elif response.emoji == "🚮" and user.id == author.id:
-					if video:
-						await vidmsg.delete()
 					return await hookmsg.delete()
 				elif response.emoji == "❌" and reddata.get("media_metadata"):
 					break
