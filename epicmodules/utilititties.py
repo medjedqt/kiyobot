@@ -102,7 +102,6 @@ class Utilities(commands.Cog):
 			embed = hookmsg.embeds[0]
 			embed.set_footer(text=f'1/{len(gallery_order)}')
 			await hookmsg.edit(embed=embed)
-		await self.bot.wait_for('reaction_add', timeout=600.0, check=r_check)
 		not_timeout = True
 		while not_timeout:
 			add = self.bot.wait_for('reaction_add', check=r_check)
@@ -131,7 +130,7 @@ class Utilities(commands.Cog):
 				elif response.emoji == "🚮" and user.id == author.id:
 					if video:
 						await vidmsg.delete()
-					await hookmsg.delete()
+					return await hookmsg.delete()
 				elif response.emoji == "❌" and reddata.get("media_metadata"):
 					break
 				else:
