@@ -319,7 +319,9 @@ class Utilities(commands.Cog):
 				await ctx.send(file=discord.File('vid.mp4'))
 			except discord.HTTPException:
 				if link.startswith('ytsearch:'):
-					link = await self.youtube(None, link.replace('ytsearch:',''))
+					with youtube_dl.YoutubeDL() as ydl:
+						results = ydl.extract_info(link, download=False)
+					link = f'https://youtu.be/{results["entries"][0]["id"]}'
 				await ctx.send(content=f"File too large, download from https://kiyo-api.herokuapp.com/ytdl?link={quote(link)} instead")
 			os.remove('vid.mp4')
 
