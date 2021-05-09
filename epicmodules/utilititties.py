@@ -423,9 +423,13 @@ class Utilities(commands.Cog):
 			e.description+=f'{i+1}. {anime}\n'
 		await ctx.send(embed=e)
 	
-	@commands.command()
+	@commands.command(aliases=['trans'])
 	async def translate(self, ctx: commands.Context, query: str, destination: str = 'en', source: str = 'auto'):
-		res = self.trans.translate(query, destination, source)
+		try:
+			res = self.trans.translate(query, destination, source)
+		except ValueError:
+			langlist = "\n".join(lang)
+			return await ctx.send(content=f'Language choice must be one of these:\n```\n{langlist}```')
 		e = discord.Embed(title="Translator", color=0x36393F)
 		e.add_field(name=f"Translated from {res.src} to {res.dest}", value=res.text)
 		await ctx.send(embed=e)

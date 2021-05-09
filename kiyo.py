@@ -43,8 +43,6 @@ lines = [
 
 lang = [
 	'en',
-	'en-US',
-	'en-GB',
 	'fr',
 	'de',
 	'pl',
@@ -56,8 +54,6 @@ lang = [
 	'he',
 	'pt',
 	'ru',
-	'pt-BR',
-	'es-MX',
 	'zh-CN',
 	'zh-TW',
 	'ja',
