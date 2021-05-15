@@ -12,7 +12,6 @@ class starboardshit(commands.Cog, name='Starboard'):
     
 	@commands.command(aliases=['starset'])
 	async def starboardset(self, ctx: commands.Context, chid: int):
-		data = {}
 		serverid = ctx.guild.id
 		data.update({serverid : chid})
 		with open(starboardch.json, 'w') as json_file:
