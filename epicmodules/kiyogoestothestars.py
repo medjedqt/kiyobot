@@ -17,6 +17,7 @@ class starboardshit(commands.Cog, name='Starboard'):
 		data.update({serverid : chid})
 		with open(starboardch.json, 'w') as json_file:
 			json.dump(data, json_file, indent=4)
+		await ctx.reply(content='channel set')
 			
 def setup(bot: commands.Bot):
 	bot.add_cog(Starboard(bot))
