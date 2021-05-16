@@ -2,7 +2,7 @@ import discord
 import asyncio
 import json
 
-with open(starboardch.json) as st:
+with open('starboardch.json') as st:
 	data = json.load(st)
 	
 class starboardshit(commands.Cog, name='Starboard'):
@@ -14,7 +14,7 @@ class starboardshit(commands.Cog, name='Starboard'):
 	async def starboardset(self, ctx: commands.Context, chid: int):
 		serverid = ctx.guild.id
 		data.update({serverid : chid})
-		with open(starboardch.json, 'w') as json_file:
+		with open('starboardch.json', 'w') as json_file:
 			json.dump(data, json_file, indent=4)
 		await ctx.reply(content='channel set')
 			
