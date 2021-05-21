@@ -20,7 +20,7 @@ class Starboard(commands.Cog):
 	async def on_reaction_add(self, reaction: discord.Reaction, user: discord.User):
 		guildid = reaction.message.guild.id
 		starchan: discord.TextChannel = self.stardict.get(str(guildid))
-		if reaction.emoji == '⭐' and reaction.count == 5 and starchan and not user.bot and user != reaction.message.author:
+		if reaction.emoji == '⭐' and reaction.count == 1 and starchan and not user.bot and user != reaction.message.author:
 			lastmsg: discord.Message = await starchan.history(limit=1).flatten()[0]
 			if lastmsg:
 				try:
