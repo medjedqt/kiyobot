@@ -5,7 +5,7 @@ class Starboard(commands.Cog):
 	async def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.cs = bot.cs
-		await self.starboardinit()
+		self.bot.loop.create_task(self.starboardinit())
 
 	async def starboardinit(self):
 		await self.bot.wait_until_ready()
