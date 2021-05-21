@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 class Starboard(commands.Cog):
-	async def __init__(self, bot: commands.Bot):
+	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.cs = bot.cs
 		self.bot.loop.create_task(self.starboardinit())
