@@ -17,3 +17,6 @@ class Games(commands.Cog):
 		print(resp)
 		if resp.channel == ctx.channel:
 			await resp.respond(type=InteractionType.ChannelMessageWithSource, content=f"{resp.user.mention} is {random.randint(0,100)}% {resp.component.label}")
+
+def setup(bot: commands.Bot):
+	bot.add_cog(Games(bot))
