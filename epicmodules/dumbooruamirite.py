@@ -8,7 +8,7 @@ from hentai import Hentai, Format, Utils, Sort
 
 class DoujinMenu(menus.Menu):
 	def __init__(self, ctx, bot, dj):
-		super().__init__(timeout=600, clear_reactions_after=False)
+		super().__init__(timeout=600, clear_reactions_after=True)
 		self.dj: Hentai = dj
 	
 	async def send_initial_message(self, ctx, channel):
