@@ -47,7 +47,7 @@ class Fandom(commands.Cog):
 	@commands.command()
 	async def fandom(self, ctx: commands.Context, fandom_community: str, *, item: str):
 		try:
-			name = fan.search(query='item', wiki=fandom_community, results=1)[0][0]
+			name = fan.search(query=item, wiki=fandom_community, results=1)[0][0]
 		except IndexError:
 			await ctx.send(content="Can't find item")
 		page = fan.page(title=name, wiki=fandom_community, preload=True)
