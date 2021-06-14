@@ -12,6 +12,7 @@ class Fandom_Menu(menus.Menu):
 			self.summary = self.summary[:150]+"..."
 		self.title = page.title
 		self.url = page.url
+		self.footer = page.wiki
 		self.n = 0
 		super().__init__(timeout=600,clear_reactions_after=True)
 	
@@ -22,6 +23,7 @@ class Fandom_Menu(menus.Menu):
 		if len(value)>200:
 			value = value[:200]+'...'
 		e.add_field(name=name, value=value)
+		e.set_footer(text=self.footer)
 		await channel.send(embed=e)
 
 	@menus.button('▶')
@@ -35,6 +37,7 @@ class Fandom_Menu(menus.Menu):
 			value = value[:200]+'...'
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		e.add_field(name=name, value=value)
+		e.set_footer(text=self.footer)
 		await self.message.edit(embed=e)
 
 class Fandom(commands.Cog):
