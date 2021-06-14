@@ -17,7 +17,11 @@ class Fandom_Menu(menus.Menu):
 	
 	async def send_initial_message(self, ctx, channel):
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
-		e.add_field(name=self.page.sections[0], value=self.page.section(self.page.sections[0]))
+		name = self.page.sections[0]
+		value = self.page.section(name)
+		if len(value)>200:
+			value = value[:200]+'...'
+		e.add_field(name=name, value=value)
 		await channel.send(embed=e)
 
 	@menus.button('▶')
