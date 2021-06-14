@@ -21,8 +21,11 @@ class Fandom_Menu(menus.Menu):
 		if self.n >= len(self.page.sections):
 			self.n = 0
 		name = self.page.sections[self.n]
+		value = self.page.section(name)
+		if len(value)>500:
+			value = value[:500]+'...'
 		e = discord.Embed(title=self.page.title, description=self.page.summary, url=self.page.url)
-		e.add_field(name=name, value=self.page.section(name))
+		e.add_field(name=name, value=value)
 		await self.message.edit(embed=e)
 
 class Fandom(commands.Cog):
