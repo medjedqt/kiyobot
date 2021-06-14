@@ -5,6 +5,7 @@ chemspipy==2.0.0
 dateparser==1.0.0
 discord.py==1.7.2
 discord-py-slash-command==1.1.2
+fandom-py==0.2.1
 googletrans==4.0.0-rc1
 gtts==2.2.2
 insprio==0.0.1
