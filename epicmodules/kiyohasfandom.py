@@ -20,21 +20,21 @@ class Fandom_Menu(menus.Menu):
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		name = self.page.sections[0]
 		value = self.page.section(name)
-		if len(value)>200:
-			value = value[:200]+'...'
+		if len(value)>500:
+			value = value[:500]+'...'
 		e.add_field(name=name, value=value)
 		e.set_footer(text=self.footer)
 		await channel.send(embed=e)
 
 	@menus.button('▶')
-	async def next_(self, payload):
+	async def right(self, payload):
 		self.n += 1
 		if self.n >= len(self.page.sections):
 			self.n = 0
 		name = self.page.sections[self.n]
 		value = self.page.section(name)
-		if len(value)>200:
-			value = value[:200]+'...'
+		if len(value)>500:
+			value = value[:500]+'...'
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		e.add_field(name=name, value=value)
 		e.set_footer(text=self.footer)
