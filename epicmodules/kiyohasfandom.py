@@ -7,11 +7,16 @@ from fandom import FandomPage
 class Fandom_Menu(menus.Menu):
 	def __init__(self, page: FandomPage):
 		self.page = page
+		self.summary = page.summary
+		if len(self.summary)>200:
+			self.summary = self.summary[:150]+"..."
+		self.title = page.title
+		self.url = page.url
 		self.n = 0
 		super().__init__(timeout=600,clear_reactions_after=True)
 	
 	async def send_initial_message(self, ctx, channel):
-		e = discord.Embed(title=self.page.title, description=self.page.summary, url=self.page.url)
+		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		e.add_field(name=self.page.sections[0], value=self.page.section(self.page.sections[0]))
 		await channel.send(embed=e)
 
@@ -22,9 +27,9 @@ class Fandom_Menu(menus.Menu):
 			self.n = 0
 		name = self.page.sections[self.n]
 		value = self.page.section(name)
-		if len(value)>500:
-			value = value[:500]+'...'
-		e = discord.Embed(title=self.page.title, description=self.page.summary, url=self.page.url)
+		if len(value)>200:
+			value = value[:200]+'...'
+		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		e.add_field(name=name, value=value)
 		await self.message.edit(embed=e)
 
