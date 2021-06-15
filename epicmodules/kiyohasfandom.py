@@ -20,8 +20,8 @@ class Fandom_Menu(menus.Menu):
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		name = self.page.sections[0]
 		value = self.page.section(name)
-		if len(value)>500:
-			value = value[:500]+'...'
+		if len(value)>1000:
+			value = value[:1000]+'...'
 		e.add_field(name=name, value=value)
 		e.set_footer(text=self.footer)
 		return await channel.send(embed=e)
