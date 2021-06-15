@@ -14,11 +14,21 @@ class Fandom_Menu(menus.Menu):
 		self.url = page.url
 		self.footer = page.wiki
 		self.n = 0
+		self.valid_sections = list()
+		self.check_if_has_subsections(page.content)
 		super().__init__(timeout=600,clear_reactions_after=True)
+	
+	def check_if_has_subsections(self, section: dict):
+		if section.get('sections'):
+			for subsection in section['sections']:
+				return self.check_if_has_subsections(subsection)
+		else:
+			self.valid_sections.append(section['title'])
+			return
 	
 	async def send_initial_message(self, ctx, channel):
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
-		name = self.page.sections[0]
+		name = self.valid_sections[0]
 		value = self.page.section(name)
 		if len(value)>1000:
 			value = value[:1000]+'...'
@@ -27,7 +37,7 @@ class Fandom_Menu(menus.Menu):
 		return await channel.send(embed=e)
 
 	async def change_page(self):
-		name = self.page.sections[self.n]
+		name = self.valid_sections[self.n]
 		value = self.page.section(name)
 		if len(value) > 1000:
 			value = value[:1000]+'...'
@@ -40,13 +50,13 @@ class Fandom_Menu(menus.Menu):
 	async def left(self, payload):
 		self.n -= 1
 		if self.n == -1:
-			self.n = len(self.page.sections) - 1
+			self.n = len(self.valid_sections) - 1
 		await self.change_page()
 
 	@menus.button('▶')
 	async def right(self, payload):
 		self.n += 1
-		if self.n >= len(self.page.sections):
+		if self.n >= len(self.valid_sections):
 			self.n = 0
 		await self.change_page()
 	
