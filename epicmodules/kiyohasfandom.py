@@ -21,7 +21,7 @@ class Fandom_Menu(menus.Menu):
 	def check_if_has_subsections(self, section: dict):
 		if section.get('sections'):
 			for subsection in section['sections']:
-				return self.check_if_has_subsections(subsection)
+				self.check_if_has_subsections(subsection)
 		else:
 			self.valid_sections.append(section['title'])
 			return
@@ -33,7 +33,7 @@ class Fandom_Menu(menus.Menu):
 		if len(value)>1000:
 			value = value[:1000]+'...'
 		e.add_field(name=name, value=value)
-		e.set_footer(text=self.footer)
+		e.set_footer(text=self.footer+f" (1/{len(self.valid_sections)})")
 		return await channel.send(embed=e)
 
 	async def change_page(self):
@@ -43,7 +43,7 @@ class Fandom_Menu(menus.Menu):
 			value = value[:1000]+'...'
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		e.add_field(name=name, value=value)
-		e.set_footer(text=self.footer+f" ({self.n}/{len(self.valid_sections)})")
+		e.set_footer(text=self.footer+f" ({self.n+1}/{len(self.valid_sections)})")
 		await self.message.edit(embed=e)
 
 	@menus.button('◀')
