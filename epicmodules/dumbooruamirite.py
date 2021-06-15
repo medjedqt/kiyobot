@@ -157,7 +157,9 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			return await self.search(ctx, tags=f'{djid} {extra}')
 		result = Hentai(djid)
 		tags = [_.name for _ in result.tag]
-		e = discord.Embed(title=result.title(Format.Pretty), description=f'#{result.id}', url=result.url, color=0x177013)
+		djid = int(djid)
+		idtohex = hex(djid)
+		e = discord.Embed(title=result.title(Format.Pretty), description=f'#{result.id}', url=result.url, color=idtohex)
 		e.set_image(url=result.cover)
 		e.set_footer(text=result.upload_date)
 		e.add_field(name="Tags", value=', '.join(tags))
