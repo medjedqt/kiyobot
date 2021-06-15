@@ -43,7 +43,7 @@ class Fandom_Menu(menus.Menu):
 			value = value[:1000]+'...'
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		e.add_field(name=name, value=value)
-		e.set_footer(text=self.footer)
+		e.set_footer(text=self.footer+f" ({self.n}/{len(self.valid_sections)})")
 		await self.message.edit(embed=e)
 
 	@menus.button('◀')
