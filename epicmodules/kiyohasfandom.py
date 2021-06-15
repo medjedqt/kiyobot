@@ -24,7 +24,7 @@ class Fandom_Menu(menus.Menu):
 			value = value[:500]+'...'
 		e.add_field(name=name, value=value)
 		e.set_footer(text=self.footer)
-		await channel.send(embed=e)
+		return await channel.send(embed=e)
 
 	@menus.button('▶')
 	async def right(self, payload):
