@@ -26,19 +26,33 @@ class Fandom_Menu(menus.Menu):
 		e.set_footer(text=self.footer)
 		return await channel.send(embed=e)
 
+	async def change_page(self):
+		name = self.page.sections[self.n]
+		value = self.page.section(name)
+		if len(value) > 1000:
+			value = value[:1000]+'...'
+		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
+		e.add_field(name=name, value=value)
+		e.set_footer(text=self.footer)
+		await self.message.edit(embed=e)
+
+	@menus.button('◀')
+	async def left(self, payload):
+		self.n -= 1
+		if self.n == -1:
+			self.n = len(self.page.sections) - 1
+		await self.change_page()
+
 	@menus.button('▶')
 	async def right(self, payload):
 		self.n += 1
 		if self.n >= len(self.page.sections):
 			self.n = 0
-		name = self.page.sections[self.n]
-		value = self.page.section(name)
-		if len(value)>500:
-			value = value[:500]+'...'
-		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
-		e.add_field(name=name, value=value)
-		e.set_footer(text=self.footer)
-		await self.message.edit(embed=e)
+		await self.change_page()
+	
+	@menus.button('❌')
+	async def clear(self, payload):
+		self.stop()
 
 class Fandom(commands.Cog):
 	def __init__(self, bot: commands.Bot):
