@@ -77,6 +77,10 @@ class Fandom(commands.Cog):
 		page = fan.page(title=name, wiki=fandom_community, preload=True)
 		m = Fandom_Menu(page)
 		await m.start(ctx)
+	
+	@commands.command()
+	async def genshin(self, ctx: commands.Context, *, item: str):
+		await self.fandom(ctx, 'genshin-impact', item=item)
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Fandom(bot))
