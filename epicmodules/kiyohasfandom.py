@@ -12,7 +12,7 @@ class Fandom_Menu(menus.Menu):
 			self.summary = self.summary[:150]+"..."
 		self.title = page.title
 		self.url = page.url
-		self.footer = page.wiki
+		self.footer = '#'+page.wiki
 		self.n = 0
 		self.valid_sections = list()
 		self.check_if_has_subsections(page.content)
@@ -22,7 +22,7 @@ class Fandom_Menu(menus.Menu):
 		if section.get('sections'):
 			for subsection in section['sections']:
 				self.check_if_has_subsections(subsection)
-		else:
+		elif section['title'] != 'Navigation':
 			self.valid_sections.append(section['title'])
 			return
 	
