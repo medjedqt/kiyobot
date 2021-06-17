@@ -347,7 +347,9 @@ class Utilities(commands.Cog):
 			for line in q_content:
 				new_q.append(f"> {line}")
 			new_q = '\n'.join(new_q)
-			message = f"{q_author.mention}\n{new_q}\n{message}"
+			message = f"{new_q}\n{message}"
+			if q_author in ctx.message.mentions:
+				message = f"{q_author.mention}\n{message}"
 		hooks = await ctx.channel.webhooks()
 		if hooks:
 			hook = hooks[0]
