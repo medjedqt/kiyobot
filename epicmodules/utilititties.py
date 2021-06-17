@@ -348,10 +348,13 @@ class Utilities(commands.Cog):
 				new_q.append(f"> {line}")
 			new_q = '\n'.join(new_q)
 			message = f"{q_author.mention}\n{new_q}\n{message}"
-		hook = await ctx.channel.create_webhook(name=name)
+		hooks = await ctx.channel.webhooks()
+		if hooks:
+			hook = hooks[0]
+		else:
+			hook = await ctx.channel.create_webhook(name="KiyoHook")
 		await hook.send(content=message, username=name, avatar_url=user.avatar_url, files=files)
 		await ctx.message.delete()
-		await hook.delete()
 
 	@commands.command()
 	async def embed(self, ctx: commands.Context, *, words: str):
