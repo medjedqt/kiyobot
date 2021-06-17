@@ -332,8 +332,24 @@ class Utilities(commands.Cog):
 		name = user.nick
 		if name is None:
 			name = user.name
+		files = list()
+		if ctx.message.attachments:
+			for att in ctx.message.attachments:
+				await att.save(att.filename)
+				files.append(discord.File(att.filename))
+		else:
+			files = None
+		if ctx.message.reference:
+			quote: discord.Message = ctx.message.reference.resolved
+			q_author = quote.author
+			q_content = quote.content.splitlines()
+			new_q = list()
+			for line in q_content:
+				new_q.append(f"> {line}")
+			new_q = '\n'.join(new_q)
+			message = f"{q_author.mention}\n{new_q}\n{message}"
 		hook = await ctx.channel.create_webhook(name=name)
-		await hook.send(content=message, username=name, avatar_url=user.avatar_url)
+		await hook.send(content=message, username=name, avatar_url=user.avatar_url, files=files)
 		await ctx.message.delete()
 		await hook.delete()
 
