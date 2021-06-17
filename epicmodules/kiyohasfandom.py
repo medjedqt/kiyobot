@@ -30,8 +30,8 @@ class Fandom_Menu(menus.Menu):
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		name = self.valid_sections[0]
 		value = self.page.section(name)
-		if len(value)>3000:
-			value = value[:3000]+'...'
+		if len(value)>1000:
+			value = value[:990]+'...'
 		e.add_field(name=name, value=value)
 		e.set_footer(text=self.footer+f" (1/{len(self.valid_sections)})")
 		return await channel.send(embed=e)
@@ -39,8 +39,8 @@ class Fandom_Menu(menus.Menu):
 	async def change_page(self):
 		name = self.valid_sections[self.n]
 		value = self.page.section(name)
-		if len(value) > 3000:
-			value = value[:3000]+'...'
+		if len(value) > 1000:
+			value = value[:990]+'...'
 		e = discord.Embed(title=self.title, description=self.summary, url=self.url)
 		e.add_field(name=name, value=value)
 		e.set_footer(text=self.footer+f" ({self.n+1}/{len(self.valid_sections)})")
