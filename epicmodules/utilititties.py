@@ -327,7 +327,7 @@ class Utilities(commands.Cog):
 
 	@commands.guild_only()
 	@commands.command()
-	async def clone(self, ctx: commands.Context, user: discord.Member, *, message: str):
+	async def clone(self, ctx: commands.Context, user: discord.Member, *, message: str = None):
 		'''Copies people or sumn idk'''
 		name = user.nick
 		if name is None:
@@ -353,7 +353,10 @@ class Utilities(commands.Cog):
 			hook = hooks[0]
 		else:
 			hook = await ctx.channel.create_webhook(name="KiyoHook")
-		await hook.send(content=message, username=name, avatar_url=user.avatar_url, files=files)
+		try:
+			await hook.send(content=message, username=name, avatar_url=user.avatar_url, files=files)
+		except discord.HTTPException:
+			await ctx.send(content="you have to set either files or message to send")
 		await ctx.message.delete()
 
 	@commands.command()
