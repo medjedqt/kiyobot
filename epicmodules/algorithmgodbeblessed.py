@@ -17,11 +17,12 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.chromedriver = ChromeDriverManager().install()
-		opts = webdriver.ChromeOptions()
-		opts.add_experimental_option('excludeSwitches', ['enable-automation'])
-		opts.add_experimental_option('useAutomationExtension', False)
-		opts.add_argument('--disable-blink-features=AutomationControlled')
-		self.bot.browser = webdriver.Chrome(executable_path=self.chromedriver, options=opts)
+		self.opts = webdriver.ChromeOptions()
+		self.opts.add_experimental_option('excludeSwitches', ['enable-automation'])
+		self.opts.add_experimental_option('useAutomationExtension', False)
+		self.opts.add_argument('--disable-blink-features=AutomationControlled')
+		self.opts.add_argument('--disable-dev-shm-usage')
+		self.bot.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.opts)
 		self.bot.browser.get('https://www.cleverbot.com')
 		self.bot.browser.execute_script('noteok()')
 
@@ -109,10 +110,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 		
 		message = await ctx.send(content='Reloading..')
 		self.bot.browser.quit()
-		opts = webdriver.ChromeOptions()
-		opts.add_experimental_option('excludeSwitches', ['enable-automation'])
-		opts.add_experimental_option('useAutomationExtension', False)
-		self.bot.browser = webdriver.Chrome(executable_path=self.chromedriver, options=opts)
+		self.bot.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.opts)
 		self.bot.browser.get('https://www.cleverbot.com')
 		self.bot.browser.execute_script('noteok()')
 		await message.edit(content='Reloaded!')
