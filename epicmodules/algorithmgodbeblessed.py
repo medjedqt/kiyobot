@@ -16,15 +16,15 @@ from selenium.webdriver.common.keys import Keys
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		self.chromedriver = ChromeDriverManager().install()
-		self.opts = webdriver.ChromeOptions()
-		self.opts.add_experimental_option('excludeSwitches', ['enable-automation'])
-		self.opts.add_experimental_option('useAutomationExtension', False)
-		self.opts.add_argument('--disable-blink-features=AutomationControlled')
-		self.opts.add_argument('--disable-dev-shm-usage')
-		self.bot.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.opts)
-		self.bot.browser.get('https://www.cleverbot.com')
-		self.bot.browser.execute_script('noteok()')
+		#self.chromedriver = ChromeDriverManager().install()
+		#self.opts = webdriver.ChromeOptions()
+		#self.opts.add_experimental_option('excludeSwitches', ['enable-automation'])
+		#self.opts.add_experimental_option('useAutomationExtension', False)
+		#self.opts.add_argument('--disable-blink-features=AutomationControlled')
+		#self.opts.add_argument('--disable-dev-shm-usage')
+		#self.bot.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.opts)
+		#self.bot.browser.get('https://www.cleverbot.com')
+		#self.bot.browser.execute_script('noteok()')
 
 	@commands.command()
 	async def word(self, ctx: commands.Context):
@@ -75,7 +75,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			await ctx.reply(file=discord.File('wc.png', filename='wordcloud.png'))
 
 	@commands.max_concurrency(1, wait=True)
-	@commands.command(enabled=True)
+	@commands.command(enabled=False)
 	async def chat(self, ctx: commands.Context, *question: str):
 		'''Chat with Kiyohime. Don't die.'''
 		async with ctx.channel.typing():
@@ -105,7 +105,7 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			else:
 				await ctx.reply(content=response.text)
 
-	@commands.command(hidden=True)
+	@commands.command(hidden=True, enabled=False)
 	async def reloadchat(self, ctx: commands.Context):
 		
 		message = await ctx.send(content='Reloading..')
