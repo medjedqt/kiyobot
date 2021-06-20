@@ -72,10 +72,12 @@ class Utilities(commands.Cog):
 				e.set_image(url=f'https://i.redd.it/{imgid}.{imgformat}')
 				e.description+="\n*More images in the link*"
 			hooks = await message.channel.webhooks()
-			if hooks == []:
+			for hook in hooks:
+				if hook.token:
+					break
+				hook = None
+			if not hook:
 				hook = await message.channel.create_webhook(name='generic hook')
-			else:
-				hook = hooks[0]
 			files = list()
 			if message.attachments == []:
 				files = None
@@ -158,10 +160,12 @@ class Utilities(commands.Cog):
 		self.pixapi.download(illu['illust']['image_urls']['large'], name=f"piximg{ext}")
 		e.set_image(url=f"attachment://piximg{ext}")
 		hooks = await message.channel.webhooks()
-		if hooks == []:
+		for hook in hooks:
+			if hook.token:
+				break
+			hook = None
+		if not hook:
 			hook = await message.channel.create_webhook(name='generic hook')
-		else:
-			hook = hooks[0]
 		await hook.send(embed=e, file=discord.File(f"piximg{ext}"), username=message.author.display_name, avatar_url=message.author.avatar_url)
 		files = list()
 		if message.attachments == []:
@@ -351,10 +355,12 @@ class Utilities(commands.Cog):
 			if q_author in ctx.message.mentions:
 				message = f"{q_author.mention}\n{message}"
 		hooks = await ctx.channel.webhooks()
-		if hooks:
-			hook = hooks[0]
-		else:
-			hook = await ctx.channel.create_webhook(name="KiyoHook")
+		for hook in hooks:
+			if hook.token:
+				break
+			hook = None
+		if not hook:
+			hook = await message.channel.create_webhook(name='generic hook')
 		try:
 			await hook.send(content=message, username=name, avatar_url=user.avatar_url, files=files)
 		except discord.HTTPException:
