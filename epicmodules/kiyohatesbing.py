@@ -12,6 +12,7 @@ class Google(commands.Cog):
 	'''Main google request'''
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
+		self.header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
 
 	async def request(self, query: str, extraparam: str = ""):
 		self.url = "https://google.com/search?q="+urllib.parse.quote(query)+extraparam
