@@ -136,8 +136,10 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 	@commands.command(aliases=['nao', 'sauce'])
 	async def saucenao(self, ctx: commands.Context, url: str = None):
 		'''finds image sauce on saucenao'''
-		if url is None:
+		if url is None and ctx.message.attachments:
 			url = ctx.message.attachments[0].url
+		elif url is None and ctx.message.reference:
+			url = ctx.message.reference.resolved.attachments[0].url
 		results = await self.bot.sauce.from_url(url)
 		if len(results) == 0:
 			await ctx.send(content="No results found.")
