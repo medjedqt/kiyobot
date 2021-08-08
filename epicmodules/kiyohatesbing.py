@@ -6,18 +6,12 @@ import aiohttp
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import urllib
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup as bs
 
 class Google(commands.Cog):
 	'''Main google request'''
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		self.header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-		self.opts = webdriver.ChromeOptions()
-		self.opts.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
-		self.opts.add_argument('--disable-dev-shm-usage')
-		self.opts.headless = True
 
 	async def request(self, query: str, extraparam: str = ""):
 		self.url = "https://google.com/search?q="+urllib.parse.quote(query)+extraparam
@@ -101,49 +95,6 @@ class Google(commands.Cog):
 		e = discord.Embed(title="Jump to result!", color=0x2f3136, url=urllib.parse.unquote(link).split('?q=')[1].split('&sa=')[0])
 		e.set_image(url=imglink)
 		await ctx.send(embed=e)
-
-	@google.command(enabled=False)
-	async def screen(self, ctx: commands.Context, *, query: str):
-		'''screenshots a webpage'''
-		self.driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=self.opts)
-		link = 'https://google.com/eggatepoo'
-		safe = 'strict'
-		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
-			safe = 'off'
-		await self.request(query, "&safe="+safe)
-		soup = self.soup.find_all("div", class_="kCrYT")
-		for i in soup:
-			if i.a is not None and i.a['href'].startswith("/url"):
-				link = urllib.parse.unquote(i.a['href']).split('?q=')[1].split('&sa=')[0]
-				break
-		self.driver.get(link)
-		body = self.driver.find_element_by_tag_name('body')
-		body.screenshot('gscr.png')
-		msg = await ctx.send(file=discord.File('gscr.png'))
-		await self.screenloop(ctx, msg, body)
-
-	async def screenloop(self, ctx: commands.Context, screenmsg: discord.Message, body):
-		try:
-			await screenmsg.add_reaction('🔼')
-			await screenmsg.add_reaction('🔽')
-			await screenmsg.add_reaction('❌')
-			def check(r,u):
-				return r.message == screenmsg and not u.bot
-			reaction, _ = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
-			if reaction.emoji == '🔽':
-				body.send_keys(Keys.PAGE_DOWN)
-			elif reaction.emoji == '🔼':
-				body.send_keys(Keys.PAGE_UP)
-			elif reaction.emoji == '❌':
-				raise asyncio.TimeoutError
-			await asyncio.sleep(1)
-			body.screenshot('gscr.png')
-			msg = await ctx.send(file=discord.File('gscr.png'))
-			await screenmsg.delete()
-			await self.screenloop(ctx, msg, body)
-		except asyncio.TimeoutError:
-			await screenmsg.clear_reactions()
-			self.driver.quit()
 
 def setup(bot: commands.Bot):
 	bot.add_cog(Google(bot))

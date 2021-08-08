@@ -1,30 +1,15 @@
 import aiohttp
 import discord
 from discord.ext import commands
-from discord_slash import SlashContext
-import asyncio
 from bs4 import BeautifulSoup
 import multidict
 import re
 import inspirobot
-import time
 from wordcloud import WordCloud
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 
 class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		#self.chromedriver = ChromeDriverManager().install()
-		#self.opts = webdriver.ChromeOptions()
-		#self.opts.add_experimental_option('excludeSwitches', ['enable-automation'])
-		#self.opts.add_experimental_option('useAutomationExtension', False)
-		#self.opts.add_argument('--disable-blink-features=AutomationControlled')
-		#self.opts.add_argument('--disable-dev-shm-usage')
-		#self.bot.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.opts)
-		#self.bot.browser.get('https://www.cleverbot.com')
-		#self.bot.browser.execute_script('noteok()')
 
 	@commands.command()
 	async def word(self, ctx: commands.Context):
@@ -73,47 +58,6 @@ class MachineLearningShit(commands.Cog, name='Machine Learning Shit'):
 			wordcloud = WordCloud(max_words=maxim,width=1920, height=1080, min_word_length=2).generate_from_frequencies(getFrequencyDictForText(text))
 			wordcloud.to_file('wc.png')
 			await ctx.reply(file=discord.File('wc.png', filename='wordcloud.png'))
-
-	@commands.max_concurrency(1, wait=True)
-	@commands.command(enabled=False)
-	async def chat(self, ctx: commands.Context, *question: str):
-		'''Chat with Kiyohime. Don't die.'''
-		async with ctx.channel.typing():
-			q = []
-			for word in question:
-				if word.startswith('<@'):
-					word = re.sub('[^0-9]', '', word)
-					word = self.bot.get_user(int(word)).name
-				if word.startswith('<#'):
-					word = re.sub('[^0-9]', '', word)
-					word = self.bot.get_channel(int(word)).name
-				if word.startswith('<:') or word.startswith('<a:') or word.startswith(':'):
-					continue
-				q.append(word)
-			q = ' '.join(q)
-			inputbox = self.bot.browser.find_element_by_name('stimulus')
-			inputbox.clear()
-			inputbox.send_keys(q)
-			inputbox.send_keys(Keys.RETURN)
-			if isinstance(ctx, SlashContext):
-				time.sleep(5)
-			else:
-				await asyncio.sleep(5)
-			response = self.bot.browser.find_element_by_xpath("//p[@id='line1']/span")
-			if isinstance(ctx, SlashContext):
-				await ctx.send(content=response.text)
-			else:
-				await ctx.reply(content=response.text)
-
-	@commands.command(hidden=True, enabled=False)
-	async def reloadchat(self, ctx: commands.Context):
-		
-		message = await ctx.send(content='Reloading..')
-		self.bot.browser.quit()
-		self.bot.browser = webdriver.Chrome(executable_path=self.chromedriver, options=self.opts)
-		self.bot.browser.get('https://www.cleverbot.com')
-		self.bot.browser.execute_script('noteok()')
-		await message.edit(content='Reloaded!')
 
 	@commands.command()
 	async def inspire(self, ctx: commands.Context):

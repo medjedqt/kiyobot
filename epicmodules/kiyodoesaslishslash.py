@@ -50,11 +50,6 @@ class Slash(commands.Cog):
 		except AttributeError:
 			await ctx.send(content="Invalid input")
 	
-	@cog_ext.cog_slash(description="talk to kiyo, dont die")
-	async def chat(self, ctx: SlashContext, *text: str):
-		await ctx.defer()
-		await self.bot.get_cog('Machine Learning Shit').chat(ctx, *text)
-	
 	@cog_ext.cog_slash(description="translates stuff, i hope")
 	async def translate(self, ctx: SlashContext, text: str, destination: str = 'en', source: str = 'auto'):
 		await self.bot.get_cog('Utilities').translate(ctx, text, destination, source)
