@@ -77,10 +77,13 @@ class Google(commands.Cog):
 	async def define(self, ctx: commands.Context, *, query: str):
 		'''define stuff on google'''
 		await self.request('define '+query)
-		self.phrase = self.soup.find('div', class_="BNeawe deIvCb AP7Wnd").text
-		self.pronounciation = self.soup.find('div', class_="BNeawe tAd8D AP7Wnd").text
-		self.type = self.soup.find('span', class_="r0bn4c rQMQod").text.strip()
-		self.meaning = self.soup.find('div', class_="v9i61e").text
+		root = self.soup.find_all('div', class_='kCrYT')
+		root1 = root[0]
+		root2 = root[1].find('div', class_='Ap5OSd').contents
+		self.phrase = root1.span.h3.text
+		self.pronounciation = root1.contents[1].text
+		self.type = root2[0].text.strip()
+		self.meaning = root2[1].text
 		e = discord.Embed(title=self.phrase, description=self.meaning)
 		e.add_field(name=self.type, value=f'({self.pronounciation})')
 		await ctx.send(embed=e)
@@ -92,7 +95,7 @@ class Google(commands.Cog):
 		if ctx.channel.is_nsfw() or isinstance(ctx.channel, discord.DMChannel):
 			safe = 'off'
 		await self.request(query, "&tbm=isch&safe="+safe)
-		root = self.soup.find('div', class_="RAyV4b")
+		root = self.soup.find('div', class_="NZWO1b")
 		link = root.parent['href']
 		imglink = root.img['src']
 		e = discord.Embed(title="Jump to result!", color=0x2f3136, url=urllib.parse.unquote(link).split('?q=')[1].split('&sa=')[0])
