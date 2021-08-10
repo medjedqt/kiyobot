@@ -3,8 +3,6 @@ import discord
 from discord.ext import commands
 
 import aiohttp
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 import urllib
 from bs4 import BeautifulSoup as bs
 
