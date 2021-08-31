@@ -123,6 +123,8 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		'''finds image sauce on iqdb'''
 		if url is None:
 			url = ctx.message.attachments[0].url
+		elif url is None and ctx.message.reference:
+			url = ctx.message.reference.resolved.attachments[0].url
 		result = sauce_finder.get_match(url)
 		if result['type'] == 'possible':
 			thing = result['found'][0]
