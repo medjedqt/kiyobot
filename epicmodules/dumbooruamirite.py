@@ -156,7 +156,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 			return
 		if djid is None:
 			if ctx.message.reference:
-				djid = ctx.message.reference.resolved
+				djid = ctx.message.reference.resolved.content
 			else:
 				return await ctx.send_help(ctx.command)
 		if not Hentai.exists(djid):
