@@ -155,10 +155,10 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		if ctx.invoked_subcommand is not None:
 			return
 		if djid is None:
-			if ctx.message.reference:
-				djid = ctx.message.reference.resolved.content
-			else:
-				return await ctx.send_help(ctx.command)
+			#if ctx.message.reference:
+			#	djid = ctx.message.reference.resolved.content
+			#else:
+			return await ctx.send_help(ctx.command)
 		if not Hentai.exists(djid):
 			return await self.search(ctx, tags=f'{djid} {extra}')
 		result = Hentai(djid)

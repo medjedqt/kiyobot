@@ -123,7 +123,10 @@ async def on_command_error(ctx: commands.Context, error):
 	if isinstance(error, commands.CommandNotFound):
 		return
 	if isinstance(error, commands.MissingRequiredArgument):
-		await ctx.send_help(ctx.command)
+		if ctx.message.reference:
+			await ctx.invoke(ctx.command, ctx.message.reference.resolved.content)
+		else:
+			await ctx.send_help(ctx.command)
 	elif isinstance(error, commands.CommandOnCooldown):
 		await ctx.send(content="Please wait!")
 	elif isinstance(error, commands.NotOwner):
