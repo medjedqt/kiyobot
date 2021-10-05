@@ -199,6 +199,7 @@ class Danboorushit(commands.Cog, name='Danbooru'):
 		try:
 			msg: discord.Message = await self.bot.wait_for('message', check=check, timeout=30.0)
 			djid = res[int(msg.content)-1].id
+			await mes.delete()
 			await self.nhentai(ctx, djid)
 		except (ValueError, IndexError):
 			await mes.delete()
