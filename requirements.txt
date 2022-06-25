@@ -1,4 +1,4 @@
-aiohttp==3.6.3
+aiohttp==3.8.1
 bs4==0.0.1
 basc_py4chan==0.6.5
 chemspipy==2.0.0
